@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Your Personalized Plan — Deen Buddy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #51A780;
+  --primary-dark: #3D8A68;
+  --primary-pale: #C5E5CD;
+  --primary-ghost: #EDF7F1;
+  --night: #0C1420;
+  --teal: #182830;
+  --text: #1A1A1A;
+  --text2: #505050;
+  --text3: #888888;
+  --muted: #B0B0B0;
+  --bg: #FAFAF8;
+  --white: #FFFFFF;
+  --border: #E8E8E4;
+  --border-light: #F0F0EC;
+  --red: #D94444;
+  --gold: #C4960A;
+  --gold-pale: #FFF8E6;
+  --gold-border: #F0DDA0;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  -webkit-font-smoothing: antialiased;
+}
+
+/* STICKY TIMER BAR */
+.timer-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: var(--night);
+  padding: 10px 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
+.timer-bar__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--primary);
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+.timer-bar__text {
+  font-size: 13px;
+  color: rgba(255,255,255,0.7);
+  font-weight: 500;
+}
+.timer-bar__time {
+  display: inline-flex;
+  gap: 4px;
+}
+.timer-bar__digit {
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  font-variant-numeric: tabular-nums;
+}
+.timer-bar__colon {
+  color: rgba(255,255,255,0.4);
+  font-weight: 700;
+  font-size: 13px;
+  line-height: 24px;
+}
+
+/* CONTAINER */
+.container {
+  max-width: 440px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+/* PROGRESS SAVED */
+.progress-saved {
+  margin-top: 56px;
+  padding: 14px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  animation: fadeDown 0.6s ease-out;
+}
+.progress-saved__check {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.progress-saved__check svg { width: 10px; height: 10px; }
+.progress-saved__text {
+  font-size: 12px;
+  color: var(--primary-dark);
+  font-weight: 500;
+}
+
+/* HERO */
+.hero {
+  text-align: center;
+  padding: 28px 0 0;
+  animation: fadeDown 0.7s ease-out 0.1s both;
+}
+.hero__icon {
+  width: 80px;
+  height: 80px;
+  margin: 0 auto 20px;
+  border-radius: 20px;
+  background: linear-gradient(145deg, var(--primary-ghost), var(--primary-pale));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 8px 32px rgba(81,167,128,0.15);
+}
+.hero__icon svg { width: 40px; height: 40px; }
+.hero__title {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 600;
+  line-height: 1.25;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.hero__title em {
+  color: var(--primary);
+  font-style: italic;
+}
+
+/* BENEFITS */
+.benefits {
+  text-align: left;
+  padding: 0 8px;
+  margin-bottom: 28px;
+  animation: fadeDown 0.7s ease-out 0.2s both;
+}
+.benefit {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 10px 0;
+}
+.benefit__icon {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary-ghost);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.benefit__icon svg { width: 12px; height: 12px; }
+.benefit__text {
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text2);
+}
+
+/* RAMADAN URGENCY */
+.ramadan-badge {
+  background: linear-gradient(135deg, var(--night), var(--teal));
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  animation: fadeDown 0.7s ease-out 0.25s both;
+}
+.ramadan-badge__label {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--primary);
+  margin-bottom: 6px;
+}
+.ramadan-badge__row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.ramadan-badge__text {
+  font-family: var(--serif);
+  font-size: 16px;
+  color: #fff;
+  font-weight: 500;
+}
+.ramadan-badge__discount {
+  background: var(--primary);
+  color: #fff;
+  font-size: 11px;
+  font-weight: 700;
+  padding: 5px 12px;
+  border-radius: 99px;
+}
+.ramadan-badge__countdown {
+  margin-top: 10px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.ramadan-badge__countdown-label {
+  font-size: 11px;
+  color: rgba(255,255,255,0.45);
+}
+.ramadan-badge__countdown-time {
+  font-size: 15px;
+  font-weight: 700;
+  color: #fff;
+  font-variant-numeric: tabular-nums;
+}
+
+/* PRICING SECTION */
+.pricing-label {
+  text-align: center;
+  font-size: 17px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+  animation: fadeDown 0.7s ease-out 0.3s both;
+}
+
+/* Discount bar */
+.discount-bar {
+  background: linear-gradient(90deg, var(--primary), var(--primary-dark));
+  border-radius: 12px;
+  padding: 12px 18px;
+  text-align: center;
+  margin-bottom: 14px;
+  color: #fff;
+  font-weight: 600;
+  font-size: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  animation: fadeDown 0.7s ease-out 0.32s both;
+}
+
+/* Plan cards */
+.plans {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 20px;
+  animation: fadeDown 0.7s ease-out 0.35s both;
+}
+.plan {
+  border: 2px solid var(--border);
+  border-radius: 14px;
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  background: var(--white);
+}
+.plan:hover {
+  border-color: var(--primary-pale);
+  background: var(--primary-ghost);
+}
+.plan.selected {
+  border-color: var(--primary);
+  background: var(--primary-ghost);
+  box-shadow: 0 0 0 1px var(--primary);
+}
+.plan__radio {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  margin-right: 14px;
+}
+.plan.selected .plan__radio {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+.plan__radio-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #fff;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+.plan.selected .plan__radio-dot { opacity: 1; }
+.plan__info {
+  flex: 1;
+}
+.plan__name {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.plan__original {
+  font-size: 12px;
+  color: var(--muted);
+  text-decoration: line-through;
+}
+.plan__price-area {
+  text-align: right;
+}
+.plan__price {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+.plan__per {
+  font-size: 11px;
+  color: var(--text3);
+}
+.plan__badge {
+  position: absolute;
+  top: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--primary);
+  color: #fff;
+  font-size: 10px;
+  font-weight: 700;
+  padding: 3px 14px;
+  border-radius: 99px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  white-space: nowrap;
+}
+.plan__savings-badge {
+  position: absolute;
+  top: -10px;
+  right: 16px;
+  background: var(--gold);
+  color: #fff;
+  font-size: 9px;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 99px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* CTA BUTTON */
+.cta-wrap {
+  margin-bottom: 14px;
+  animation: fadeDown 0.7s ease-out 0.4s both;
+}
+.cta {
+  display: block;
+  width: 100%;
+  padding: 18px 24px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--sans);
+  font-size: 17px;
+  font-weight: 700;
+  cursor: pointer;
+  text-align: center;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(81,167,128,0.3);
+}
+.cta:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(81,167,128,0.35);
+}
+.cta:active {
+  transform: translateY(0);
+}
+.cta-sub {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text3);
+  margin-bottom: 28px;
+  line-height: 1.6;
+}
+.cta-sub a { color: var(--primary); }
+
+/* TRUST BADGES */
+.trust-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 16px 0;
+  margin-bottom: 10px;
+  animation: fadeDown 0.7s ease-out 0.45s both;
+}
+.trust-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text3);
+  font-weight: 500;
+}
+.trust-item svg { width: 16px; height: 16px; color: var(--primary); }
+
+/* GUARANTEE */
+.guarantee {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text3);
+  margin-bottom: 32px;
+  line-height: 1.6;
+  padding: 0 12px;
+}
+.guarantee strong { color: var(--text2); }
+
+/* DIVIDER */
+.divider {
+  height: 1px;
+  background: var(--border-light);
+  margin: 8px 0 32px;
+}
+
+/* YOUR PLAN INCLUDES */
+.plan-includes {
+  margin-bottom: 32px;
+}
+.plan-includes__title {
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  color: var(--text);
+}
+.feature-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+.feature-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 16px;
+  text-align: center;
+  transition: all 0.2s ease;
+}
+.feature-card:hover {
+  border-color: var(--primary-pale);
+  box-shadow: 0 2px 12px rgba(81,167,128,0.08);
+}
+.feature-card__icon {
+  font-size: 24px;
+  margin-bottom: 8px;
+}
+.feature-card__name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+.feature-card__desc {
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.4;
+}
+
+/* GOALS */
+.goals {
+  margin-bottom: 36px;
+}
+.goals__title {
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.goal {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border-light);
+}
+.goal:last-child { border-bottom: none; }
+.goal__check {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: var(--primary-ghost);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+.goal__check svg { width: 12px; height: 12px; }
+.goal__text {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+
+/* STATS ROW */
+.stats-row {
+  display: flex;
+  justify-content: center;
+  gap: 24px;
+  padding: 24px 0;
+  margin-bottom: 32px;
+  background: var(--white);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+.stat {
+  text-align: center;
+}
+.stat__number {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--primary-dark);
+}
+.stat__label {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+/* REVIEWS */
+.reviews {
+  margin-bottom: 36px;
+}
+.reviews__title {
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.review {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 10px;
+}
+.review__stars {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 10px;
+}
+.review__star {
+  width: 18px;
+  height: 18px;
+  background: var(--primary);
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.review__star svg { width: 12px; height: 12px; }
+.review__text {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 10px;
+  font-style: italic;
+}
+.review__author {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+.review__location {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+/* APP STORES */
+.app-stores {
+  text-align: center;
+  margin-bottom: 36px;
+  padding: 24px 0;
+  background: var(--white);
+  border-radius: 14px;
+  border: 1px solid var(--border);
+}
+.app-stores__badge {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 600;
+  color: var(--primary-dark);
+  margin-bottom: 2px;
+}
+.app-stores__sub {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.app-stores__stars {
+  font-size: 18px;
+  color: var(--primary);
+  letter-spacing: 2px;
+  margin-bottom: 4px;
+}
+.app-stores__detail {
+  font-size: 12px;
+  color: var(--text3);
+}
+
+/* MID CTA */
+.mid-cta {
+  margin-bottom: 36px;
+}
+
+/* FAQ */
+.faq {
+  margin-bottom: 36px;
+}
+.faq__title {
+  text-align: center;
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.faq-item {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  margin-bottom: 8px;
+  overflow: hidden;
+  background: var(--white);
+}
+.faq-item__q {
+  padding: 16px 18px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  transition: background 0.2s ease;
+  user-select: none;
+}
+.faq-item__q:hover { background: var(--primary-ghost); }
+.faq-item__arrow {
+  font-size: 16px;
+  color: var(--text3);
+  transition: transform 0.3s ease;
+}
+.faq-item.open .faq-item__arrow { transform: rotate(180deg); }
+.faq-item__a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+}
+.faq-item.open .faq-item__a {
+  max-height: 300px;
+  padding: 0 18px 16px;
+}
+.faq-item__a-text {
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.65;
+}
+
+/* BOTTOM TRUST */
+.bottom-trust {
+  padding: 20px 0 40px;
+  text-align: center;
+}
+.bottom-trust__item {
+  margin-bottom: 20px;
+}
+.bottom-trust__icon {
+  font-size: 20px;
+  margin-bottom: 6px;
+}
+.bottom-trust__label {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.bottom-trust__desc {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.6;
+  max-width: 320px;
+  margin: 0 auto;
+}
+
+/* FOOTER */
+.footer {
+  text-align: center;
+  padding: 20px 0 40px;
+  border-top: 1px solid var(--border-light);
+}
+.footer__links {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 8px;
+}
+.footer__links a {
+  color: var(--text3);
+  text-decoration: underline;
+  margin: 0 8px;
+}
+.footer__copy {
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 12px;
+  line-height: 1.6;
+}
+
+/* ANIMATIONS */
+@keyframes fadeDown {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .hero__title { font-size: 23px; }
+  .container { padding: 0 16px; }
+  .feature-grid { gap: 8px; }
+  .stats-row { gap: 16px; }
+  .stat__number { font-size: 19px; }
+}
+</style>
+</head>
+
+<body>
+
+<!-- STICKY TIMER -->
+<div class="timer-bar">
+  <div class="timer-bar__dot"></div>
+  <span class="timer-bar__text">Ramadan offer reserved for</span>
+  <span class="timer-bar__time">
+    <span class="timer-bar__digit" id="timer-min">14</span>
+    <span class="timer-bar__colon">:</span>
+    <span class="timer-bar__digit" id="timer-sec">59</span>
+  </span>
+</div>
+
+<div class="container">
+
+  <!-- PROGRESS SAVED -->
+  <div class="progress-saved">
+    <div class="progress-saved__check">
+      <svg fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="3"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+    </div>
+    <span class="progress-saved__text">Your quiz results are saved</span>
+  </div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="hero__icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="#51A780" stroke-width="1.5"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+    </div>
+    <h1 class="hero__title">Your personalized Quran<br>plan is <em>ready</em></h1>
+  </div>
+
+  <!-- BENEFITS -->
+  <div class="benefits">
+    <div class="benefit">
+      <div class="benefit__icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#51A780" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <span class="benefit__text">Build a consistent daily Quran habit with AI-guided sessions tailored to your schedule</span>
+    </div>
+    <div class="benefit">
+      <div class="benefit__icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#51A780" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <span class="benefit__text">Understand what you recite in Salah with personalized translations and tafsir</span>
+    </div>
+    <div class="benefit">
+      <div class="benefit__icon">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#51A780" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <span class="benefit__text">Track real progress in your Hifz journey and strengthen your connection daily</span>
+    </div>
+  </div>
+
+  <!-- RAMADAN BADGE -->
+  <div class="ramadan-badge">
+    <div class="ramadan-badge__label">Ramadan limited offer</div>
+    <div class="ramadan-badge__row">
+      <span class="ramadan-badge__text">Ramadan 2026</span>
+      <span class="ramadan-badge__discount">Save 40%</span>
+    </div>
+    <div class="ramadan-badge__countdown">
+      <span class="ramadan-badge__countdown-label">Discount reserved for:</span>
+      <span class="ramadan-badge__countdown-time" id="ramadan-timer">14:59</span>
+    </div>
+  </div>
+
+  <!-- PRICING -->
+  <p class="pricing-label">Find your perfect plan</p>
+
+  <div class="discount-bar">
+    <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="#fff" stroke-width="2"><path stroke-linecap="round" d="M12 8v4l3 3"/><circle cx="12" cy="12" r="10"/></svg>
+    Ramadan discount active
+  </div>
+
+  <div class="plans">
+
+    <div class="plan" data-plan="monthly" onclick="selectPlan(this)">
+      <div class="plan__radio"><div class="plan__radio-dot"></div></div>
+      <div class="plan__info">
+        <div class="plan__name">Monthly</div>
+        <div class="plan__original">$9.99 - $5.99/mo</div>
+      </div>
+      <div class="plan__price-area">
+        <div class="plan__price">$0.20</div>
+        <div class="plan__per">per day</div>
+      </div>
+    </div>
+
+    <div class="plan selected" data-plan="annual" onclick="selectPlan(this)">
+      <div class="plan__badge">Best Value</div>
+      <div class="plan__savings-badge">Save 40%</div>
+      <div class="plan__radio"><div class="plan__radio-dot"></div></div>
+      <div class="plan__info">
+        <div class="plan__name">Annual</div>
+        <div class="plan__original">$99.99 - $69.99/yr</div>
+      </div>
+      <div class="plan__price-area">
+        <div class="plan__price">$0.19</div>
+        <div class="plan__per">per day</div>
+      </div>
+    </div>
+
+    <div class="plan" data-plan="lifetime" onclick="selectPlan(this)">
+      <div class="plan__radio"><div class="plan__radio-dot"></div></div>
+      <div class="plan__info">
+        <div class="plan__name">Lifetime</div>
+        <div class="plan__original">$199.99 - $149.99</div>
+      </div>
+      <div class="plan__price-area">
+        <div class="plan__price">Once</div>
+        <div class="plan__per">forever</div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- CTA 1 -->
+  <div class="cta-wrap">
+    <a href="#checkout" class="cta">Start My 7-Day Free Trial</a>
+  </div>
+  <p class="cta-sub">
+    Try free for 7 days. Then $69.99/year.<br>
+    <strong>Cancel anytime</strong> - <a href="#guarantee">Money-back guarantee</a>
+  </p>
+
+  <!-- TRUST ROW -->
+  <div class="trust-row">
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+      Secure checkout
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Cancel anytime
+    </div>
+    <div class="trust-item">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8v1m0 6v1m9-4a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      Money-back
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- YOUR PLAN INCLUDES -->
+  <div class="plan-includes reveal">
+    <h2 class="plan-includes__title">Your plan includes</h2>
+    <div class="feature-grid">
+      <div class="feature-card">
+        <div class="feature-card__icon">🤖</div>
+        <div class="feature-card__name">AI Quran Chat</div>
+        <div class="feature-card__desc">Ask anything about the Quran and get answers from authentic sources</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon">📖</div>
+        <div class="feature-card__name">Hifz Tracker</div>
+        <div class="feature-card__desc">Memorization progress tracking with spaced repetition</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon">🕌</div>
+        <div class="feature-card__name">Prayer Times</div>
+        <div class="feature-card__desc">Accurate prayer times with customizable Athan notifications</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon">📿</div>
+        <div class="feature-card__name">Daily Verse</div>
+        <div class="feature-card__desc">Personalized daily verse with interpretation and reflection</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon">🧠</div>
+        <div class="feature-card__name">Daily Quiz</div>
+        <div class="feature-card__desc">Test and grow your Islamic knowledge every day</div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-card__icon">📴</div>
+        <div class="feature-card__name">100% Ad-Free</div>
+        <div class="feature-card__desc">Distraction-free experience. Your data stays private.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- GOALS -->
+  <div class="goals reveal">
+    <h2 class="goals__title">With Deen Buddy, you will</h2>
+    <div class="goal">
+      <div class="goal__check">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#51A780" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <span class="goal__text">Recite Quran daily and understand what you're reading</span>
+    </div>
+    <div class="goal">
+      <div class="goal__check">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#51A780" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <span class="goal__text">Pray Salah with presence, not just habit</span>
+    </div>
+    <div class="goal">
+      <div class="goal__check">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#51A780" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <span class="goal__text">Build a Hifz routine that actually sticks</span>
+    </div>
+    <div class="goal">
+      <div class="goal__check">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#51A780" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <span class="goal__text">Feel genuinely closer to Allah every single day</span>
+    </div>
+    <div class="goal">
+      <div class="goal__check">
+        <svg fill="none" viewBox="0 0 24 24" stroke="#51A780" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg>
+      </div>
+      <span class="goal__text">Enter Ramadan with real momentum and preparation</span>
+    </div>
+  </div>
+
+  <!-- STATS -->
+  <div class="stats-row reveal">
+    <div class="stat">
+      <div class="stat__number">47K+</div>
+      <div class="stat__label">Downloads</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">4.9</div>
+      <div class="stat__label">App Store</div>
+    </div>
+    <div class="stat">
+      <div class="stat__number">130+</div>
+      <div class="stat__label">Countries</div>
+    </div>
+  </div>
+
+  <!-- MID CTA -->
+  <div class="mid-cta reveal">
+    <a href="#checkout" class="cta">Start Free Trial — 7 Days Free</a>
+  </div>
+
+  <div class="divider"></div>
+
+  <!-- REVIEWS -->
+  <div class="reviews reveal">
+    <h2 class="reviews__title">Trusted by Muslims worldwide</h2>
+
+    <div class="review">
+      <div class="review__stars">
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      </div>
+      <p class="review__text">"I've been wanting to memorize Quran for years but never knew where to start. Deen Buddy gave me a plan and I've already memorized Surah Mulk in three weeks. This app is a blessing."</p>
+      <span class="review__author">Sarah M.</span>
+      <span class="review__location"> - London, UK</span>
+    </div>
+
+    <div class="review">
+      <div class="review__stars">
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      </div>
+      <p class="review__text">"I hadn't prayed consistently in years. The daily verse notifications and AI chat helped me start small and build a real habit. Now I look forward to Fajr."</p>
+      <span class="review__author">Ahmed K.</span>
+      <span class="review__location"> - Toronto, Canada</span>
+    </div>
+
+    <div class="review">
+      <div class="review__stars">
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+        <div class="review__star"><svg fill="#fff" viewBox="0 0 24 24"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg></div>
+      </div>
+      <p class="review__text">"As a mother of three I never had time for Islamic classes. Deen Buddy fits into my schedule — even 5 minutes a day has made me feel so much more connected."</p>
+      <span class="review__author">Fatima R.</span>
+      <span class="review__location"> - Dallas, USA</span>
+    </div>
+  </div>
+
+  <!-- APP STORE RATING -->
+  <div class="app-stores reveal">
+    <div class="app-stores__badge">4.9</div>
+    <div class="app-stores__sub">out of 5</div>
+    <div class="app-stores__stars">*****</div>
+    <div class="app-stores__detail">App Store & Google Play - 47,000+ downloads</div>
+  </div>
+
+  <div style="height: 20px;"></div>
+
+  <!-- FAQ -->
+  <div class="faq reveal">
+    <h2 class="faq__title">Common questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-item__q" onclick="toggleFaq(this)">
+        What is Deen Buddy?
+        <span class="faq-item__arrow">v</span>
+      </div>
+      <div class="faq-item__a">
+        <p class="faq-item__a-text">Deen Buddy is your personal AI Islamic companion. It helps you read and understand the Quran, memorize surahs with spaced repetition, never miss prayer times, and grow your knowledge through daily verses, quizzes, and AI-powered Q&A — all in one beautiful, ad-free app.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-item__q" onclick="toggleFaq(this)">
+        How does the free trial work?
+        <span class="faq-item__arrow">v</span>
+      </div>
+      <div class="faq-item__a">
+        <p class="faq-item__a-text">You get full access to every feature for 7 days completely free. No charge until the trial ends. You can cancel anytime during the trial with one click — no questions asked, no hidden fees.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-item__q" onclick="toggleFaq(this)">
+        Is Deen Buddy good for beginners?
+        <span class="faq-item__arrow">v</span>
+      </div>
+      <div class="faq-item__a">
+        <p class="faq-item__a-text">Absolutely. Whether you're just starting to read the Quran or you've been practicing for years, Deen Buddy adapts to your level. The AI chat answers any question from basic to advanced, and the memorization tools work at your pace.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-item__q" onclick="toggleFaq(this)">
+        Can I use Deen Buddy offline?
+        <span class="faq-item__arrow">v</span>
+      </div>
+      <div class="faq-item__a">
+        <p class="faq-item__a-text">Yes. The full Quran in Arabic and English is available offline. You can read, memorize, and track your progress without an internet connection. The AI chat feature requires internet.</p>
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <div class="faq-item__q" onclick="toggleFaq(this)">
+        What if I don't like it?
+        <span class="faq-item__arrow">v</span>
+      </div>
+      <div class="faq-item__a">
+        <p class="faq-item__a-text">We offer a 100% money-back guarantee. If you're not satisfied within 30 days of purchase, contact us and we'll refund you in full. No questions asked. We're confident you'll love it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- FINAL CTA -->
+  <div class="reveal">
+    <a href="#checkout" class="cta">Start My 7-Day Free Trial</a>
+    <p class="cta-sub" style="margin-top:14px;">
+      Then $69.99/year - Cancel anytime - No commitment<br>
+      <a href="#guarantee">100% money-back guarantee</a>
+    </p>
+  </div>
+
+  <!-- BOTTOM TRUST -->
+  <div class="bottom-trust reveal" id="guarantee">
+    <div class="bottom-trust__item">
+      <div class="bottom-trust__icon">🔒</div>
+      <div class="bottom-trust__label">Secure checkout</div>
+      <div class="bottom-trust__desc">All transactions are encrypted and transmitted without risk using SSL protocol.</div>
+    </div>
+    <div class="bottom-trust__item">
+      <div class="bottom-trust__icon">💰</div>
+      <div class="bottom-trust__label">100% money-back guarantee</div>
+      <div class="bottom-trust__desc">Try Deen Buddy risk-free. If you're not satisfied within 30 days, we'll refund you in full — no questions asked.</div>
+    </div>
+    <div class="bottom-trust__item">
+      <div class="bottom-trust__icon">🔐</div>
+      <div class="bottom-trust__label">Your data is private</div>
+      <div class="bottom-trust__desc">We don't sell or share your data. Ever. Your spiritual journey is yours alone.</div>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <div class="footer">
+    <div class="footer__links">
+      <a href="/privacy-policy">Privacy Policy</a>
+      <a href="/terms">Terms of Service</a>
+      <a href="mailto:support@deenbuddyapp.com">Contact</a>
+    </div>
+    <p class="footer__copy">
+      2026 Zamzam Technologies LLC. All rights reserved.<br>
+      Deen Buddy is not a substitute for formal Islamic education.
+    </p>
+  </div>
+
+</div>
+
+<script>
+// COUNTDOWN TIMER
+(function() {
+  let total = 15 * 60; // 15 minutes
+  const minEl = document.getElementById('timer-min');
+  const secEl = document.getElementById('timer-sec');
+  const ramadanEl = document.getElementById('ramadan-timer');
+
+  setInterval(() => {
+    if (total <= 0) return;
+    total--;
+    const m = Math.floor(total / 60);
+    const s = total % 60;
+    const mStr = String(m).padStart(2, '0');
+    const sStr = String(s).padStart(2, '0');
+    minEl.textContent = mStr;
+    secEl.textContent = sStr;
+    ramadanEl.textContent = mStr + ':' + sStr;
+  }, 1000);
+})();
+
+// PLAN SELECTION
+function selectPlan(el) {
+  document.querySelectorAll('.plan').forEach(p => p.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+// FAQ ACCORDION
+function toggleFaq(el) {
+  const item = el.parentElement;
+  const wasOpen = item.classList.contains('open');
+  document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+  if (!wasOpen) item.classList.add('open');
+}
+
+// SCROLL REVEAL
+(function() {
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+})();
+</script>
+
+</body>
+</html>

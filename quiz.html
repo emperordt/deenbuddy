@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deen Buddy — Find Your Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #51A780;
+  --primary-hover: #48A078;
+  --primary-light: #7CB098;
+  --primary-pale: #C5E5CD;
+  --primary-muted: #70A890;
+  --primary-ghost: #EDF7F1;
+  --bg: #FFFFFF;
+  --surface: #F8F8F6;
+  --border: #E8E8E4;
+  --text: #1A1A1A;
+  --text2: #505050;
+  --text3: #888888;
+  --text-muted: #B0B0B0;
+  --night: #0C1420;
+  --teal: #182830;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', -apple-system, sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { height: 100%; }
+
+body {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  -webkit-font-smoothing: antialiased;
+}
+
+::-webkit-scrollbar { display: none; }
+
+.quiz-container {
+  width: 100%;
+  max-width: 420px;
+  padding: 20px 16px 40px;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: fadeSlideIn 0.4s ease forwards;
+}
+.header__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header__name {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--text);
+}
+.header__back {
+  background: none;
+  border: none;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 4px 8px;
+  display: none;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s ease;
+}
+.header__back:hover { color: var(--text2); }
+.header__back.visible { display: flex; }
+
+/* PROGRESS BAR */
+.progress {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 36px;
+}
+.progress__track {
+  width: 100%;
+  height: 4px;
+  border-radius: 99px;
+  background: var(--border);
+  overflow: hidden;
+}
+.progress__fill {
+  height: 100%;
+  border-radius: 99px;
+  background: var(--primary);
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 20%;
+}
+.progress__label {
+  font-size: 12px;
+  color: var(--text3);
+  letter-spacing: 0.02em;
+}
+
+/* QUESTION CONTENT */
+.question-area {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.question-area.fading {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+.question__title {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.question__subtitle {
+  font-size: 14px;
+  color: var(--text3);
+  line-height: 1.5;
+  margin-bottom: 28px;
+}
+
+/* OPTION CARDS */
+.options {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+.option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 20px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg);
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-align: left;
+  outline: none;
+  opacity: 0;
+  transform: translateY(12px);
+  font-family: var(--sans);
+}
+.option:hover {
+  border-color: var(--primary-light);
+  background: rgba(197, 229, 205, 0.07);
+}
+.option.selected {
+  border-color: var(--primary);
+  background: rgba(197, 229, 205, 0.13);
+}
+.option__emoji {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 22px;
+  flex-shrink: 0;
+  transition: background 0.25s ease;
+}
+.option.selected .option__emoji {
+  background: rgba(197, 229, 205, 0.4);
+}
+.option__emoji.numeric {
+  font-size: 18px;
+  font-weight: 700;
+  font-family: var(--sans);
+  color: var(--primary);
+}
+.option__text {
+  flex: 1;
+  min-width: 0;
+}
+.option__label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 2px;
+}
+.option__desc {
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.4;
+}
+.option__check {
+  width: 22px;
+  height: 22px;
+  border-radius: 99px;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+.option.selected .option__check {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+
+/* FOOTER NOTE */
+.footer-note {
+  margin-top: 32px;
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  opacity: 0;
+  animation: fadeSlideIn 0.4s ease 0.5s forwards;
+}
+
+/* RESULTS SCREEN */
+.results {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+  animation: fadeSlideIn 0.5s ease forwards;
+}
+.results.active { display: flex; }
+
+.results__check-circle {
+  width: 80px;
+  height: 80px;
+  border-radius: 99px;
+  background: rgba(197, 229, 205, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+.results__title {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 500;
+  color: var(--text);
+  text-align: center;
+  line-height: 1.3;
+  margin-bottom: 12px;
+}
+.results__subtitle {
+  font-size: 15px;
+  color: var(--text2);
+  text-align: center;
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 320px;
+}
+
+.results__plan-box {
+  width: 100%;
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 24px 20px;
+  margin-bottom: 24px;
+}
+.results__plan-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.results__plan-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+.results__plan-item:last-child { border-bottom: none; }
+.results__plan-item-emoji { font-size: 18px; }
+.results__plan-item-text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.4;
+}
+
+.results__ramadan {
+  width: 100%;
+  background: linear-gradient(135deg, var(--teal), var(--night));
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.results__ramadan-moon { font-size: 28px; line-height: 1; }
+.results__ramadan-title {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.results__ramadan-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.6);
+  line-height: 1.4;
+}
+
+.results__cta {
+  width: 100%;
+  padding: 18px 24px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: background 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  margin-bottom: 12px;
+  text-align: center;
+  text-decoration: none;
+  display: block;
+  box-shadow: 0 4px 16px rgba(81,167,128,0.3);
+}
+.results__cta:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(81,167,128,0.35);
+}
+.results__pricing-note {
+  font-size: 12px;
+  color: var(--text-muted);
+  text-align: center;
+  line-height: 1.5;
+}
+
+/* ANIMATIONS */
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* MOBILE */
+@media (max-width: 480px) {
+  .question__title { font-size: 23px; }
+  .results__title { font-size: 23px; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="quiz-container">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header__brand">
+      <img src="data:image/png;base64,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" width="32" height="32" alt="Deen Buddy" style="display:block;">
+      <span class="header__name">Deen Buddy</span>
+    </div>
+    <button class="header__back" id="backBtn" onclick="goBack()">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back
+    </button>
+  </div>
+
+  <!-- PROGRESS -->
+  <div class="progress" id="progressWrap">
+    <div class="progress__track">
+      <div class="progress__fill" id="progressFill"></div>
+    </div>
+    <span class="progress__label" id="progressLabel">1 of 5</span>
+  </div>
+
+  <!-- QUESTION AREA -->
+  <div class="question-area" id="questionArea">
+    <h1 class="question__title" id="questionTitle"></h1>
+    <p class="question__subtitle" id="questionSubtitle"></p>
+    <div class="options" id="optionsContainer"></div>
+    <div class="footer-note">Your answers are private and never shared</div>
+  </div>
+
+  <!-- RESULTS SCREEN -->
+  <div class="results" id="resultsScreen">
+    <div class="results__check-circle">
+      <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+        <path d="M8 18L15 25L28 12" stroke="#51A780" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <h2 class="results__title">Your personalized plan<br>is ready</h2>
+    <p class="results__subtitle" id="resultsSubtitle">Based on your answers, we've built a custom path — designed to fit your schedule and keep you consistent.</p>
+
+    <div class="results__plan-box">
+      <div class="results__plan-label">Your Plan Includes</div>
+      <div class="results__plan-item">
+        <span class="results__plan-item-emoji">📖</span>
+        <span class="results__plan-item-text">Daily guided sessions tailored to your level</span>
+      </div>
+      <div class="results__plan-item">
+        <span class="results__plan-item-emoji">🔔</span>
+        <span class="results__plan-item-text">Smart reminders synced with your prayer times</span>
+      </div>
+      <div class="results__plan-item">
+        <span class="results__plan-item-emoji">📊</span>
+        <span class="results__plan-item-text">Progress tracking with streak rewards</span>
+      </div>
+      <div class="results__plan-item">
+        <span class="results__plan-item-emoji">🤖</span>
+        <span class="results__plan-item-text">AI companion for instant Quranic guidance</span>
+      </div>
+    </div>
+
+    <div class="results__ramadan">
+      <div class="results__ramadan-moon">🌙</div>
+      <div>
+        <div class="results__ramadan-title">Ramadan starts in 24 days</div>
+        <div class="results__ramadan-sub">Start now and enter Ramadan with momentum</div>
+      </div>
+    </div>
+
+    <a href="purchase.html" class="results__cta">Start My Journey — 7 Days Free</a>
+    <p class="results__pricing-note">Then $69.99/year - Cancel anytime - No commitment</p>
+  </div>
+
+</div>
+
+<script>
+// QUIZ DATA
+const questions = [
+  {
+    question: "What brings you to Deen Buddy?",
+    subtitle: "Select the option that resonates most with you",
+    options: [
+      { emoji: "📖", label: "Memorize the Quran", desc: "I want to build a consistent Hifz routine" },
+      { emoji: "🤲", label: "Strengthen my connection", desc: "I want to feel closer to Allah daily" },
+      { emoji: "🕌", label: "Learn to pray properly", desc: "I want to understand what I recite in Salah" },
+      { emoji: "💡", label: "Understand the Quran", desc: "I want to learn tafsir and meanings" },
+    ],
+  },
+  {
+    question: "How long have you been wanting to start?",
+    subtitle: "Be honest — there's no wrong answer",
+    options: [
+      { emoji: "⏳", label: "Years", desc: "I've been meaning to for a long time" },
+      { emoji: "📅", label: "A few months", desc: "It's been on my mind recently" },
+      { emoji: "🌙", label: "Since last Ramadan", desc: "I made a promise I haven't kept yet" },
+      { emoji: "✨", label: "Just now", desc: "Something told me to start today" },
+    ],
+  },
+  {
+    question: "What's been holding you back?",
+    subtitle: "Understanding your barriers helps us help you",
+    options: [
+      { emoji: "🔄", label: "Consistency", desc: "I start strong but can't maintain it" },
+      { emoji: "⏰", label: "Time", desc: "My schedule makes it hard to commit" },
+      { emoji: "🗣️", label: "No guidance", desc: "I don't know where to begin or how" },
+      { emoji: "😔", label: "Feeling unworthy", desc: "I feel like I'm too far behind to start" },
+    ],
+  },
+  {
+    question: "How much time can you dedicate daily?",
+    subtitle: "Even a few minutes can transform your relationship with the Quran",
+    options: [
+      { emoji: "5", label: "5 minutes", desc: "I can squeeze in a few minutes", numeric: true },
+      { emoji: "10", label: "10 minutes", desc: "Between prayers, I have some time", numeric: true },
+      { emoji: "20", label: "20 minutes", desc: "I can make real time for this", numeric: true },
+      { emoji: "30+", label: "30+ minutes", desc: "I'm ready to make this a priority", numeric: true },
+    ],
+  },
+  {
+    question: "Ramadan is approaching — do you have a goal?",
+    subtitle: "Ramadan 2026 begins in just a few weeks",
+    options: [
+      { emoji: "🌟", label: "Memorize a new surah", desc: "I want to add to what I know" },
+      { emoji: "📿", label: "Complete a khatam", desc: "I want to read the entire Quran" },
+      { emoji: "🤲", label: "Pray with understanding", desc: "I want to feel every word in Salah" },
+      { emoji: "🔁", label: "Build a daily habit", desc: "I want consistency that lasts beyond Ramadan" },
+    ],
+  },
+];
+
+const goalMap = {
+  "Memorize the Quran": "Quran memorization",
+  "Strengthen my connection": "spiritual growth",
+  "Learn to pray properly": "prayer mastery",
+  "Understand the Quran": "Quranic understanding",
+};
+
+let currentQ = 0;
+let answers = {};
+let transitioning = false;
+
+const questionArea = document.getElementById('questionArea');
+const resultsScreen = document.getElementById('resultsScreen');
+const progressWrap = document.getElementById('progressWrap');
+const progressFill = document.getElementById('progressFill');
+const progressLabel = document.getElementById('progressLabel');
+const questionTitle = document.getElementById('questionTitle');
+const questionSubtitle = document.getElementById('questionSubtitle');
+const optionsContainer = document.getElementById('optionsContainer');
+const backBtn = document.getElementById('backBtn');
+const resultsSubtitle = document.getElementById('resultsSubtitle');
+
+function renderQuestion() {
+  const q = questions[currentQ];
+
+  // Update progress
+  const pct = ((currentQ + 1) / questions.length) * 100;
+  progressFill.style.width = pct + '%';
+  progressLabel.textContent = (currentQ + 1) + ' of ' + questions.length;
+
+  // Update back button
+  if (currentQ > 0) {
+    backBtn.classList.add('visible');
+  } else {
+    backBtn.classList.remove('visible');
+  }
+
+  // Update question text
+  questionTitle.textContent = q.question;
+  questionSubtitle.textContent = q.subtitle;
+
+  // Render options
+  optionsContainer.innerHTML = '';
+  q.options.forEach((opt, i) => {
+    const btn = document.createElement('button');
+    btn.className = 'option';
+    if (answers[currentQ] === opt.label) btn.classList.add('selected');
+
+    // Staggered animation
+    btn.style.animation = `fadeSlideIn 0.4s ease ${i * 0.08 + 0.15}s forwards`;
+
+    const isNumeric = opt.numeric;
+
+    btn.innerHTML = `
+      <div class="option__emoji ${isNumeric ? 'numeric' : ''}">${opt.emoji}</div>
+      <div class="option__text">
+        <div class="option__label">${opt.label}</div>
+        <div class="option__desc">${opt.desc}</div>
+      </div>
+      <div class="option__check">
+        ${answers[currentQ] === opt.label ? '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>' : ''}
+      </div>
+    `;
+
+    btn.addEventListener('click', () => handleSelect(opt.label));
+    btn.addEventListener('mouseenter', () => {
+      if (!btn.classList.contains('selected')) {
+        btn.style.borderColor = 'var(--primary-light)';
+        btn.style.background = 'rgba(197, 229, 205, 0.07)';
+      }
+    });
+    btn.addEventListener('mouseleave', () => {
+      if (!btn.classList.contains('selected')) {
+        btn.style.borderColor = 'var(--border)';
+        btn.style.background = 'var(--bg)';
+      }
+    });
+
+    optionsContainer.appendChild(btn);
+  });
+}
+
+function handleSelect(label) {
+  if (transitioning) return;
+  answers[currentQ] = label;
+
+  // Update visual selection
+  const options = optionsContainer.querySelectorAll('.option');
+  options.forEach(opt => {
+    const optLabel = opt.querySelector('.option__label').textContent;
+    if (optLabel === label) {
+      opt.classList.add('selected');
+      opt.style.borderColor = 'var(--primary)';
+      opt.style.background = 'rgba(197, 229, 205, 0.13)';
+      opt.querySelector('.option__check').innerHTML = '<svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+      opt.querySelector('.option__emoji').style.background = 'rgba(197, 229, 205, 0.4)';
+    } else {
+      opt.classList.remove('selected');
+      opt.style.borderColor = 'var(--border)';
+      opt.style.background = 'var(--bg)';
+      opt.querySelector('.option__check').innerHTML = '';
+      opt.querySelector('.option__emoji').style.background = 'var(--surface)';
+    }
+  });
+
+  // Auto-advance after delay
+  setTimeout(() => {
+    transitioning = true;
+    questionArea.classList.add('fading');
+
+    setTimeout(() => {
+      if (currentQ < questions.length - 1) {
+        currentQ++;
+        renderQuestion();
+      } else {
+        showResults();
+      }
+      questionArea.classList.remove('fading');
+      transitioning = false;
+    }, 300);
+  }, 350);
+}
+
+function goBack() {
+  if (transitioning || currentQ === 0) return;
+  transitioning = true;
+  questionArea.classList.add('fading');
+
+  setTimeout(() => {
+    currentQ--;
+    renderQuestion();
+    questionArea.classList.remove('fading');
+    transitioning = false;
+  }, 300);
+}
+
+function showResults() {
+  questionArea.style.display = 'none';
+  progressWrap.style.display = 'none';
+  backBtn.classList.remove('visible');
+
+  // Personalize subtitle
+  const firstAnswer = answers[0] || '';
+  const goal = goalMap[firstAnswer] || 'your journey';
+  resultsSubtitle.textContent = `Based on your answers, we've built a custom path for ${goal} — designed to fit your schedule and keep you consistent.`;
+
+  resultsScreen.classList.add('active');
+}
+
+// Initialize
+renderQuestion();
+</script>
+
+</body>
+</html>
