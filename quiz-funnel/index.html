@@ -1094,6 +1094,66 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
+/* Social proof toast */
+.sp-toast {
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%) translateY(100px);
+  z-index: 1000;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 12px 18px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.12), 0 2px 8px rgba(0,0,0,0.06);
+  max-width: 360px;
+  width: calc(100% - 32px);
+  opacity: 0;
+  transition: transform 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s ease;
+  pointer-events: none;
+}
+.sp-toast.visible {
+  transform: translateX(-50%) translateY(0);
+  opacity: 1;
+}
+.sp-toast-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: var(--primary-ghost);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.sp-toast-body {
+  flex: 1;
+  min-width: 0;
+}
+.sp-toast-name {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+}
+.sp-toast-action {
+  font-size: 12.5px;
+  color: var(--text3);
+  line-height: 1.3;
+  margin-top: 1px;
+}
+.sp-toast-time {
+  font-size: 11px;
+  color: var(--primary);
+  font-weight: 500;
+  flex-shrink: 0;
+  white-space: nowrap;
+}
+
 /* Main pricing container */
 .pricing-page {
   padding: 52px 24px 40px;
@@ -2604,6 +2664,7 @@ function renderPricing() {
   $progressBar.style.display = 'none';
   $header.style.display = 'none';
   window.scrollTo(0, 0);
+  startSocialToasts();
 
   // Personalized benefits based on avatar
   let benefits;
@@ -2945,6 +3006,84 @@ function startPricingCountdown() {
   countdownInterval = setInterval(tick, 1000);
 }
 
+// ---- SOCIAL PROOF TOASTS ----
+const spNames = [
+  { name: 'Ahmed', city: 'Toronto' }, { name: 'Fatima', city: 'London' },
+  { name: 'Yusuf', city: 'Houston' }, { name: 'Aisha', city: 'Sydney' },
+  { name: 'Omar', city: 'Chicago' }, { name: 'Khadijah', city: 'Dubai' },
+  { name: 'Ibrahim', city: 'New York' }, { name: 'Maryam', city: 'Dallas' },
+  { name: 'Hassan', city: 'Manchester' }, { name: 'Zaynab', city: 'Los Angeles' },
+  { name: 'Bilal', city: 'Atlanta' }, { name: 'Noor', city: 'Melbourne' },
+  { name: 'Idris', city: 'Birmingham' }, { name: 'Sumaya', city: 'Calgary' },
+  { name: 'Hamza', city: 'Brooklyn' }, { name: 'Amina', city: 'Ottawa' },
+  { name: 'Tariq', city: 'San Diego' }, { name: 'Hana', city: 'Seattle' },
+  { name: 'Zain', city: 'Detroit' }, { name: 'Safiya', city: 'Philadelphia' },
+  { name: 'Khalid', city: 'Denver' }, { name: 'Layla', city: 'Minneapolis' },
+  { name: 'Isa', city: 'Charlotte' }, { name: 'Ruqayya', city: 'Auckland' },
+];
+const spActions = [
+  'just started their free trial',
+  'just subscribed to the annual plan',
+  'just began their journey',
+  'just unlocked their personalized plan',
+];
+const spTimes = ['just now', '1 min ago', '2 min ago', '3 min ago', '5 min ago'];
+const spEmojis = ['🌙', '📖', '🤲', '💚', '🕌', '✨', '🌿'];
+let spToastEl = null;
+let spInterval = null;
+let spUsedIndices = [];
+
+function showSocialToast() {
+  if (!spToastEl) {
+    spToastEl = document.createElement('div');
+    spToastEl.className = 'sp-toast';
+    document.body.appendChild(spToastEl);
+  }
+
+  // Pick a random person we haven't shown recently
+  let idx;
+  do { idx = Math.floor(Math.random() * spNames.length); } while (spUsedIndices.includes(idx));
+  spUsedIndices.push(idx);
+  if (spUsedIndices.length > spNames.length - 3) spUsedIndices = [];
+
+  const person = spNames[idx];
+  const action = spActions[Math.floor(Math.random() * spActions.length)];
+  const time = spTimes[Math.floor(Math.random() * spTimes.length)];
+  const emoji = spEmojis[Math.floor(Math.random() * spEmojis.length)];
+
+  spToastEl.innerHTML = `
+    <div class="sp-toast-avatar">${emoji}</div>
+    <div class="sp-toast-body">
+      <div class="sp-toast-name">${person.name} from ${person.city}</div>
+      <div class="sp-toast-action">${action}</div>
+    </div>
+    <div class="sp-toast-time">${time}</div>
+  `;
+
+  // Show
+  requestAnimationFrame(() => spToastEl.classList.add('visible'));
+
+  // Hide after 4 seconds
+  setTimeout(() => {
+    spToastEl.classList.remove('visible');
+  }, 4000);
+}
+
+function startSocialToasts() {
+  // First toast after 3 seconds
+  setTimeout(showSocialToast, 3000);
+  // Then every 8-15 seconds randomly
+  spInterval = setInterval(() => {
+    showSocialToast();
+  }, 8000 + Math.random() * 7000);
+}
+
+function stopSocialToasts() {
+  if (spInterval) { clearInterval(spInterval); spInterval = null; }
+  if (spToastEl) { spToastEl.classList.remove('visible'); }
+}
+
+
 function handleSubscribe() {
   const plan = state.selectedPlan || 'annual';
   const prices = { monthly: '$9.99/month', annual: '$39.99/year', lifetime: '$79.99 one-time' };
@@ -2984,6 +3123,7 @@ function goNext() {
 function goBack() {
   if (state.transitioning) return;
   state.transitioning = true;
+  stopSocialToasts();
 
   // Find previous visible step
   let prevIdx = state.currentStep - 1;
