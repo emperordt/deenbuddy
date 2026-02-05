@@ -771,6 +771,27 @@ body {
   .stat__number { font-size: 19px; }
 }
 </style>
+<script>
+(function() {
+  'use strict';
+  var CONFIG = { cookieExpiry: 90, debug: false, ipEndpoint: 'https://api64.ipify.org?format=json', ipFallback: 'https://api.ipify.org?format=json' };
+  var Storage = {
+    set: function(name, value) { if (!value) return; try { var expires = new Date(Date.now() + CONFIG.cookieExpiry * 86400000).toUTCString(); document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + expires + ';path=/;SameSite=Lax;Secure'; } catch(e) {} try { localStorage.setItem('_tr_' + name, JSON.stringify({ value: value, expires: Date.now() + CONFIG.cookieExpiry * 86400000 })); } catch(e) {} try { sessionStorage.setItem('_tr_' + name, value); } catch(e) {} },
+    get: function(name) { var value = null; try { var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)')); if (match) value = decodeURIComponent(match[2]); } catch(e) {} if (!value) { try { var stored = localStorage.getItem('_tr_' + name); if (stored) { var parsed = JSON.parse(stored); if (parsed.expires > Date.now()) { value = parsed.value; } else { localStorage.removeItem('_tr_' + name); } } } catch(e) {} } if (!value) { try { value = sessionStorage.getItem('_tr_' + name); } catch(e) {} } return value; }
+  };
+  var params = new URL(location.href).searchParams;
+  var fbclid = params.get('fbclid') || Storage.get('fbclid'); if (params.get('fbclid')) { Storage.set('fbclid', params.get('fbclid')); }
+  var fbc = null; try { var fbcMatch = document.cookie.match(/(^| )_fbc=([^;]+)/); if (fbcMatch) fbc = decodeURIComponent(fbcMatch[2]); } catch(e) {} if (!fbc) { fbc = Storage.get('fbc'); } if (!fbc && fbclid) { fbc = 'fb.1.' + Date.now() + '.' + fbclid; Storage.set('fbc', fbc); } else if (fbc) { Storage.set('fbc', fbc); }
+  var fbp = null; try { var fbpMatch = document.cookie.match(/(^| )_fbp=([^;]+)/); if (fbpMatch) fbp = decodeURIComponent(fbpMatch[2]); } catch(e) {} if (!fbp) { fbp = Storage.get('fbp'); } if (!fbp) { fbp = 'fb.1.' + Date.now() + '.' + Math.floor(Math.random() * 10000000000); } Storage.set('fbp', fbp);
+  var utmFields = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_campaign_id', 'utm_adset', 'utm_adset_id', 'utm_ad', 'utm_ad_id', 'utm_content', 'utm_term'];
+  var utmData = {}; utmFields.forEach(function(field) { var urlValue = params.get(field); var storedValue = Storage.get(field); if (urlValue && !storedValue) { Storage.set(field, urlValue); utmData[field] = urlValue; } else { utmData[field] = urlValue || storedValue; } });
+  function generateBrowserId() { var canvas = document.createElement('canvas'); var ctx = canvas.getContext('2d'); ctx.textBaseline = 'top'; ctx.font = '14px Arial'; ctx.fillText('browser-id', 2, 2); var data = [navigator.userAgent, navigator.language, screen.width + 'x' + screen.height, new Date().getTimezoneOffset(), canvas.toDataURL()].join('|'); var hash = 0; for (var i = 0; i < data.length; i++) { hash = ((hash << 5) - hash) + data.charCodeAt(i); hash = hash & hash; } return 'bid.' + Math.abs(hash).toString(36) + '.' + Date.now(); }
+  var browserId = Storage.get('browser_id'); if (!browserId) { browserId = generateBrowserId(); Storage.set('browser_id', browserId); }
+  window.UnifiedTracker = { data: { fbclid: fbclid, fbc: fbc, fbp: fbp, browser_id: browserId, user_agent: navigator.userAgent, source_url: location.href, referrer: document.referrer || null, client_ip: null, utm_source: utmData.utm_source, utm_medium: utmData.utm_medium, utm_campaign: utmData.utm_campaign, utm_campaign_id: utmData.utm_campaign_id, utm_adset: utmData.utm_adset, utm_adset_id: utmData.utm_adset_id, utm_ad: utmData.utm_ad, utm_ad_id: utmData.utm_ad_id, utm_content: utmData.utm_content, utm_term: utmData.utm_term, timestamp: Date.now(), page_url: location.pathname } };
+  function fetchIP(url, retries) { return fetch(url, { mode: 'cors' }).then(function(r) { if (!r.ok) throw new Error('IP fetch failed'); return r.json(); }).then(function(data) { Storage.set('client_ip', data.ip); window.UnifiedTracker.data.client_ip = data.ip; return data.ip; }).catch(function(err) { if (retries > 0 && url === CONFIG.ipEndpoint) { return fetchIP(CONFIG.ipFallback, retries - 1); } var storedIP = Storage.get('client_ip'); if (storedIP) { window.UnifiedTracker.data.client_ip = storedIP; } return storedIP; }); }
+  fetchIP(CONFIG.ipEndpoint, 2);
+})();
+</script>
 </head>
 
 <body>
