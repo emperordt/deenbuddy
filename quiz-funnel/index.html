@@ -1,0 +1,3011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Deen Buddy — Discover Your Path</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   DEEN BUDDY QUIZ FUNNEL — CSS
+   ============================================ */
+:root {
+  --primary: #51A780;
+  --primary-hover: #48A078;
+  --primary-light: #7CB098;
+  --primary-pale: #C5E5CD;
+  --primary-muted: #70A890;
+  --primary-ghost: #EDF7F1;
+  --bg: #FFFFFF;
+  --surface: #F8F9F8;
+  --border: #E8E8E4;
+  --border-medium: #D0D0CC;
+  --text: #1A1A1A;
+  --text2: #505050;
+  --text3: #888888;
+  --text-muted: #B0B0B0;
+  --night: #0C1420;
+  --teal: #182830;
+  --umber: #786858;
+  --gold: #887860;
+  --error: #D94444;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { height: 100%; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--sans);
+  background: #F5F5F3;
+  color: var(--text);
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ---- APP SHELL ---- */
+#app {
+  width: 100%;
+  max-width: 440px;
+  min-height: 100vh;
+  background: var(--bg);
+  position: relative;
+  overflow-x: hidden;
+}
+@media (min-width: 480px) {
+  #app {
+    min-height: 100vh;
+    box-shadow: 0 0 60px rgba(0,0,0,0.08);
+  }
+}
+
+/* ---- PROGRESS BAR ---- */
+.progress-bar {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: var(--bg);
+  padding: 0;
+}
+.progress-track {
+  width: 100%;
+  height: 3px;
+  background: var(--border);
+}
+.progress-fill {
+  height: 100%;
+  background: var(--primary);
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ---- HEADER ---- */
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 24px 0;
+}
+.header-brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.header-logo {
+  width: 28px;
+  height: 28px;
+}
+.header-name {
+  font-family: var(--serif);
+  font-size: 17px;
+  font-weight: 500;
+  color: var(--text);
+  letter-spacing: -0.01em;
+}
+.header-back {
+  background: none;
+  border: none;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--text3);
+  cursor: pointer;
+  padding: 8px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: color 0.2s;
+  opacity: 0;
+  pointer-events: none;
+}
+.header-back.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+.header-back:hover { color: var(--text2); }
+
+/* ---- SCREEN CONTAINER ---- */
+.screen-container {
+  padding: 28px 24px 40px;
+  min-height: calc(100vh - 60px);
+  display: flex;
+  flex-direction: column;
+}
+.screen-container.centered {
+  justify-content: center;
+  align-items: center;
+}
+
+/* ---- TRANSITION ---- */
+.screen-content {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.screen-content.exiting {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+.screen-content.entering {
+  animation: screenEnter 0.4s ease forwards;
+}
+@keyframes screenEnter {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- WELCOME SCREEN ---- */
+.welcome {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 60px);
+  text-align: center;
+  padding: 40px 24px;
+}
+.welcome-logo {
+  width: 64px;
+  height: 64px;
+  margin-bottom: 8px;
+}
+.welcome-brand {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 40px;
+}
+.welcome-headline {
+  font-family: var(--serif);
+  font-size: 30px;
+  font-weight: 500;
+  line-height: 1.25;
+  color: var(--text);
+  margin-bottom: 14px;
+  letter-spacing: -0.01em;
+  max-width: 340px;
+}
+.welcome-sub {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text2);
+  margin-bottom: 40px;
+  max-width: 320px;
+}
+.welcome-social {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+.welcome-social-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.welcome-social-value {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+}
+.welcome-social-label {
+  font-size: 11px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.welcome-social-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
+}
+.btn-primary {
+  width: 100%;
+  max-width: 320px;
+  padding: 18px 24px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 16px rgba(81,167,128,0.25);
+}
+.btn-primary:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 24px rgba(81,167,128,0.3);
+}
+.btn-primary:active {
+  transform: translateY(0);
+}
+.welcome-footer {
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+.welcome-footer span { margin: 0 6px; }
+
+/* ---- QUESTION SCREEN ---- */
+.question-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
+}
+.question-title {
+  font-family: var(--serif);
+  font-size: 25px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.28;
+  margin-bottom: 8px;
+  letter-spacing: -0.01em;
+}
+.question-subtitle {
+  font-size: 14px;
+  color: var(--text3);
+  line-height: 1.55;
+  margin-bottom: 30px;
+}
+.options-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+.option-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 16px 18px;
+  border: 1.5px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  text-align: left;
+  outline: none;
+  font-family: var(--sans);
+  opacity: 0;
+  transform: translateY(10px);
+}
+.option-btn:hover {
+  border-color: var(--primary-light);
+  background: var(--primary-ghost);
+}
+.option-btn.selected {
+  border-color: var(--primary);
+  background: var(--primary-ghost);
+}
+.option-btn.selected .option-radio {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+.option-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 20px;
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+.option-btn.selected .option-icon {
+  background: rgba(197, 229, 205, 0.4);
+}
+.option-text {
+  flex: 1;
+  min-width: 0;
+}
+.option-label {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 1px;
+}
+.option-desc {
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.4;
+}
+.option-radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 99px;
+  border: 2px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.2s;
+}
+.option-radio svg { display: none; }
+.option-btn.selected .option-radio svg { display: block; }
+.question-footer {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: auto;
+  padding-top: 20px;
+}
+
+/* ---- INTERSTITIAL (DARK) ---- */
+.interstitial {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 60px);
+  text-align: center;
+  padding: 48px 28px;
+  margin: 0 -24px;
+  background: linear-gradient(165deg, #0F1A28 0%, #152A30 40%, #0C1420 100%);
+  position: relative;
+  overflow: hidden;
+}
+.interstitial::before {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(81,167,128,0.08) 0%, transparent 70%);
+}
+.interstitial-icon {
+  font-size: 48px;
+  margin-bottom: 32px;
+  position: relative;
+  z-index: 1;
+}
+.interstitial-arabic {
+  font-size: 20px;
+  color: rgba(255,255,255,0.35);
+  margin-bottom: 20px;
+  font-family: serif;
+  letter-spacing: 0.02em;
+  position: relative;
+  z-index: 1;
+  direction: rtl;
+}
+.interstitial-verse {
+  font-family: var(--serif);
+  font-size: 21px;
+  font-weight: 400;
+  font-style: italic;
+  color: rgba(255,255,255,0.92);
+  line-height: 1.5;
+  margin-bottom: 12px;
+  max-width: 340px;
+  position: relative;
+  z-index: 1;
+}
+.interstitial-ref {
+  font-size: 13px;
+  color: rgba(255,255,255,0.4);
+  margin-bottom: 28px;
+  position: relative;
+  z-index: 1;
+}
+.interstitial-message {
+  font-size: 15px;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.6;
+  max-width: 320px;
+  margin-bottom: 40px;
+  position: relative;
+  z-index: 1;
+}
+.btn-interstitial {
+  padding: 16px 48px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #fff;
+  border-radius: 14px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+  z-index: 1;
+}
+.btn-interstitial:hover {
+  background: rgba(255,255,255,0.18);
+}
+
+/* ---- SOCIAL PROOF INTERSTITIAL ---- */
+.social-proof {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 24px;
+  min-height: calc(100vh - 60px);
+  justify-content: center;
+}
+.social-proof-title {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.social-proof-sub {
+  font-size: 14px;
+  color: var(--text3);
+  line-height: 1.5;
+  margin-bottom: 36px;
+  max-width: 300px;
+}
+.social-stats {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  margin-bottom: 40px;
+}
+.social-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+}
+.social-stat-value {
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--primary);
+  font-family: var(--sans);
+  letter-spacing: -0.02em;
+}
+.social-stat-label {
+  font-size: 11px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.social-stat-divider {
+  width: 1px;
+  height: 36px;
+  background: var(--border);
+}
+.testimonial-card {
+  background: var(--surface);
+  border-radius: 16px;
+  padding: 20px;
+  text-align: left;
+  width: 100%;
+  max-width: 340px;
+  margin-bottom: 36px;
+}
+.testimonial-stars {
+  color: #F5A623;
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 10px;
+}
+.testimonial-text {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  font-style: italic;
+  margin-bottom: 12px;
+}
+.testimonial-author {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+.testimonial-meta {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+/* ---- PROCESSING SCREEN ---- */
+.processing {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 48px 24px;
+  min-height: calc(100vh - 60px);
+  justify-content: center;
+}
+.processing-title {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 8px;
+}
+.processing-sub {
+  font-size: 14px;
+  color: var(--text3);
+  margin-bottom: 40px;
+}
+.processing-steps {
+  width: 100%;
+  max-width: 320px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-bottom: 40px;
+}
+.processing-step {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+.processing-step-indicator {
+  width: 28px;
+  height: 28px;
+  border-radius: 99px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  transition: all 0.4s ease;
+}
+.processing-step-indicator.active {
+  border-color: var(--primary);
+  background: var(--primary-ghost);
+}
+.processing-step-indicator.done {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+.processing-step-text {
+  flex: 1;
+  text-align: left;
+  font-size: 14px;
+  color: var(--text3);
+  transition: color 0.3s;
+}
+.processing-step.active .processing-step-text { color: var(--text); }
+.processing-step.done .processing-step-text { color: var(--text2); }
+.processing-step-bar {
+  flex: 1;
+  display: none;
+}
+.processing-spinner {
+  width: 14px;
+  height: 14px;
+  border: 2px solid var(--primary-pale);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.processing-testimonial {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 16px;
+  width: 100%;
+  max-width: 320px;
+  text-align: left;
+}
+.processing-testimonial-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+.processing-testimonial-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 99px;
+  background: var(--primary-pale);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--primary);
+}
+.processing-testimonial-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+}
+.processing-testimonial-verified {
+  font-size: 11px;
+  color: var(--primary);
+}
+.processing-testimonial-text {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.5;
+  font-style: italic;
+}
+
+/* ---- COMMITMENT POPUP ---- */
+.popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0,0,0,0.4);
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
+  z-index: 1000;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+.popup-overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+.popup-card {
+  background: var(--bg);
+  border-radius: 20px 20px 0 0;
+  padding: 32px 28px 40px;
+  width: 100%;
+  max-width: 440px;
+  text-align: center;
+  transform: translateY(100%);
+  transition: transform 0.4s cubic-bezier(0.32, 0.72, 0, 1);
+}
+.popup-overlay.active .popup-card {
+  transform: translateY(0);
+}
+.popup-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+}
+.popup-question {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 500;
+  color: var(--text);
+  line-height: 1.35;
+  margin-bottom: 28px;
+  max-width: 340px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.popup-buttons {
+  display: flex;
+  gap: 12px;
+}
+.popup-btn {
+  flex: 1;
+  padding: 16px;
+  border-radius: 14px;
+  font-family: var(--sans);
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+.popup-btn-no {
+  background: var(--surface);
+  color: var(--text3);
+}
+.popup-btn-no:hover { background: var(--border); }
+.popup-btn-yes {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(81,167,128,0.25);
+}
+.popup-btn-yes:hover {
+  background: var(--primary-hover);
+}
+
+/* ---- RESULTS SCREEN ---- */
+.results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  padding: 32px 24px 40px;
+}
+.results-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--primary-ghost);
+  border-radius: 99px;
+  margin-bottom: 24px;
+}
+.results-badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 99px;
+  background: var(--primary);
+}
+.results-badge-text {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.results-archetype-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 99px;
+  background: linear-gradient(135deg, var(--primary-pale), var(--primary-ghost));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+.results-archetype {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 6px;
+  letter-spacing: -0.01em;
+}
+.results-archetype-tagline {
+  font-family: var(--serif);
+  font-size: 15px;
+  font-style: italic;
+  color: var(--text3);
+  margin-bottom: 24px;
+}
+.results-paragraph {
+  font-size: 14.5px;
+  color: var(--text2);
+  line-height: 1.7;
+  text-align: left;
+  margin-bottom: 32px;
+  max-width: 380px;
+}
+.results-stat-banner {
+  width: 100%;
+  background: var(--primary-ghost);
+  border-radius: 14px;
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 28px;
+  text-align: left;
+}
+.results-stat-banner-icon {
+  font-size: 24px;
+  flex-shrink: 0;
+}
+.results-stat-banner-text {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+.results-stat-banner-text strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+.results-features-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--primary);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 16px;
+  text-align: left;
+  width: 100%;
+}
+.results-feature {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 0;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+}
+.results-feature:last-child { border-bottom: none; }
+.results-feature-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  flex-shrink: 0;
+}
+.results-feature-text {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.4;
+}
+.results-feature-text span {
+  display: block;
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 2px;
+}
+
+/* ---- GRAPH ---- */
+.results-graph {
+  width: 100%;
+  margin: 32px 0;
+  padding: 20px;
+  background: var(--surface);
+  border-radius: 16px;
+}
+.results-graph-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  text-align: left;
+}
+.results-graph-sub {
+  font-size: 11px;
+  color: var(--text3);
+  margin-bottom: 16px;
+  text-align: left;
+}
+.results-graph svg {
+  width: 100%;
+  height: auto;
+}
+
+/* ---- RAMADAN BANNER ---- */
+.ramadan-banner {
+  width: 100%;
+  background: linear-gradient(135deg, var(--teal), var(--night));
+  border-radius: 16px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 32px;
+  text-align: left;
+}
+.ramadan-icon { font-size: 28px; }
+.ramadan-title {
+  font-family: var(--serif);
+  font-size: 15px;
+  color: #fff;
+  font-weight: 500;
+  margin-bottom: 4px;
+}
+.ramadan-sub {
+  font-size: 12px;
+  color: rgba(255,255,255,0.55);
+  line-height: 1.4;
+}
+
+/* ---- EMAIL GATE ---- */
+.email-gate {
+  padding: 60px 24px 40px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  min-height: 100vh;
+  justify-content: center;
+}
+.email-gate-icon {
+  width: 64px;
+  height: 64px;
+  background: var(--primary-ghost);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin-bottom: 24px;
+}
+.email-gate-title {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.3;
+  margin-bottom: 10px;
+}
+.email-gate-sub {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  margin-bottom: 32px;
+  max-width: 340px;
+}
+.email-gate-form {
+  width: 100%;
+  max-width: 360px;
+}
+.email-gate-input {
+  width: 100%;
+  padding: 16px 18px;
+  border: 1.5px solid var(--border-medium);
+  border-radius: 12px;
+  font-size: 16px;
+  font-family: var(--sans);
+  color: var(--text);
+  background: var(--bg);
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 16px;
+  -webkit-appearance: none;
+}
+.email-gate-input:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 3px rgba(81, 167, 128, 0.1);
+}
+.email-gate-input.error {
+  border-color: var(--error);
+  box-shadow: 0 0 0 3px rgba(217, 68, 68, 0.08);
+}
+.email-gate-error {
+  font-size: 13px;
+  color: var(--error);
+  margin-top: -10px;
+  margin-bottom: 12px;
+  text-align: left;
+  display: none;
+}
+.email-gate-error.visible { display: block; }
+.email-gate-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 16px;
+  font-weight: 600;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+}
+.email-gate-btn:hover { background: var(--primary-hover); }
+.email-gate-btn:active { transform: scale(0.98); }
+.email-gate-trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 16px;
+  font-size: 12px;
+  color: var(--text3);
+}
+.email-gate-trust svg {
+  flex-shrink: 0;
+}
+.email-gate-items {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+  margin-bottom: 28px;
+  width: 100%;
+  max-width: 340px;
+}
+.email-gate-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 13.5px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+.email-gate-item-icon {
+  flex-shrink: 0;
+  width: 20px;
+  height: 20px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1px;
+}
+.email-gate-item-icon svg {
+  width: 12px;
+  height: 12px;
+}
+
+/* ---- PRICING SCREEN (DIRECT RESPONSE) ---- */
+
+/* Sticky countdown */
+.sticky-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 999;
+  background: var(--night);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  padding: 10px 16px;
+  font-size: 13px;
+  font-weight: 500;
+}
+.sticky-bar-text { color: rgba(255,255,255,0.8); }
+.sticky-bar-timer {
+  display: inline-flex;
+  gap: 3px;
+}
+.sticky-bar-digit {
+  background: rgba(255,255,255,0.15);
+  padding: 2px 7px;
+  border-radius: 4px;
+  font-weight: 700;
+  font-size: 14px;
+  font-variant-numeric: tabular-nums;
+}
+
+/* Main pricing container */
+.pricing-page {
+  padding: 52px 24px 40px;
+}
+.pricing-page .saved-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 16px;
+  background: var(--primary-ghost);
+  border-radius: 99px;
+  margin: 0 auto 28px;
+  width: fit-content;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--primary);
+}
+.pricing-page .saved-badge svg { flex-shrink: 0; }
+
+/* Hero */
+.pp-hero {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.pp-logo { margin-bottom: 20px; }
+.pp-title {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 600;
+  color: var(--text);
+  line-height: 1.25;
+  margin-bottom: 20px;
+}
+.pp-title em {
+  color: var(--primary);
+  font-style: italic;
+}
+.pp-benefits {
+  list-style: none;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 0;
+}
+.pp-benefits li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+.pp-benefits li svg { flex-shrink: 0; margin-top: 3px; }
+
+/* Ramadan discount banner */
+.discount-banner {
+  background: linear-gradient(135deg, var(--teal), var(--night));
+  border-radius: 14px;
+  padding: 16px 20px;
+  margin-bottom: 28px;
+  position: relative;
+  overflow: hidden;
+}
+.discount-banner-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--primary-pale);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 8px;
+}
+.discount-banner-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+.discount-banner-event {
+  font-size: 16px;
+  font-weight: 600;
+  color: #fff;
+}
+.discount-banner-badge {
+  background: var(--primary);
+  color: #fff;
+  font-size: 12px;
+  font-weight: 700;
+  padding: 5px 14px;
+  border-radius: 99px;
+}
+.discount-banner-countdown {
+  font-size: 12px;
+  color: rgba(255,255,255,0.5);
+  margin-top: 8px;
+}
+.discount-banner-countdown span {
+  color: #fff;
+  font-weight: 600;
+}
+
+/* Section heading */
+.pp-section-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  color: var(--text);
+  text-align: center;
+  margin-bottom: 16px;
+}
+
+/* Discount active pill */
+.discount-active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  background: var(--primary);
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 99px;
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 16px;
+}
+
+/* Pricing tiers */
+.pp-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 24px;
+}
+.pp-tier {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.pp-tier:first-child { border-radius: 14px 14px 0 0; }
+.pp-tier:last-child { border-radius: 0 0 14px 14px; }
+.pp-tier:not(:first-child) { border-top: none; }
+.pp-tier:hover { background: rgba(237,247,241,0.3); }
+.pp-tier.selected {
+  border-color: var(--primary);
+  background: var(--primary-ghost);
+  z-index: 1;
+  border-radius: 14px;
+  margin: -1px 0;
+  border-width: 2.5px;
+}
+.pp-tier-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pp-tier-radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 99px;
+  border: 2px solid var(--border-medium);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.pp-tier.selected .pp-tier-radio {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+.pp-tier-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.pp-tier-original {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 1px;
+}
+.pp-tier-original s { color: var(--text-muted); }
+.pp-tier-right {
+  text-align: right;
+}
+.pp-tier-price {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.pp-tier-price.highlight {
+  color: var(--primary);
+}
+.pp-tier-unit {
+  font-size: 12px;
+  color: var(--text3);
+  font-weight: 500;
+}
+.pp-tier-badges {
+  position: absolute;
+  top: -11px;
+  left: 16px;
+  display: flex;
+  gap: 6px;
+}
+.pp-tier-badge {
+  font-size: 9px;
+  font-weight: 800;
+  padding: 3px 8px;
+  border-radius: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.pp-tier-badge.best { background: var(--primary); color: #fff; }
+.pp-tier-badge.save { background: #D94444; color: #fff; }
+.pp-tier-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 2px;
+}
+
+/* Main CTA */
+.pp-cta {
+  width: 100%;
+  padding: 18px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.2s;
+  box-shadow: 0 4px 20px rgba(81,167,128,0.3);
+  margin-bottom: 10px;
+  letter-spacing: 0.01em;
+}
+.pp-cta:hover {
+  background: var(--primary-hover);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(81,167,128,0.35);
+}
+.pp-cta:active { transform: translateY(0); }
+.pp-cta-sub {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text3);
+  margin-bottom: 10px;
+  line-height: 1.5;
+}
+.pp-cta-sub a {
+  color: var(--primary);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+/* Trust strip */
+.pp-trust-strip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  font-size: 11px;
+  color: var(--text3);
+  margin-bottom: 36px;
+  flex-wrap: wrap;
+}
+.pp-trust-strip span {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+/* Features grid */
+.pp-features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 36px;
+}
+.pp-feature-card {
+  text-align: center;
+  padding: 20px 12px;
+  background: var(--surface);
+  border-radius: 14px;
+}
+.pp-feature-card-icon {
+  font-size: 28px;
+  margin-bottom: 8px;
+}
+.pp-feature-card-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.pp-feature-card-desc {
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.4;
+}
+
+/* Outcome list */
+.pp-outcomes {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 36px;
+}
+.pp-outcomes li {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.4;
+}
+.pp-outcomes li svg { flex-shrink: 0; }
+
+/* Stats bar */
+.pp-stats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+  padding: 20px 0;
+  margin-bottom: 20px;
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+}
+.pp-stat { text-align: center; }
+.pp-stat-value {
+  font-size: 22px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.02em;
+}
+.pp-stat-label {
+  font-size: 11px;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+/* Reviews section */
+.pp-reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-bottom: 32px;
+}
+.pp-review {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 16px;
+}
+.pp-review-stars {
+  display: flex;
+  gap: 1px;
+  margin-bottom: 8px;
+}
+.pp-review-star {
+  width: 20px;
+  height: 20px;
+  background: #00B67A;
+  border-radius: 2px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 12px;
+}
+.pp-review-text {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.55;
+  margin-bottom: 10px;
+}
+.pp-review-author {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+}
+.pp-review-meta {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+/* Rating display */
+.pp-rating {
+  text-align: center;
+  padding: 24px 0;
+  margin-bottom: 32px;
+}
+.pp-rating-number {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.pp-rating-label {
+  font-size: 13px;
+  color: var(--text3);
+  margin-bottom: 6px;
+}
+.pp-rating-stars {
+  color: #F5A623;
+  font-size: 20px;
+  letter-spacing: 3px;
+  margin-bottom: 6px;
+}
+.pp-rating-count {
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+/* FAQ */
+.pp-faq {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 32px;
+}
+.pp-faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.pp-faq-q {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  user-select: none;
+}
+.pp-faq-q span {
+  font-size: 18px;
+  color: var(--text3);
+  transition: transform 0.3s;
+}
+.pp-faq-item.open .pp-faq-q span { transform: rotate(45deg); }
+.pp-faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.35s ease, padding 0.35s ease;
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+}
+.pp-faq-item.open .pp-faq-a {
+  max-height: 300px;
+  padding-bottom: 16px;
+}
+
+/* Trust detail section */
+.pp-trust-section {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding: 24px 0;
+  border-top: 1px solid var(--border);
+  margin-bottom: 24px;
+}
+.pp-trust-item { text-align: center; }
+.pp-trust-item-icon { font-size: 24px; margin-bottom: 8px; }
+.pp-trust-item-title {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+.pp-trust-item-desc {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.5;
+  max-width: 300px;
+  margin: 0 auto;
+}
+
+/* Footer */
+.pp-footer {
+  text-align: center;
+  padding: 20px 0;
+  border-top: 1px solid var(--border);
+}
+.pp-footer a {
+  font-size: 12px;
+  color: var(--text3);
+  text-decoration: none;
+  margin: 0 8px;
+}
+.pp-footer a:hover { color: var(--text2); }
+.pp-footer p {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  line-height: 1.5;
+}
+
+/* ---- ANIMATIONS ---- */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse {
+  0%, 100% { transform: scale(1); }
+  50% { transform: scale(1.05); }
+}
+.animate-in {
+  animation: slideUp 0.5s ease forwards;
+}
+.stagger-1 { animation-delay: 0.05s; }
+.stagger-2 { animation-delay: 0.1s; }
+.stagger-3 { animation-delay: 0.15s; }
+.stagger-4 { animation-delay: 0.2s; }
+.stagger-5 { animation-delay: 0.25s; }
+.stagger-6 { animation-delay: 0.3s; }
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 380px) {
+  .question-title { font-size: 22px; }
+  .welcome-headline { font-size: 26px; }
+  .option-btn { padding: 14px 16px; }
+  .social-stats { gap: 16px; }
+}
+</style>
+</head>
+
+<body>
+<div id="app">
+  <div class="progress-bar" id="progressBar">
+    <div class="progress-track">
+      <div class="progress-fill" id="progressFill"></div>
+    </div>
+  </div>
+  <div class="header" id="header">
+    <div class="header-brand">
+      <svg class="header-logo" viewBox="0 0 32 32" fill="none">
+        <circle cx="14" cy="16" r="12" fill="#C5E5CD"/>
+        <circle cx="20" cy="13" r="10" fill="white"/>
+        <circle cx="24" cy="7" r="2" fill="#C5E5CD"/>
+      </svg>
+      <span class="header-name">Deen Buddy</span>
+    </div>
+    <button class="header-back" id="backBtn">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M10 4L6 8L10 12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      Back
+    </button>
+  </div>
+  <div id="screenContainer"></div>
+</div>
+
+<!-- COMMITMENT POPUP -->
+<div class="popup-overlay" id="popupOverlay">
+  <div class="popup-card">
+    <div class="popup-label" id="popupLabel">Before we finalize</div>
+    <div class="popup-question" id="popupQuestion"></div>
+    <div class="popup-buttons">
+      <button class="popup-btn popup-btn-no" id="popupNo">Not now</button>
+      <button class="popup-btn popup-btn-yes" id="popupYes">Yes, I'm ready</button>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ============================================
+   DEEN BUDDY QUIZ FUNNEL — JAVASCRIPT
+   ============================================ */
+
+// ---- STATE ----
+const state = {
+  currentStep: 0,
+  avatar: null,      // 'seeker' | 'believer' | 'guardian'
+  answers: {},
+  transitioning: false,
+  selectedPlan: 'annual',
+  popupResolve: null,
+  email: null,
+};
+
+// ---- DOM ----
+const $progressBar = document.getElementById('progressBar');
+const $progressFill = document.getElementById('progressFill');
+const $header = document.getElementById('header');
+const $backBtn = document.getElementById('backBtn');
+const $screen = document.getElementById('screenContainer');
+const $popupOverlay = document.getElementById('popupOverlay');
+const $popupQuestion = document.getElementById('popupQuestion');
+const $popupLabel = document.getElementById('popupLabel');
+const $popupYes = document.getElementById('popupYes');
+const $popupNo = document.getElementById('popupNo');
+
+// ---- QUIZ STEPS ----
+const steps = [
+
+  // ===== WELCOME =====
+  { id: 'welcome', type: 'welcome' },
+
+  // ===== PHASE 1: SEGMENTATION =====
+  {
+    id: 'avatar',
+    type: 'question',
+    label: 'About You',
+    question: 'What best describes where you are in your Islamic journey?',
+    subtitle: 'This helps us personalize everything for you.',
+    options: [
+      { id: 'seeker', icon: '🌱', label: 'I\'m new to Islam or recently embraced it', desc: 'Convert, revert, or just beginning to explore' },
+      { id: 'believer', icon: '🔄', label: 'I grew up Muslim but my practice has slipped', desc: 'I believe, but life got in the way' },
+      { id: 'guardian', icon: '🛡️', label: 'I\'m focused on raising my children with strong faith', desc: 'Parent or guardian passing on the deen' },
+      { id: 'seeker-curious', icon: '🔍', label: 'I\'m curious and want to learn more', desc: 'Exploring Islam at my own pace' },
+    ],
+    onAnswer(opt) { state.avatar = (opt.id === 'seeker-curious') ? 'seeker' : opt.id; }
+  },
+  {
+    id: 'age',
+    type: 'question',
+    label: 'About You',
+    question: 'What is your age?',
+    subtitle: 'Different stages of life call for different guidance.',
+    options: [
+      { id: '18-24', icon: '', label: '18 – 24' },
+      { id: '25-34', icon: '', label: '25 – 34' },
+      { id: '35-44', icon: '', label: '35 – 44' },
+      { id: '45+', icon: '', label: '45+' },
+    ],
+    compact: true,
+  },
+  {
+    id: 'relationship',
+    type: 'question',
+    label: 'Your Faith',
+    question: 'How would you describe your current connection to Islam?',
+    subtitle: 'There are no wrong answers — only honest ones.',
+    options: [
+      { id: 'beginning', icon: '🌅', label: 'Just beginning', desc: 'Everything feels new and sometimes overwhelming' },
+      { id: 'basics', icon: '📖', label: 'I know the basics but want to go deeper', desc: 'Ready to move beyond the surface' },
+      { id: 'inconsistent', icon: '🌊', label: 'I practice but struggle with consistency', desc: 'Good days and bad days' },
+      { id: 'committed', icon: '🌟', label: 'I\'m committed and always looking to grow', desc: 'Want to strengthen what I have' },
+    ],
+  },
+
+  // ===== PHASE 2: AVATAR-SPECIFIC QUESTIONS =====
+
+  // -- SEEKER BRANCH --
+  {
+    id: 'seeker-source',
+    type: 'question',
+    condition: () => state.avatar === 'seeker',
+    label: 'Your Experience',
+    question: 'When you have a question about Islam, where do you usually look?',
+    subtitle: 'Understanding your current resources helps us fill the gaps.',
+    options: [
+      { id: 'google', icon: '🔍', label: 'Google or random websites', desc: 'Hoping I find something authentic' },
+      { id: 'youtube', icon: '🎥', label: 'YouTube lectures or podcasts', desc: 'Long videos I don\'t always finish' },
+      { id: 'social', icon: '📱', label: 'Social media — TikTok, Reddit', desc: 'Quick answers, not always reliable' },
+      { id: 'ask', icon: '🗣️', label: 'I ask someone I trust', desc: 'But I don\'t always have someone available' },
+      { id: 'wonder', icon: '💭', label: 'I usually just wonder quietly', desc: 'Too afraid or unsure to ask' },
+    ],
+  },
+  {
+    id: 'seeker-embarrassed',
+    type: 'question',
+    condition: () => state.avatar === 'seeker',
+    label: 'Your Experience',
+    question: 'Have you ever felt embarrassed or afraid to ask a "basic" question about Islam?',
+    subtitle: 'You\'re not alone in this — it\'s more common than you think.',
+    options: [
+      { id: 'yes-often', icon: '', label: 'Yes — it happens more than I\'d like to admit' },
+      { id: 'sometimes', icon: '', label: 'Sometimes, depending on who I\'m around' },
+      { id: 'rarely', icon: '', label: 'Not really' },
+      { id: 'no', icon: '', label: 'No — I feel comfortable asking' },
+    ],
+    compact: true,
+  },
+  {
+    id: 'seeker-overwhelming',
+    type: 'question',
+    condition: () => state.avatar === 'seeker',
+    label: 'Your Journey',
+    question: 'What feels most overwhelming about learning your deen right now?',
+    subtitle: 'Identifying your biggest challenge is the first step to solving it.',
+    options: [
+      { id: 'too-much', icon: '📚', label: 'Too much information, not sure what\'s authentic', desc: 'Conflicting opinions everywhere' },
+      { id: 'behind', icon: '⏳', label: 'I feel behind — everyone else seems to know more', desc: 'Imposter syndrome is real' },
+      { id: 'no-teacher', icon: '🤲', label: 'I don\'t have a patient, judgment-free teacher', desc: 'Learning alone is hard' },
+      { id: 'mistakes', icon: '😰', label: 'I\'m afraid of making mistakes in my practice', desc: 'What if I\'m doing it wrong?' },
+    ],
+  },
+
+  // -- BELIEVER BRANCH --
+  {
+    id: 'believer-prayers',
+    type: 'question',
+    condition: () => state.avatar === 'believer',
+    label: 'Your Practice',
+    question: 'How many of the five daily prayers are you praying consistently?',
+    subtitle: 'Be honest with yourself — this is between you and Allah.',
+    options: [
+      { id: 'all-five', icon: '', label: 'All five, Alhamdulillah' },
+      { id: '3-4', icon: '', label: '3-4 on most days' },
+      { id: '1-2', icon: '', label: '1-2 when I remember' },
+      { id: 'struggle', icon: '', label: 'I\'m struggling to pray regularly' },
+    ],
+    compact: true,
+  },
+  {
+    id: 'believer-barrier',
+    type: 'question',
+    condition: () => state.avatar === 'believer',
+    label: 'Your Challenges',
+    question: 'What\'s the biggest thing holding your practice back?',
+    subtitle: 'Everyone has barriers. Naming yours is the beginning of overcoming it.',
+    options: [
+      { id: 'schedule', icon: '⏰', label: 'My schedule — work and life take over', desc: 'There\'s never enough time' },
+      { id: 'disconnected', icon: '💔', label: 'I feel disconnected and don\'t know how to reconnect', desc: 'The spark isn\'t there like it used to be' },
+      { id: 'procrastinate', icon: '🔄', label: 'I keep putting it off', desc: 'I know I should, but I don\'t start' },
+      { id: 'guilt', icon: '😔', label: 'Guilt has made it harder to start again', desc: 'The longer I wait, the worse it feels' },
+    ],
+  },
+  {
+    id: 'believer-gap',
+    type: 'question',
+    condition: () => state.avatar === 'believer',
+    label: 'Your Inner Life',
+    question: 'Do you feel a gap between what you believe and how you\'re actually living?',
+    subtitle: 'This question takes courage to answer honestly.',
+    options: [
+      { id: 'yes-weighs', icon: '', label: 'Yes — and it weighs on me daily' },
+      { id: 'sometimes', icon: '', label: 'Sometimes, especially when life gets busy' },
+      { id: 'occasionally', icon: '', label: 'Occasionally, but I manage' },
+      { id: 'aligned', icon: '', label: 'Not really — I feel mostly aligned' },
+    ],
+    compact: true,
+  },
+
+  // -- GUARDIAN BRANCH --
+  {
+    id: 'guardian-confidence',
+    type: 'question',
+    condition: () => state.avatar === 'guardian',
+    label: 'Your Role',
+    question: 'How confident do you feel teaching your children about Islam?',
+    subtitle: 'This is one of the most important questions a parent can ask themselves.',
+    options: [
+      { id: 'confident', icon: '', label: 'Very confident — I have a plan' },
+      { id: 'gaps', icon: '', label: 'Somewhat, but there are topics I struggle with' },
+      { id: 'learning', icon: '', label: 'Not very — I\'m learning alongside them' },
+      { id: 'rely', icon: '', label: 'I rely mostly on the mosque or Islamic school' },
+    ],
+    compact: true,
+  },
+  {
+    id: 'guardian-fear',
+    type: 'question',
+    condition: () => state.avatar === 'guardian',
+    label: 'Your Concerns',
+    question: 'What worries you most about your children\'s faith?',
+    subtitle: 'Every Muslim parent carries this weight. You\'re not alone.',
+    options: [
+      { id: 'drift', icon: '💔', label: 'They\'ll grow distant from Islam as they get older', desc: 'The pull of the world is strong' },
+      { id: 'cant-answer', icon: '❓', label: 'I can\'t answer their questions well enough', desc: 'Their curiosity outpaces my knowledge' },
+      { id: 'outside', icon: '🌍', label: 'Outside influences will pull them away', desc: 'Friends, media, culture' },
+      { id: 'imposed', icon: '🔒', label: 'They\'ll see Islam as imposed, not loved', desc: 'I want them to choose it, not resent it' },
+    ],
+  },
+  {
+    id: 'guardian-reaction',
+    type: 'question',
+    condition: () => state.avatar === 'guardian',
+    label: 'Your Moments',
+    question: 'When your child asks a question about Islam you can\'t answer, how do you feel?',
+    subtitle: 'That moment reveals more about your love than your knowledge.',
+    options: [
+      { id: 'anxious', icon: '', label: 'Anxious — I worry I\'m failing them' },
+      { id: 'motivated', icon: '', label: 'Motivated — it pushes me to learn' },
+      { id: 'embarrassed', icon: '', label: 'Embarrassed — I should know this' },
+      { id: 'coming', icon: '', label: 'It hasn\'t happened yet, but I know it\'s coming' },
+    ],
+    compact: true,
+  },
+
+  // ===== INTERSTITIAL 1: QURAN VERSE =====
+  { id: 'interstitial-verse', type: 'interstitial' },
+
+  // ===== PHASE 3: UNIVERSAL DEEPENING =====
+  {
+    id: 'quran-frequency',
+    type: 'question',
+    label: 'Your Quran Relationship',
+    question: 'How often do you read or listen to the Quran?',
+    subtitle: 'No judgment — wherever you are is the right starting point.',
+    options: [
+      { id: 'daily', icon: '', label: 'Daily' },
+      { id: 'few-week', icon: '', label: 'A few times a week' },
+      { id: 'occasionally', icon: '', label: 'Occasionally — when I remember' },
+      { id: 'rarely', icon: '', label: 'Rarely' },
+      { id: 'not-yet', icon: '', label: 'I haven\'t started yet' },
+    ],
+    compact: true,
+  },
+  {
+    id: 'quran-understanding',
+    type: 'question',
+    label: 'Your Quran Relationship',
+    question: 'When you hear the Quran, how much do you understand?',
+    subtitle: 'Most Muslims recite without understanding — you\'re about to change that.',
+    options: [
+      { id: 'arabic-fluent', icon: '', label: 'I understand Arabic well' },
+      { id: 'some-words', icon: '', label: 'I catch some words but miss most meaning' },
+      { id: 'translation', icon: '', label: 'I rely entirely on English translation' },
+      { id: 'not-tried', icon: '', label: 'I haven\'t tried yet' },
+    ],
+    compact: true,
+  },
+  {
+    id: 'biggest-need',
+    type: 'question',
+    label: 'What You Need',
+    question: 'What would make the biggest difference in your faith right now?',
+    subtitle: 'We\'ll prioritize this in your personalized plan.',
+    options: [
+      { id: 'trusted-source', icon: '🤖', label: 'A trusted source to answer my questions — anytime', desc: 'Private, instant, judgment-free' },
+      { id: 'daily-routine', icon: '📿', label: 'A daily habit that keeps me connected', desc: 'Something small but consistent' },
+      { id: 'understand-quran', icon: '📖', label: 'Actually understanding what the Quran says', desc: 'Beyond just recitation' },
+      { id: 'personalized', icon: '🎯', label: 'Guidance tailored to my specific life situation', desc: 'Not generic — for me' },
+    ],
+  },
+
+  // ===== INTERSTITIAL 2: SOCIAL PROOF =====
+  { id: 'social-proof', type: 'social-proof' },
+
+  // ===== PHASE 4: EMOTIONAL OUTCOME + COMMITMENT =====
+  {
+    id: 'desired-outcome',
+    type: 'question',
+    label: 'Your Vision',
+    question: 'If Deen Buddy could help you feel one thing more consistently, what would it be?',
+    subtitle: 'This shapes the core of your personalized experience.',
+    options: [
+      { id: 'peace', icon: '☁️', label: 'Inner peace and tranquility', desc: 'The sakina that comes from true connection' },
+      { id: 'closeness', icon: '💚', label: 'A closer, more personal bond with Allah', desc: 'Feeling Him in my daily life' },
+      { id: 'confidence', icon: '💪', label: 'Confidence in my knowledge and practice', desc: 'Knowing I\'m on the right path' },
+      { id: 'purpose', icon: '🧭', label: 'A sense of purpose and direction', desc: 'Understanding why I\'m here' },
+    ],
+  },
+  {
+    id: 'commitment-5min',
+    type: 'question',
+    label: 'Your Commitment',
+    question: 'Would you be willing to spend just 5 minutes a day on your spiritual growth?',
+    subtitle: 'That\'s less time than it takes to scroll through your phone.',
+    options: [
+      { id: 'yes-ready', icon: '', label: 'Yes — I\'m ready' },
+      { id: 'yes-try', icon: '', label: 'I think so — I want to try' },
+      { id: 'open', icon: '', label: 'I\'m not sure, but I\'m open to it' },
+    ],
+    compact: true,
+  },
+  {
+    id: 'preferred-time',
+    type: 'question',
+    label: 'Your Schedule',
+    question: 'When is the best time for your daily Islamic learning?',
+    subtitle: 'We\'ll sync your experience to this time.',
+    options: [
+      { id: 'fajr', icon: '🌅', label: 'Morning — after Fajr', desc: 'Start the day with purpose' },
+      { id: 'midday', icon: '☀️', label: 'Midday — during a break', desc: 'A reset in the middle of the day' },
+      { id: 'isha', icon: '🌙', label: 'Evening — after Isha', desc: 'Wind down with reflection' },
+      { id: 'late', icon: '✨', label: 'Late night — when the world is quiet', desc: 'The most intimate time for dua' },
+    ],
+  },
+
+  // ===== PROCESSING =====
+  { id: 'processing', type: 'processing' },
+
+  // ===== RESULTS =====
+  { id: 'results', type: 'results' },
+
+  // ===== EMAIL GATE =====
+  { id: 'email-gate', type: 'email-gate' },
+
+  // ===== PRICING =====
+  { id: 'pricing', type: 'pricing' },
+];
+
+
+// ---- INTERSTITIAL CONTENT ----
+function getInterstitialContent() {
+  if (state.avatar === 'seeker') return {
+    icon: '🕌',
+    verse: '"Seeking knowledge is an obligation upon every Muslim."',
+    ref: '— Prophet Muhammad ﷺ (Ibn Majah)',
+    message: 'You\'re already fulfilling this simply by being here. Every question you ask — no matter how "basic" — brings you closer to Allah.',
+  };
+  if (state.avatar === 'believer') return {
+    icon: '🤲',
+    verse: '"And whoever fears Allah — He will make for him a way out."',
+    ref: '— Quran 65:2',
+    message: 'The fact that you feel the distance means your heart is still connected. That awareness is itself a mercy from Allah.',
+  };
+  if (state.avatar === 'guardian') return {
+    icon: '🌳',
+    verse: '"When a person dies, their deeds end except for three: a child who prays for them..."',
+    ref: '— Sahih Muslim',
+    message: 'The legacy you\'re building for your children is the most valuable investment you will ever make. This moment matters.',
+  };
+  return {
+    icon: '✨',
+    verse: '"Indeed, with hardship comes ease."',
+    ref: '— Quran 94:6',
+    message: 'Your journey is unique, and it begins with a single step.',
+  };
+}
+
+
+// ---- ARCHETYPE CONTENT ----
+function getArchetype() {
+  const a = state.answers;
+
+  if (state.avatar === 'seeker') {
+    let para = 'Based on what you\'ve shared, you\'re on a sincere path of discovery — eager to learn but unsure where to find guidance you can trust. ';
+    if (a['seeker-source'] === 'google') para += 'You\'ve been piecing together your understanding from Google searches and scattered websites, never quite sure what\'s authentic. ';
+    else if (a['seeker-source'] === 'wonder') para += 'You\'ve had questions you never asked — not because you don\'t care, but because you didn\'t know who to turn to. ';
+    else if (a['seeker-source'] === 'social') para += 'You\'ve been turning to social media for answers, sifting through conflicting opinions without knowing what to trust. ';
+    if (a['seeker-embarrassed'] === 'yes-often') para += 'And you\'ve carried the quiet weight of feeling like you should know more — hesitant to ask what others might consider "basic." ';
+    else if (a['seeker-embarrassed'] === 'sometimes') para += 'There have been moments where you held back a question, worried about how it would be received. ';
+    if (a['seeker-overwhelming'] === 'behind') para += 'That feeling of being "behind"? It\'s more common than you think — and it\'s not the truth about you. ';
+    else if (a['seeker-overwhelming'] === 'no-teacher') para += 'Learning alone is one of the hardest things anyone can do. You don\'t have to anymore. ';
+    para += '\n\nHere\'s what we want you to know: there is no such thing as a "basic" question when it comes to your deen. Every question is an act of worship. Deen Buddy was built for exactly this — a private, judgment-free companion that meets you wherever you are.';
+    return { name: 'The Seeker', icon: '🔦', tagline: 'Your heart is open, and that is the first step.', paragraph: para };
+  }
+
+  if (state.avatar === 'believer') {
+    let para = 'Your faith never left you — it\'s been waiting for you to come back. ';
+    if (a['believer-prayers'] === 'struggle') para += 'Struggling to pray regularly isn\'t a sign your faith is weak. It\'s a sign that life pulled you in another direction — and your heart knows it needs to return. ';
+    else if (a['believer-prayers'] === '1-2') para += 'Even praying once or twice when you can — that thread of connection is still alive. ';
+    if (a['believer-barrier'] === 'guilt') para += 'The guilt you carry? That\'s not punishment. It\'s your conscience calling you forward. ';
+    else if (a['believer-barrier'] === 'disconnected') para += 'Feeling disconnected doesn\'t mean Allah is far. He is closer to you than your jugular vein. ';
+    else if (a['believer-barrier'] === 'schedule') para += 'A demanding life doesn\'t mean an absent faith. It means you need tools that fit into reality, not an ideal. ';
+    if (a['believer-gap'] === 'yes-weighs') para += 'That gap between belief and practice — the fact that it weighs on you is itself proof that your iman runs deeper than you think. ';
+    para += '\n\nDeen Buddy meets you exactly where you are. No judgment, no starting over — just a gentle, daily path back to the practice you know you\'re capable of.';
+    return { name: 'The Returning Heart', icon: '💚', tagline: 'Your faith never left — it\'s been waiting.', paragraph: para };
+  }
+
+  if (state.avatar === 'guardian') {
+    let para = 'What you\'re doing right now — seeking knowledge to pass on — is one of the most powerful investments you\'ll ever make. ';
+    if (a['guardian-confidence'] === 'learning') para += 'The fact that you\'re learning alongside your children isn\'t a weakness. It\'s one of the most beautiful forms of parenting — growing together in faith. ';
+    else if (a['guardian-confidence'] === 'gaps') para += 'Having gaps in your knowledge doesn\'t make you unqualified. It makes you honest — and honesty is the foundation of trust with your children. ';
+    if (a['guardian-fear'] === 'drift') para += 'The fear that your children will drift from Islam is one of the most common anxieties Muslim parents carry. You\'re not alone in this. ';
+    else if (a['guardian-fear'] === 'cant-answer') para += 'That moment when your child asks a question you can\'t answer — Deen Buddy was built for exactly that moment. ';
+    else if (a['guardian-fear'] === 'imposed') para += 'Your instinct is right: faith that is loved is faith that lasts. And the way you\'re approaching this — with care, not force — is exactly what they need. ';
+    if (a['guardian-reaction'] === 'anxious') para += 'The anxiety you feel is proof of how deeply you care about their akhirah. ';
+    para += '\n\nDeen Buddy gives you the knowledge and confidence to answer your children\'s questions — instantly, authentically, and from classical Islamic scholarship. You don\'t have to teach alone.';
+    return { name: 'The Guardian', icon: '🛡️', tagline: 'You\'re building a legacy that outlasts this world.', paragraph: para };
+  }
+
+  return { name: 'The Seeker', icon: '🔦', tagline: 'Your journey begins now.', paragraph: 'Deen Buddy is here to guide you.' };
+}
+
+
+// ---- PERSONALIZED FEATURES ----
+function getFeatures() {
+  const a = state.answers;
+  const features = [];
+
+  // Based on biggest need
+  if (a['biggest-need'] === 'trusted-source') features.push({ icon: '🤖', title: 'AI Quran Chat — trained on classical tafsir', sub: 'Ask anything, anytime, privately' });
+  else if (a['biggest-need'] === 'daily-routine') features.push({ icon: '📿', title: 'Smart daily reminders synced with your prayers', sub: 'Build a habit that sticks' });
+  else if (a['biggest-need'] === 'understand-quran') features.push({ icon: '📖', title: 'Daily verse with tafsir matched to your level', sub: 'Understand what you recite' });
+  else features.push({ icon: '🎯', title: 'Personalized Islamic guidance', sub: 'Tailored to your life, not generic advice' });
+
+  // Based on avatar
+  if (state.avatar === 'seeker') features.push({ icon: '🌱', title: 'New Muslim learning paths', sub: 'Step-by-step foundations — no judgment' });
+  else if (state.avatar === 'believer') features.push({ icon: '🔔', title: 'Prayer time alerts with customizable Athan', sub: 'Gentle nudges to rebuild consistency' });
+  else if (state.avatar === 'guardian') features.push({ icon: '👨‍👩‍👧', title: 'Family-friendly explanations to share', sub: 'Answer your children\'s questions with confidence' });
+
+  // Based on quran understanding
+  if (['translation', 'not-tried'].includes(a['quran-understanding'])) features.push({ icon: '📚', title: 'Full Quran with side-by-side translation', sub: 'Arabic + English offline access' });
+  else features.push({ icon: '📚', title: 'Deep Quran study with tafsir layers', sub: 'Go beyond translation to true understanding' });
+
+  // Based on desired outcome
+  if (a['desired-outcome'] === 'peace') features.push({ icon: '☁️', title: 'Daily reflections for inner peace', sub: 'Curated verses for spiritual tranquility' });
+  else if (a['desired-outcome'] === 'confidence') features.push({ icon: '🧠', title: 'Daily Islamic knowledge quiz', sub: 'Build confidence through consistent learning' });
+  else features.push({ icon: '💚', title: 'Guided spiritual growth tracking', sub: 'Watch your connection deepen over time' });
+
+  return features;
+}
+
+
+// ---- RENDER ENGINE ----
+function getVisibleSteps() {
+  return steps.filter(s => !s.condition || s.condition());
+}
+
+function getProgress() {
+  const visible = getVisibleSteps();
+  const idx = visible.findIndex(s => s.id === steps[state.currentStep].id);
+  // Don't count welcome, processing, results, pricing in the question count
+  const questionSteps = visible.filter(s => s.type === 'question');
+  const currentQuestion = questionSteps.findIndex(s => s.id === steps[state.currentStep].id);
+  if (currentQuestion === -1) return { pct: 0, label: '' };
+  return {
+    pct: ((currentQuestion + 1) / questionSteps.length) * 100,
+    label: `${currentQuestion + 1} of ${questionSteps.length}`,
+  };
+}
+
+function render() {
+  const step = steps[state.currentStep];
+  const isQuestion = step.type === 'question';
+  const showProgress = isQuestion;
+  const showHeader = step.type !== 'welcome';
+  const showBack = state.currentStep > 1 && isQuestion;
+
+  // Progress bar
+  $progressBar.style.display = showProgress ? '' : 'none';
+  if (showProgress) {
+    const prog = getProgress();
+    $progressFill.style.width = prog.pct + '%';
+  }
+
+  // Header
+  $header.style.display = showHeader ? '' : 'none';
+  $backBtn.classList.toggle('visible', showBack);
+
+  // Render screen
+  switch (step.type) {
+    case 'welcome': renderWelcome(); break;
+    case 'question': renderQuestion(step); break;
+    case 'interstitial': renderInterstitial(); break;
+    case 'social-proof': renderSocialProof(); break;
+    case 'processing': renderProcessing(); break;
+    case 'results': renderResults(); break;
+    case 'email-gate': renderEmailGate(); break;
+    case 'pricing': renderPricing(); break;
+  }
+}
+
+
+// ---- WELCOME ----
+function renderWelcome() {
+  $screen.innerHTML = `
+    <div class="welcome">
+      <svg class="welcome-logo" viewBox="0 0 64 64" fill="none">
+        <circle cx="28" cy="32" r="24" fill="#C5E5CD"/>
+        <circle cx="40" cy="26" r="20" fill="white"/>
+        <circle cx="48" cy="14" r="3.5" fill="#C5E5CD"/>
+      </svg>
+      <div class="welcome-brand">Deen Buddy</div>
+      <h1 class="welcome-headline">Discover Your Personal Path to a Stronger Deen</h1>
+      <p class="welcome-sub">Answer a few questions and receive a personalized Islamic learning plan — built around your life, your goals, and your pace.</p>
+      <div class="welcome-social">
+        <div class="welcome-social-item">
+          <div class="welcome-social-value">1M+</div>
+          <div class="welcome-social-label">Downloads</div>
+        </div>
+        <div class="welcome-social-divider"></div>
+        <div class="welcome-social-item">
+          <div class="welcome-social-value">4.9★</div>
+          <div class="welcome-social-label">Rating</div>
+        </div>
+        <div class="welcome-social-divider"></div>
+        <div class="welcome-social-item">
+          <div class="welcome-social-value">12K+</div>
+          <div class="welcome-social-label">Reviews</div>
+        </div>
+      </div>
+      <button class="btn-primary" onclick="goNext()">Begin My Journey</button>
+      <div class="welcome-footer">Takes less than 2 minutes <span>·</span> 100% private</div>
+    </div>
+  `;
+}
+
+
+// ---- QUESTION ----
+function renderQuestion(step) {
+  const compact = step.compact;
+  let optionsHtml = step.options.map((opt, i) => {
+    const selected = state.answers[step.id] === opt.id ? 'selected' : '';
+    const delay = (i * 0.07 + 0.12).toFixed(2);
+    if (compact) {
+      return `
+        <button class="option-btn ${selected}" style="animation: slideUp 0.35s ease ${delay}s forwards" data-id="${opt.id}">
+          <div class="option-text">
+            <div class="option-label">${opt.label}</div>
+          </div>
+          <div class="option-radio">
+            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+        </button>
+      `;
+    }
+    return `
+      <button class="option-btn ${selected}" style="animation: slideUp 0.35s ease ${delay}s forwards" data-id="${opt.id}">
+        ${opt.icon ? `<div class="option-icon">${opt.icon}</div>` : ''}
+        <div class="option-text">
+          <div class="option-label">${opt.label}</div>
+          ${opt.desc ? `<div class="option-desc">${opt.desc}</div>` : ''}
+        </div>
+        <div class="option-radio">
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+      </button>
+    `;
+  }).join('');
+
+  $screen.innerHTML = `
+    <div class="screen-container">
+      <div class="screen-content entering">
+        ${step.label ? `<div class="question-label">${step.label}</div>` : ''}
+        <h1 class="question-title">${step.question}</h1>
+        <p class="question-subtitle">${step.subtitle}</p>
+        <div class="options-list">${optionsHtml}</div>
+        <div class="question-footer">Your answers are private and never shared.</div>
+      </div>
+    </div>
+  `;
+
+  // Bind click handlers
+  $screen.querySelectorAll('.option-btn').forEach(btn => {
+    btn.addEventListener('click', () => handleOptionClick(step, btn.dataset.id));
+  });
+}
+
+function handleOptionClick(step, optionId) {
+  if (state.transitioning) return;
+  state.answers[step.id] = optionId;
+  if (step.onAnswer) {
+    const opt = step.options.find(o => o.id === optionId);
+    step.onAnswer(opt);
+  }
+
+  // Visual feedback
+  $screen.querySelectorAll('.option-btn').forEach(btn => {
+    if (btn.dataset.id === optionId) {
+      btn.classList.add('selected');
+    } else {
+      btn.classList.remove('selected');
+    }
+  });
+
+  // Auto-advance
+  setTimeout(() => goNext(), 380);
+}
+
+
+// ---- INTERSTITIAL ----
+function renderInterstitial() {
+  const content = getInterstitialContent();
+  $screen.innerHTML = `
+    <div class="screen-container" style="padding:0;">
+      <div class="interstitial">
+        <div class="interstitial-icon" style="animation: slideUp 0.5s ease forwards;">${content.icon}</div>
+        <div class="interstitial-verse" style="opacity:0; animation: slideUp 0.5s ease 0.15s forwards;">${content.verse}</div>
+        <div class="interstitial-ref" style="opacity:0; animation: slideUp 0.5s ease 0.25s forwards;">${content.ref}</div>
+        <div class="interstitial-message" style="opacity:0; animation: slideUp 0.5s ease 0.35s forwards;">${content.message}</div>
+        <button class="btn-interstitial" style="opacity:0; animation: slideUp 0.5s ease 0.5s forwards;" onclick="goNext()">Continue</button>
+      </div>
+    </div>
+  `;
+}
+
+
+// ---- SOCIAL PROOF ----
+function renderSocialProof() {
+  $screen.innerHTML = `
+    <div class="screen-container">
+      <div class="social-proof">
+        <div style="opacity:0; animation: slideUp 0.5s ease forwards;">
+          <div class="social-proof-title">You're in good company.</div>
+          <div class="social-proof-sub">Join over one million Muslims strengthening their deen with Deen Buddy.</div>
+        </div>
+        <div class="social-stats" style="opacity:0; animation: slideUp 0.5s ease 0.12s forwards;">
+          <div class="social-stat">
+            <div class="social-stat-value">1M+</div>
+            <div class="social-stat-label">Downloads</div>
+          </div>
+          <div class="social-stat-divider"></div>
+          <div class="social-stat">
+            <div class="social-stat-value">4.9</div>
+            <div class="social-stat-label">App Rating</div>
+          </div>
+          <div class="social-stat-divider"></div>
+          <div class="social-stat">
+            <div class="social-stat-value">12K+</div>
+            <div class="social-stat-label">Reviews</div>
+          </div>
+        </div>
+        <div class="testimonial-card" style="opacity:0; animation: slideUp 0.5s ease 0.24s forwards;">
+          <div class="testimonial-stars">★★★★★</div>
+          <div class="testimonial-text">"I was afraid to ask questions at the masjid. Deen Buddy let me learn privately, at my own pace. It changed everything for me."</div>
+          <div class="testimonial-author">Aisha M.</div>
+          <div class="testimonial-meta">New Muslim, 2 years · Toronto, Canada</div>
+        </div>
+        <button class="btn-primary" style="max-width:320px; opacity:0; animation: slideUp 0.5s ease 0.36s forwards;" onclick="goNext()">Continue</button>
+      </div>
+    </div>
+  `;
+}
+
+
+// ---- PROCESSING ----
+function renderProcessing() {
+  const steps_list = [
+    'Analyzing your spiritual goals...',
+    'Matching you with relevant Quranic guidance...',
+    'Personalizing your daily experience...',
+    'Finalizing your plan...',
+  ];
+  const testimonials = [
+    { name: 'Omar K.', initial: 'O', text: '"I went from barely praying Fajr to all five daily prayers in 3 weeks. The reminders and daily verse made all the difference."', label: 'Verified member · 8 months' },
+    { name: 'Khadijah R.', initial: 'K', text: '"My kids now ask ME to open Deen Buddy at bedtime. It changed how our family connects with the Quran."', label: 'Verified member · 1 year' },
+    { name: 'Ahmed S.', initial: 'A', text: '"As a convert, I was lost. Deen Buddy gave me a safe space to ask the questions I was too embarrassed to ask anyone else."', label: 'Verified member · 6 months' },
+  ];
+  const t = testimonials[state.avatar === 'guardian' ? 1 : (state.avatar === 'seeker' ? 2 : 0)];
+
+  let stepsHtml = steps_list.map((text, i) => `
+    <div class="processing-step" id="pStep${i}">
+      <div class="processing-step-indicator" id="pInd${i}"></div>
+      <div class="processing-step-text">${text}</div>
+    </div>
+  `).join('');
+
+  $screen.innerHTML = `
+    <div class="screen-container">
+      <div class="processing">
+        <div class="processing-title" style="animation: slideUp 0.5s ease forwards;">Creating your personalized path...</div>
+        <div class="processing-sub" style="opacity:0; animation: slideUp 0.5s ease 0.1s forwards;">This will only take a moment.</div>
+        <div class="processing-steps" style="opacity:0; animation: slideUp 0.5s ease 0.2s forwards;">
+          ${stepsHtml}
+        </div>
+        <div class="processing-testimonial" style="opacity:0; animation: slideUp 0.5s ease 0.35s forwards;">
+          <div class="processing-testimonial-header">
+            <div class="processing-testimonial-avatar">${t.initial}</div>
+            <div>
+              <div class="processing-testimonial-name">${t.name}</div>
+              <div class="processing-testimonial-verified">${t.label}</div>
+            </div>
+          </div>
+          <div class="processing-testimonial-text">${t.text}</div>
+        </div>
+      </div>
+    </div>
+  `;
+
+  runProcessingSequence();
+}
+
+async function runProcessingSequence() {
+  const stepDelay = (ms) => new Promise(r => setTimeout(r, ms));
+
+  // Step 1
+  setProcessingStep(0, 'active');
+  await stepDelay(1500);
+  setProcessingStep(0, 'done');
+
+  // Step 2
+  setProcessingStep(1, 'active');
+  await stepDelay(1200);
+
+  // COMMITMENT POPUP 1
+  let q1;
+  if (state.avatar === 'seeker') q1 = 'Are you ready to start learning your deen with confidence — at your own pace, free from judgment?';
+  else if (state.avatar === 'believer') q1 = 'Are you committed to rebuilding your daily connection with Allah?';
+  else if (state.avatar === 'guardian') q1 = 'Will you take this step to strengthen your family\'s bond with Islam?';
+  else q1 = 'Are you ready to start your journey with Deen Buddy?';
+
+  await showPopup('Before we finalize', q1);
+  setProcessingStep(1, 'done');
+
+  // Step 3
+  setProcessingStep(2, 'active');
+  await stepDelay(1400);
+
+  // COMMITMENT POPUP 2
+  await showPopup('One more thing', 'Would you like to receive a personalized Quran verse with meaning each morning?');
+  setProcessingStep(2, 'done');
+
+  // Step 4
+  setProcessingStep(3, 'active');
+  await stepDelay(1000);
+  setProcessingStep(3, 'done');
+
+  await stepDelay(600);
+  goNext();
+}
+
+function setProcessingStep(index, status) {
+  const step = document.getElementById('pStep' + index);
+  const ind = document.getElementById('pInd' + index);
+  if (!step || !ind) return;
+  step.className = 'processing-step ' + status;
+  ind.className = 'processing-step-indicator ' + status;
+  if (status === 'active') {
+    ind.innerHTML = '<div class="processing-spinner"></div>';
+  } else if (status === 'done') {
+    ind.innerHTML = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M3 7L6 10L11 4.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  }
+}
+
+function showPopup(label, question) {
+  return new Promise(resolve => {
+    $popupLabel.textContent = label;
+    $popupQuestion.textContent = question;
+    $popupOverlay.classList.add('active');
+    state.popupResolve = resolve;
+  });
+}
+
+$popupYes.addEventListener('click', () => {
+  $popupOverlay.classList.remove('active');
+  if (state.popupResolve) { setTimeout(state.popupResolve, 350); state.popupResolve = null; }
+});
+$popupNo.addEventListener('click', () => {
+  $popupOverlay.classList.remove('active');
+  if (state.popupResolve) { setTimeout(state.popupResolve, 350); state.popupResolve = null; }
+});
+
+
+// ---- RESULTS ----
+function renderResults() {
+  $progressBar.style.display = 'none';
+  const arch = getArchetype();
+  const features = getFeatures();
+  const paragraphHtml = arch.paragraph.replace(/\n\n/g, '</p><p style="margin-top:12px;">');
+
+  const featureHtml = features.map(f => `
+    <div class="results-feature">
+      <div class="results-feature-icon">${f.icon}</div>
+      <div class="results-feature-text">${f.title}<span>${f.sub}</span></div>
+    </div>
+  `).join('');
+
+  // Stat based on avatar
+  let statText = 'Members with a similar profile who use Deen Buddy daily report a <strong>73% increase</strong> in Quran engagement within 30 days.';
+  if (state.avatar === 'believer') statText = 'Members who started where you are saw their <strong>prayer consistency improve by 68%</strong> within the first month.';
+  if (state.avatar === 'guardian') statText = '<strong>89% of parents</strong> using Deen Buddy say they feel more confident answering their children\'s questions about Islam.';
+
+  $screen.innerHTML = `
+    <div class="results">
+      <div class="results-badge" style="animation: slideUp 0.5s ease forwards;">
+        <div class="results-badge-dot"></div>
+        <div class="results-badge-text">Your Profile is Ready</div>
+      </div>
+      <div class="results-archetype-icon" style="opacity:0; animation: slideUp 0.5s ease 0.1s forwards;">${arch.icon}</div>
+      <div class="results-archetype" style="opacity:0; animation: slideUp 0.5s ease 0.18s forwards;">${arch.name}</div>
+      <div class="results-archetype-tagline" style="opacity:0; animation: slideUp 0.5s ease 0.24s forwards;">${arch.tagline}</div>
+      <p class="results-paragraph" style="opacity:0; animation: slideUp 0.5s ease 0.32s forwards;">${paragraphHtml}</p>
+      <div class="results-stat-banner" style="opacity:0; animation: slideUp 0.5s ease 0.4s forwards;">
+        <div class="results-stat-banner-icon">📊</div>
+        <div class="results-stat-banner-text">${statText}</div>
+      </div>
+      <div style="width:100%; opacity:0; animation: slideUp 0.5s ease 0.48s forwards;">
+        <div class="results-features-title">Your Personalized Plan Includes</div>
+        ${featureHtml}
+      </div>
+      <div class="results-graph" style="opacity:0; animation: slideUp 0.5s ease 0.56s forwards;">
+        <div class="results-graph-title">Your Projected Growth</div>
+        <div class="results-graph-sub">Based on members with a similar profile</div>
+        <svg viewBox="0 0 300 110" fill="none">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#51A780" stop-opacity="0.2"/>
+              <stop offset="100%" stop-color="#51A780" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="85" x2="300" y2="85" stroke="#E8E8E4" stroke-width="0.5"/>
+          <line x1="0" y1="55" x2="300" y2="55" stroke="#E8E8E4" stroke-width="0.5"/>
+          <line x1="0" y1="25" x2="300" y2="25" stroke="#E8E8E4" stroke-width="0.5"/>
+          <path d="M10 80 C50 75, 80 60, 120 48 S200 22, 290 12" stroke="#51A780" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M10 80 C50 75, 80 60, 120 48 S200 22, 290 12 L290 85 L10 85 Z" fill="url(#areaGrad)"/>
+          <circle cx="10" cy="80" r="4" fill="#51A780"/>
+          <circle cx="10" cy="80" r="7" fill="#51A780" opacity="0.15"/>
+          <text x="20" y="78" font-family="Inter, sans-serif" font-size="9" fill="#51A780" font-weight="600">Today</text>
+          <text x="10" y="100" font-family="Inter, sans-serif" font-size="9" fill="#888">Week 1</text>
+          <text x="82" y="100" font-family="Inter, sans-serif" font-size="9" fill="#888">Week 2</text>
+          <text x="157" y="100" font-family="Inter, sans-serif" font-size="9" fill="#888">Week 3</text>
+          <text x="240" y="100" font-family="Inter, sans-serif" font-size="9" fill="#888">Week 4</text>
+        </svg>
+      </div>
+      <div class="ramadan-banner" style="opacity:0; animation: slideUp 0.5s ease 0.64s forwards;">
+        <div class="ramadan-icon">🌙</div>
+        <div>
+          <div class="ramadan-title">Ramadan is approaching</div>
+          <div class="ramadan-sub">Start now and enter Ramadan with momentum, knowledge, and consistency already built.</div>
+        </div>
+      </div>
+      <button class="btn-primary" style="max-width:100%; opacity:0; animation: slideUp 0.5s ease 0.72s forwards;" onclick="goNext()">See My Personalized Plan</button>
+    </div>
+  `;
+}
+
+
+// ---- EMAIL GATE ----
+function renderEmailGate() {
+  $progressBar.style.display = 'none';
+  window.scrollTo(0, 0);
+
+  const arch = getArchetype();
+  let deliverables;
+  if (state.avatar === 'seeker') {
+    deliverables = [
+      'Your personalized learning plan based on your quiz answers',
+      'A curated "First Steps" Quran reading guide for new learners',
+      'Exclusive Ramadan preparation checklist',
+    ];
+  } else if (state.avatar === 'believer') {
+    deliverables = [
+      'Your personalized plan to rebuild daily consistency',
+      'A 7-day prayer rebuilding framework matched to your schedule',
+      'Exclusive Ramadan preparation checklist',
+    ];
+  } else {
+    deliverables = [
+      'Your family faith-building plan based on your quiz answers',
+      'A guide to answering your children\'s toughest Islamic questions',
+      'Exclusive Ramadan preparation checklist for families',
+    ];
+  }
+
+  const checkIcon = `<svg viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 3.5" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>`;
+  const itemsHtml = deliverables.map(d => `
+    <div class="email-gate-item">
+      <div class="email-gate-item-icon">${checkIcon}</div>
+      <span>${d}</span>
+    </div>
+  `).join('');
+
+  $screen.innerHTML = `
+    <div class="email-gate">
+      <div class="email-gate-icon" style="animation: slideUp 0.5s ease forwards;">📩</div>
+      <div class="email-gate-title" style="opacity:0; animation: slideUp 0.5s ease 0.08s forwards;">Where should we send your<br><em style="color:var(--primary); font-style:italic;">${arch.name}</em> plan?</div>
+      <div class="email-gate-sub" style="opacity:0; animation: slideUp 0.5s ease 0.16s forwards;">Enter your email and we'll send your personalized results plus these free resources:</div>
+      <div class="email-gate-items" style="opacity:0; animation: slideUp 0.5s ease 0.24s forwards;">
+        ${itemsHtml}
+      </div>
+      <div class="email-gate-form" style="opacity:0; animation: slideUp 0.5s ease 0.32s forwards;">
+        <input type="email" class="email-gate-input" id="emailInput" placeholder="your@email.com" autocomplete="email" inputmode="email">
+        <div class="email-gate-error" id="emailError">Please enter a valid email address</div>
+        <button class="email-gate-btn" id="emailSubmitBtn">Send My Personalized Plan</button>
+        <div class="email-gate-trust">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.167L2.333 3.5v3.033c0 2.845 1.99 5.507 4.667 6.134 2.677-.627 4.667-3.289 4.667-6.134V3.5L7 1.167z" stroke="#888" stroke-width="1.2" stroke-linejoin="round"/><path d="M5 7l1.5 1.5L9.5 5" stroke="#888" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          We respect your privacy. Unsubscribe anytime.
+        </div>
+      </div>
+    </div>
+  `;
+
+  const $input = document.getElementById('emailInput');
+  const $error = document.getElementById('emailError');
+  const $btn = document.getElementById('emailSubmitBtn');
+
+  function validateAndSubmit() {
+    const email = $input.value.trim();
+    const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!valid) {
+      $input.classList.add('error');
+      $error.classList.add('visible');
+      $input.focus();
+      return;
+    }
+    $input.classList.remove('error');
+    $error.classList.remove('visible');
+    state.email = email;
+
+    // Fire tracking event (hook point for n8n/Meta)
+    if (typeof window.trackQuizEvent === 'function') {
+      window.trackQuizEvent('email_captured', { email, avatar: state.avatar });
+    }
+
+    goNext();
+  }
+
+  $btn.addEventListener('click', validateAndSubmit);
+  $input.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') validateAndSubmit();
+  });
+  $input.addEventListener('input', () => {
+    $input.classList.remove('error');
+    $error.classList.remove('visible');
+  });
+
+  // Auto-focus after animation
+  setTimeout(() => $input.focus(), 400);
+}
+
+
+// ---- PRICING ----
+function renderPricing() {
+  $progressBar.style.display = 'none';
+  $header.style.display = 'none';
+  window.scrollTo(0, 0);
+
+  // Personalized benefits based on avatar
+  let benefits;
+  if (state.avatar === 'seeker') {
+    benefits = [
+      'Build a consistent daily Quran habit with AI-guided sessions tailored to your level',
+      'Get instant, judgment-free answers to any Islamic question — from classical tafsir',
+      'Track real progress in your knowledge and confidence every single day',
+    ];
+  } else if (state.avatar === 'believer') {
+    benefits = [
+      'Rebuild your daily prayer routine with smart, gentle reminders synced to your schedule',
+      'Understand what you recite in Salah with personalized translations and tafsir',
+      'Track your consistency and watch your connection with Allah strengthen daily',
+    ];
+  } else {
+    benefits = [
+      'Answer your children\'s Islamic questions with confidence — instantly, from trusted sources',
+      'Build a family Quran habit with explanations even kids can understand',
+      'Give your children a love for Islam that lasts beyond your lifetime',
+    ];
+  }
+
+  const checkSvg = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#EDF7F1"/><path d="M5.5 9L8 11.5L12.5 7" stroke="#51A780" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+  const starBlock = '<div class="pp-review-star">★</div>';
+
+  $screen.innerHTML = `
+    <!-- STICKY COUNTDOWN BAR -->
+    <div class="sticky-bar" id="stickyBar">
+      <span class="sticky-bar-text">Ramadan offer reserved for</span>
+      <div class="sticky-bar-timer">
+        <span class="sticky-bar-digit" id="stickyMin">09</span>
+        <span>:</span>
+        <span class="sticky-bar-digit" id="stickySec">59</span>
+      </div>
+    </div>
+
+    <div class="pricing-page">
+
+      <!-- SAVED BADGE -->
+      <div class="saved-badge" style="animation: slideUp 0.4s ease forwards;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="8" fill="#51A780"/><path d="M4.5 8L7 10.5L11.5 5.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Your quiz results are saved
+      </div>
+
+      <!-- HERO -->
+      <div class="pp-hero" style="opacity:0; animation: slideUp 0.5s ease 0.05s forwards;">
+        <div class="pp-logo">
+          <svg viewBox="0 0 48 48" fill="none" width="48" height="48">
+            <circle cx="21" cy="24" r="18" fill="#C5E5CD"/>
+            <circle cx="30" cy="20" r="15" fill="white"/>
+            <circle cx="36" cy="12" r="2.5" fill="#C5E5CD"/>
+          </svg>
+        </div>
+        <h1 class="pp-title">Your personalized Quran<br>plan is <em>ready</em></h1>
+        <ul class="pp-benefits">
+          ${benefits.map(b => `<li>${checkSvg} ${b}</li>`).join('')}
+        </ul>
+      </div>
+
+      <!-- RAMADAN DISCOUNT BANNER -->
+      <div class="discount-banner" style="opacity:0; animation: slideUp 0.5s ease 0.12s forwards;">
+        <div class="discount-banner-label">🌙 Ramadan Limited Offer</div>
+        <div class="discount-banner-row">
+          <div class="discount-banner-event">Ramadan 2026</div>
+          <div class="discount-banner-badge">Save 67%</div>
+        </div>
+        <div class="discount-banner-countdown">Discount reserved for: <span id="bannerTimer">09:59</span></div>
+      </div>
+
+      <!-- FIND YOUR PLAN -->
+      <div class="pp-section-title" style="opacity:0; animation: slideUp 0.5s ease 0.18s forwards;">Find your perfect plan</div>
+
+      <!-- DISCOUNT ACTIVE -->
+      <div class="discount-active" style="opacity:0; animation: slideUp 0.5s ease 0.22s forwards;">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="white" stroke-width="1.5"/><path d="M7 4v3.5M7 9.5v0" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
+        Ramadan discount active
+      </div>
+
+      <!-- PRICING TIERS -->
+      <div class="pp-tiers" style="opacity:0; animation: slideUp 0.5s ease 0.26s forwards;">
+        <!-- MONTHLY (High anchor) -->
+        <div class="pp-tier" data-plan="monthly" onclick="selectPlan('monthly')">
+          <div class="pp-tier-left">
+            <div class="pp-tier-radio">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="pp-tier-name">Monthly</div>
+              <div class="pp-tier-original"><s>$14.99</s> → $9.99/mo</div>
+            </div>
+          </div>
+          <div class="pp-tier-right">
+            <div class="pp-tier-price">$0<span style="font-size:18px;">.33</span></div>
+            <div class="pp-tier-unit">per day</div>
+          </div>
+        </div>
+
+        <!-- ANNUAL (Selected - target) -->
+        <div class="pp-tier selected" data-plan="annual" onclick="selectPlan('annual')">
+          <div class="pp-tier-badges">
+            <span class="pp-tier-badge best">Best Value</span>
+            <span class="pp-tier-badge save">Save 67%</span>
+          </div>
+          <div class="pp-tier-left">
+            <div class="pp-tier-radio">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="pp-tier-name">Annual</div>
+              <div class="pp-tier-original"><s>$119.88</s> → $39.99/yr</div>
+            </div>
+          </div>
+          <div class="pp-tier-right">
+            <div class="pp-tier-price highlight">$0<span style="font-size:18px;">.11</span></div>
+            <div class="pp-tier-unit">per day</div>
+          </div>
+        </div>
+
+        <!-- LIFETIME -->
+        <div class="pp-tier" data-plan="lifetime" onclick="selectPlan('lifetime')">
+          <div class="pp-tier-left">
+            <div class="pp-tier-radio">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <div>
+              <div class="pp-tier-name">Lifetime</div>
+              <div class="pp-tier-original"><s>$149.99</s> → $79.99</div>
+            </div>
+          </div>
+          <div class="pp-tier-right">
+            <div class="pp-tier-price">Once</div>
+            <div class="pp-tier-unit">forever</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRIMARY CTA -->
+      <div style="opacity:0; animation: slideUp 0.5s ease 0.32s forwards;">
+        <button class="pp-cta" onclick="handleSubscribe()">Start My 7-Day Free Trial</button>
+        <div class="pp-cta-sub">Try free for 7 days. Then $39.99/year.<br>Cancel anytime · <a>Money-back guarantee</a></div>
+        <div class="pp-trust-strip">
+          <span>🔒 Secure checkout</span>
+          <span>↩️ Cancel anytime</span>
+          <span>💯 Money-back</span>
+        </div>
+      </div>
+
+      <!-- YOUR PLAN INCLUDES -->
+      <div class="pp-section-title" style="opacity:0; animation: slideUp 0.5s ease 0.38s forwards;">Your plan includes</div>
+      <div class="pp-features-grid" style="opacity:0; animation: slideUp 0.5s ease 0.4s forwards;">
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">🤖</div>
+          <div class="pp-feature-card-name">AI Quran Chat</div>
+          <div class="pp-feature-card-desc">Ask anything about the Quran and get answers from authentic sources</div>
+        </div>
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">📖</div>
+          <div class="pp-feature-card-name">Daily Verse</div>
+          <div class="pp-feature-card-desc">Personalized daily verse with interpretation and reflection</div>
+        </div>
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">🕌</div>
+          <div class="pp-feature-card-name">Prayer Times</div>
+          <div class="pp-feature-card-desc">Accurate prayer times with customizable Athan notifications</div>
+        </div>
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">🧠</div>
+          <div class="pp-feature-card-name">Daily Quiz</div>
+          <div class="pp-feature-card-desc">Test and grow your Islamic knowledge every day</div>
+        </div>
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">📚</div>
+          <div class="pp-feature-card-name">Full Quran</div>
+          <div class="pp-feature-card-desc">Arabic + English with offline access and bookmarks</div>
+        </div>
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">🔒</div>
+          <div class="pp-feature-card-name">100% Ad-Free</div>
+          <div class="pp-feature-card-desc">Distraction-free experience. Your data stays yours.</div>
+        </div>
+      </div>
+
+      <!-- OUTCOMES -->
+      <div class="pp-section-title">With Deen Buddy, you will</div>
+      <ul class="pp-outcomes">
+        <li>${checkSvg} Recite Quran daily and understand what you're reading</li>
+        <li>${checkSvg} Pray Salah with presence, not just habit</li>
+        <li>${checkSvg} Get instant answers to any question about your deen</li>
+        <li>${checkSvg} Feel genuinely closer to Allah every single day</li>
+        <li>${checkSvg} Enter Ramadan with real momentum and preparation</li>
+      </ul>
+
+      <!-- STATS -->
+      <div class="pp-stats">
+        <div class="pp-stat">
+          <div class="pp-stat-value">1M+</div>
+          <div class="pp-stat-label">Downloads</div>
+        </div>
+        <div class="pp-stat">
+          <div class="pp-stat-value">4.9</div>
+          <div class="pp-stat-label">App Store ★</div>
+        </div>
+        <div class="pp-stat">
+          <div class="pp-stat-value">130+</div>
+          <div class="pp-stat-label">Countries</div>
+        </div>
+      </div>
+
+      <!-- SECOND CTA -->
+      <button class="pp-cta" onclick="handleSubscribe()" style="margin-bottom:32px;">Start Free Trial — 7 Days Free</button>
+
+      <!-- TESTIMONIALS -->
+      <div class="pp-section-title">Trusted by Muslims worldwide</div>
+      <div class="pp-reviews">
+        <div class="pp-review">
+          <div class="pp-review-stars">${starBlock}${starBlock}${starBlock}${starBlock}${starBlock}</div>
+          <div class="pp-review-text">"I've been wanting to memorize Quran for years but never knew where to start. Deen Buddy gave me a plan and I've already memorized Surah Mulk in three weeks. This app is a blessing."</div>
+          <div class="pp-review-author">Sarah M.</div>
+          <div class="pp-review-meta">London, UK</div>
+        </div>
+        <div class="pp-review">
+          <div class="pp-review-stars">${starBlock}${starBlock}${starBlock}${starBlock}${starBlock}</div>
+          <div class="pp-review-text">"I hadn't prayed consistently in years. The daily verse notifications and AI chat helped me start small and build a real habit. Now I look forward to Fajr."</div>
+          <div class="pp-review-author">Ahmed K.</div>
+          <div class="pp-review-meta">Toronto, Canada</div>
+        </div>
+        <div class="pp-review">
+          <div class="pp-review-stars">${starBlock}${starBlock}${starBlock}${starBlock}${starBlock}</div>
+          <div class="pp-review-text">"As a mother of three I never had time for Islamic classes. Deen Buddy fits into my schedule — even 5 minutes a day has made me feel so much more connected."</div>
+          <div class="pp-review-author">Fatima B.</div>
+          <div class="pp-review-meta">Dallas, USA</div>
+        </div>
+      </div>
+
+      <!-- RATING -->
+      <div class="pp-rating">
+        <div class="pp-rating-number">4.9</div>
+        <div class="pp-rating-label">out of 5</div>
+        <div class="pp-rating-stars">★ ★ ★ ★ ★</div>
+        <div class="pp-rating-count">App Store & Google Play · 1,000,000+ downloads</div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="pp-section-title">Common questions</div>
+      <div class="pp-faq">
+        <div class="pp-faq-item">
+          <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">What is Deen Buddy? <span>+</span></div>
+          <div class="pp-faq-a">Deen Buddy is an AI-powered Islamic companion app that helps you learn the Quran, maintain your prayers, and deepen your understanding of Islam — all in one place. It uses AI trained on classical tafsir and authentic hadith to answer your questions privately and accurately.</div>
+        </div>
+        <div class="pp-faq-item">
+          <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">How does the free trial work? <span>+</span></div>
+          <div class="pp-faq-a">You get full access to every feature for 7 days completely free. You won't be charged until your trial ends. If you cancel before the trial period, you pay nothing. No hidden fees, no tricks.</div>
+        </div>
+        <div class="pp-faq-item">
+          <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">Is Deen Buddy good for beginners? <span>+</span></div>
+          <div class="pp-faq-a">Absolutely. Deen Buddy was designed to meet you wherever you are — whether you're a new Muslim, returning to practice, or a lifelong learner. The AI adapts to your level and never makes you feel judged for asking any question.</div>
+        </div>
+        <div class="pp-faq-item">
+          <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">Should I really pay for Islamic knowledge? <span>+</span></div>
+          <div class="pp-faq-a">Islamic knowledge itself is free and always will be. Your subscription doesn't pay for knowledge — it pays for the technology, servers, and team that makes Deen Buddy possible. It keeps the app 100% ad-free, protects your privacy, and helps us provide access to Muslims around the world who can't afford it. Think of it as supporting a mission, not buying religion.</div>
+        </div>
+        <div class="pp-faq-item">
+          <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">What if I don't like it? <span>+</span></div>
+          <div class="pp-faq-a">We offer a 100% money-back guarantee. If you're not satisfied within 30 days of your purchase, contact us and we'll refund you in full — no questions asked. We only want you to stay if Deen Buddy genuinely helps you.</div>
+        </div>
+      </div>
+
+      <!-- FINAL CTA -->
+      <button class="pp-cta" onclick="handleSubscribe()">Start My 7-Day Free Trial</button>
+      <div class="pp-cta-sub">Then $39.99/year · Cancel anytime · No commitment<br><a>100% money-back guarantee</a></div>
+
+      <!-- TRUST SECTION -->
+      <div class="pp-trust-section">
+        <div class="pp-trust-item">
+          <div class="pp-trust-item-icon">🔒</div>
+          <div class="pp-trust-item-title">Secure checkout</div>
+          <div class="pp-trust-item-desc">All transactions are encrypted and transmitted without risk using SSL protocol.</div>
+        </div>
+        <div class="pp-trust-item">
+          <div class="pp-trust-item-icon">💯</div>
+          <div class="pp-trust-item-title">100% money-back guarantee</div>
+          <div class="pp-trust-item-desc">Try Deen Buddy risk-free. If you're not satisfied within 30 days, we'll refund you in full — no questions asked.</div>
+        </div>
+        <div class="pp-trust-item">
+          <div class="pp-trust-item-icon">🛡️</div>
+          <div class="pp-trust-item-title">Your data is private</div>
+          <div class="pp-trust-item-desc">We don't sell or share your data. Ever. Your spiritual journey is yours alone.</div>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <div class="pp-footer">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Contact</a>
+        <p>© 2026 Zamzam Technologies LLC. All rights reserved.<br>Deen Buddy is not a substitute for formal Islamic education.</p>
+      </div>
+
+    </div>
+  `;
+
+  // Start the countdown timer
+  startPricingCountdown();
+}
+
+function selectPlan(plan) {
+  state.selectedPlan = plan;
+  document.querySelectorAll('.pp-tier').forEach(el => {
+    if (el.dataset.plan === plan) {
+      el.classList.add('selected');
+    } else {
+      el.classList.remove('selected');
+    }
+  });
+}
+
+function toggleFaq(item) {
+  item.classList.toggle('open');
+}
+
+let countdownInterval;
+function startPricingCountdown() {
+  let totalSeconds = 599; // 9:59
+  function tick() {
+    const min = Math.floor(totalSeconds / 60).toString().padStart(2, '0');
+    const sec = (totalSeconds % 60).toString().padStart(2, '0');
+    const display = min + ':' + sec;
+    const stickyMin = document.getElementById('stickyMin');
+    const stickySec = document.getElementById('stickySec');
+    const bannerTimer = document.getElementById('bannerTimer');
+    if (stickyMin) stickyMin.textContent = min;
+    if (stickySec) stickySec.textContent = sec;
+    if (bannerTimer) bannerTimer.textContent = display;
+    if (totalSeconds <= 0) { clearInterval(countdownInterval); return; }
+    totalSeconds--;
+  }
+  tick();
+  countdownInterval = setInterval(tick, 1000);
+}
+
+function handleSubscribe() {
+  const plan = state.selectedPlan || 'annual';
+  const prices = { monthly: '$9.99/month', annual: '$39.99/year', lifetime: '$79.99 one-time' };
+  alert('This would redirect to checkout.\n\nPlan: ' + plan + ' (' + prices[plan] + ')\n\nIn production, connect to Stripe or App Store.');
+}
+
+
+// ---- NAVIGATION ----
+function goNext() {
+  if (state.transitioning) return;
+  state.transitioning = true;
+
+  // Find next visible step
+  let nextIdx = state.currentStep + 1;
+  while (nextIdx < steps.length) {
+    const s = steps[nextIdx];
+    if (!s.condition || s.condition()) break;
+    nextIdx++;
+  }
+  if (nextIdx >= steps.length) { state.transitioning = false; return; }
+
+  // Transition out
+  const content = $screen.querySelector('.screen-content, .welcome, .social-proof, .processing, .results, .email-gate, .pricing-page, .interstitial');
+  if (content) {
+    content.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
+    content.style.opacity = '0';
+    content.style.transform = 'translateY(-8px)';
+  }
+
+  setTimeout(() => {
+    state.currentStep = nextIdx;
+    render();
+    state.transitioning = false;
+  }, 220);
+}
+
+function goBack() {
+  if (state.transitioning) return;
+  state.transitioning = true;
+
+  // Find previous visible step
+  let prevIdx = state.currentStep - 1;
+  while (prevIdx >= 0) {
+    const s = steps[prevIdx];
+    if (s.type === 'welcome' || (!s.condition || s.condition())) break;
+    prevIdx--;
+  }
+  if (prevIdx < 0) { state.transitioning = false; return; }
+
+  setTimeout(() => {
+    state.currentStep = prevIdx;
+    render();
+    state.transitioning = false;
+  }, 200);
+}
+
+$backBtn.addEventListener('click', goBack);
+
+
+// ---- INIT ----
+render();
+</script>
+</body>
+</html>
