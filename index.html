@@ -638,14 +638,14 @@
     </div>
 
     <!-- Email form -->
-    <div class="form-card">
+    <div class="form-card" data-lead-form>
       <div class="input-wrap">
-        <input type="text" class="form-input" placeholder="Your first name" />
+        <input type="text" class="form-input" name="firstName" placeholder="Your first name" />
       </div>
       <div class="input-wrap">
-        <input type="email" class="form-input" placeholder="Your best email" />
+        <input type="email" class="form-input" name="email" placeholder="Your best email" />
       </div>
-      <button class="cta-btn" onclick="this.textContent='Check your inbox!'; this.style.background='#3d8a68';">
+      <button type="button" class="cta-btn" data-lead-submit>
         Send Me the Free Guide
       </button>
       <p class="form-note">
@@ -798,10 +798,10 @@
       Enter your email and the guide arrives in under 60 seconds. Start with one practice tonight.
     </p>
 
-    <div class="final-form reveal">
-      <input type="text" class="form-input" placeholder="Your first name" />
-      <input type="email" class="form-input" placeholder="Your best email" />
-      <button class="cta-btn" onclick="this.textContent='Check your inbox!'; this.style.background='#3d8a68';">
+    <div class="final-form reveal" data-lead-form>
+      <input type="text" class="form-input" name="firstName" placeholder="Your first name" />
+      <input type="email" class="form-input" name="email" placeholder="Your best email" />
+      <button type="button" class="cta-btn" data-lead-submit>
         Get My Free Guide
       </button>
       <p class="form-note">
@@ -823,6 +823,39 @@
 </footer>
 
 <script>
+  // Replace with your n8n Webhook URL (from the Webhook node in your workflow)
+  const N8N_WEBHOOK_URL = 'https://n8n.dtthomas.cloud/webhook/ffe903c0-4395-4744-96f6-5d95d71bc887';
+
+  function getFormPayload(formEl) {
+    const firstName = formEl.querySelector('input[name="firstName"]');
+    const email = formEl.querySelector('input[name="email"]');
+    return {
+      firstName: firstName ? firstName.value.trim() : '',
+      email: email ? email.value.trim() : ''
+    };
+  }
+
+  function setSubmittedState(btn) {
+    btn.textContent = 'Check your inbox!';
+    btn.style.background = '#3d8a68';
+  }
+
+  document.querySelectorAll('[data-lead-form]').forEach(function(formEl) {
+    const btn = formEl.querySelector('[data-lead-submit]');
+    if (!btn) return;
+    btn.addEventListener('click', function() {
+      var payload = getFormPayload(formEl);
+      if (N8N_WEBHOOK_URL && N8N_WEBHOOK_URL.indexOf('YOUR_') === -1) {
+        fetch(N8N_WEBHOOK_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(payload)
+        }).catch(function() {});
+      }
+      setSubmittedState(btn);
+    });
+  });
+
   // Scroll reveal
   const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
