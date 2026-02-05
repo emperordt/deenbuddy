@@ -312,6 +312,8 @@ body {
 .option-btn.selected {
   border-color: var(--primary);
   background: var(--primary-ghost);
+  transform: scale(1.02);
+  box-shadow: 0 4px 16px rgba(81,167,128,0.15);
 }
 .option-btn.selected .option-radio {
   border-color: var(--primary);
@@ -907,27 +909,127 @@ body {
 /* ---- RAMADAN BANNER ---- */
 .ramadan-banner {
   width: 100%;
-  background: linear-gradient(135deg, var(--teal), var(--night));
+  background: linear-gradient(135deg, #0C1420 0%, #1A2A20 50%, #0C1420 100%);
   border-radius: 16px;
-  padding: 20px;
+  padding: 24px 20px;
   display: flex;
+  flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 0;
   margin-bottom: 32px;
-  text-align: left;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+  border: 1.5px solid rgba(212, 175, 55, 0.35);
+  box-shadow: 0 0 24px rgba(212, 175, 55, 0.08), inset 0 0 40px rgba(212, 175, 55, 0.03);
 }
-.ramadan-icon { font-size: 28px; }
+.ramadan-banner::before {
+  content: 'بِسْمِ ٱللَّهِ ٱلرَّحْمَـٰنِ ٱلرَّحِيمِ';
+  position: absolute;
+  top: 8px;
+  left: 0;
+  right: 0;
+  font-size: 11px;
+  color: rgba(212, 175, 55, 0.18);
+  letter-spacing: 0.08em;
+  direction: rtl;
+  text-align: center;
+  font-family: serif;
+}
+.ramadan-banner::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border-radius: 15px;
+  border: 1px solid transparent;
+  background: linear-gradient(135deg, rgba(212,175,55,0.12), transparent 40%, transparent 60%, rgba(212,175,55,0.12)) border-box;
+  -webkit-mask: linear-gradient(#fff 0 0) padding-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  pointer-events: none;
+}
+.ramadan-ornament {
+  position: absolute;
+  font-size: 9px;
+  color: rgba(212, 175, 55, 0.15);
+  letter-spacing: 0.3em;
+}
+.ramadan-ornament-left { top: 50%; left: 8px; transform: translateY(-50%) rotate(-90deg); }
+.ramadan-ornament-right { top: 50%; right: 8px; transform: translateY(-50%) rotate(90deg); }
+.ramadan-icon {
+  font-size: 32px;
+  margin-bottom: 10px;
+  position: relative;
+  z-index: 1;
+  animation: ramadanPulse 3s ease-in-out infinite;
+}
+@keyframes ramadanPulse {
+  0%, 100% { transform: scale(1); filter: drop-shadow(0 0 8px rgba(212,175,55,0.3)); }
+  50% { transform: scale(1.08); filter: drop-shadow(0 0 16px rgba(212,175,55,0.5)); }
+}
 .ramadan-title {
   font-family: var(--serif);
-  font-size: 15px;
+  font-size: 18px;
   color: #fff;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 4px;
+  position: relative;
+  z-index: 1;
+  background: linear-gradient(135deg, #fff, #D4AF37);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 .ramadan-sub {
   font-size: 12px;
-  color: rgba(255,255,255,0.55);
-  line-height: 1.4;
+  color: rgba(255,255,255,0.5);
+  line-height: 1.5;
+  position: relative;
+  z-index: 1;
+  margin-bottom: 14px;
+  max-width: 280px;
+}
+.ramadan-countdown {
+  display: flex;
+  gap: 8px;
+  position: relative;
+  z-index: 1;
+}
+.ramadan-countdown-unit {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+}
+.ramadan-countdown-value {
+  background: rgba(212, 175, 55, 0.12);
+  border: 1px solid rgba(212, 175, 55, 0.25);
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 18px;
+  font-weight: 700;
+  color: #D4AF37;
+  font-variant-numeric: tabular-nums;
+  min-width: 42px;
+  text-align: center;
+  letter-spacing: -0.02em;
+}
+.ramadan-countdown-label {
+  font-size: 9px;
+  color: rgba(255,255,255,0.35);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-weight: 500;
+}
+.ramadan-countdown-sep {
+  font-size: 18px;
+  color: rgba(212,175,55,0.4);
+  font-weight: 700;
+  align-self: flex-start;
+  padding-top: 6px;
 }
 
 /* ---- EMAIL GATE ---- */
@@ -1447,8 +1549,15 @@ body {
 .pp-feature-card {
   text-align: center;
   padding: 20px 12px;
-  background: var(--surface);
+  background: linear-gradient(165deg, var(--surface) 0%, var(--primary-ghost) 100%);
   border-radius: 14px;
+  border: 1px solid var(--border);
+  transition: all 0.25s ease;
+}
+.pp-feature-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(81,167,128,0.1);
+  border-color: var(--primary-pale);
 }
 .pp-feature-card-icon {
   font-size: 28px;
@@ -1519,12 +1628,51 @@ body {
 .pp-review {
   background: var(--surface);
   border-radius: 14px;
-  padding: 16px;
+  padding: 18px;
+  border: 1px solid var(--border);
+}
+.pp-review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.pp-review-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+  border: 2px solid var(--primary-pale);
+}
+.pp-review-header-info { flex: 1; }
+.pp-review-author {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.pp-review-verified {
+  display: inline-flex;
+  align-items: center;
+  gap: 3px;
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--primary);
+  background: var(--primary-ghost);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+.pp-review-meta {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 1px;
 }
 .pp-review-stars {
   display: flex;
   gap: 1px;
-  margin-bottom: 8px;
 }
 .pp-review-star {
   width: 20px;
@@ -1540,17 +1688,8 @@ body {
 .pp-review-text {
   font-size: 13px;
   color: var(--text2);
-  line-height: 1.55;
-  margin-bottom: 10px;
-}
-.pp-review-author {
-  font-size: 12px;
-  font-weight: 600;
-  color: var(--text);
-}
-.pp-review-meta {
-  font-size: 11px;
-  color: var(--text3);
+  line-height: 1.6;
+  margin-top: 12px;
 }
 
 /* Rating display */
@@ -1580,6 +1719,88 @@ body {
 .pp-rating-count {
   font-size: 12px;
   color: var(--text-muted);
+}
+
+/* As Featured In */
+.pp-featured {
+  text-align: center;
+  margin-bottom: 36px;
+}
+.pp-featured-title {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+}
+.pp-featured-logos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+.pp-featured-logo {
+  flex: 1;
+  max-width: 120px;
+  padding: 14px 8px;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.pp-featured-logo svg {
+  height: 18px;
+  width: auto;
+  opacity: 0.7;
+}
+
+/* Payment Badges */
+.pp-checkout-safe {
+  text-align: center;
+  margin: 32px 0;
+}
+.pp-checkout-safe-title {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 16px;
+}
+.pp-payment-badges {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  padding: 20px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--bg);
+  margin-bottom: 12px;
+}
+.pp-payment-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 28px;
+}
+.pp-payment-badge svg {
+  height: 24px;
+  width: auto;
+}
+.pp-payment-badge-text {
+  font-size: 14px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+.pp-checkout-safe-note {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: var(--text3);
 }
 
 /* FAQ */
@@ -2553,15 +2774,38 @@ function renderResults() {
         </svg>
       </div>
       <div class="ramadan-banner" style="opacity:0; animation: slideUp 0.5s ease 0.64s forwards;">
+        <span class="ramadan-ornament ramadan-ornament-left">✦ ✦ ✦</span>
+        <span class="ramadan-ornament ramadan-ornament-right">✦ ✦ ✦</span>
         <div class="ramadan-icon">🌙</div>
-        <div>
-          <div class="ramadan-title">Ramadan is approaching</div>
-          <div class="ramadan-sub">Start now and enter Ramadan with momentum, knowledge, and consistency already built.</div>
+        <div class="ramadan-title">Ramadan Begins In</div>
+        <div class="ramadan-sub">Start now and enter Ramadan with momentum, knowledge, and consistency already built.</div>
+        <div class="ramadan-countdown" id="ramadanCountdown">
+          <div class="ramadan-countdown-unit">
+            <div class="ramadan-countdown-value" id="ramDays">--</div>
+            <div class="ramadan-countdown-label">Days</div>
+          </div>
+          <div class="ramadan-countdown-sep">:</div>
+          <div class="ramadan-countdown-unit">
+            <div class="ramadan-countdown-value" id="ramHours">--</div>
+            <div class="ramadan-countdown-label">Hours</div>
+          </div>
+          <div class="ramadan-countdown-sep">:</div>
+          <div class="ramadan-countdown-unit">
+            <div class="ramadan-countdown-value" id="ramMins">--</div>
+            <div class="ramadan-countdown-label">Min</div>
+          </div>
+          <div class="ramadan-countdown-sep">:</div>
+          <div class="ramadan-countdown-unit">
+            <div class="ramadan-countdown-value" id="ramSecs">--</div>
+            <div class="ramadan-countdown-label">Sec</div>
+          </div>
         </div>
       </div>
       <button class="btn-primary" style="max-width:100%; opacity:0; animation: slideUp 0.5s ease 0.72s forwards;" onclick="goNext()">See My Personalized Plan</button>
     </div>
   `;
+  // Start Ramadan countdown after render
+  setTimeout(startRamadanCountdown, 100);
 }
 
 
@@ -2874,6 +3118,22 @@ function renderPricing() {
         </div>
       </div>
 
+      <!-- AS FEATURED IN -->
+      <div class="pp-featured">
+        <div class="pp-featured-title">As featured in</div>
+        <div class="pp-featured-logos">
+          <div class="pp-featured-logo">
+            <svg viewBox="0 0 100 26" fill="none"><text x="6" y="21" font-family="Georgia, serif" font-size="22" font-weight="400" fill="#1A1A1A" font-style="italic">Forbes</text></svg>
+          </div>
+          <div class="pp-featured-logo">
+            <svg viewBox="0 0 120 26" fill="none"><rect x="0" y="4" width="18" height="18" rx="2" fill="#0EAC51"/><text x="3" y="18" font-family="Arial, sans-serif" font-size="14" font-weight="900" fill="#fff">TC</text><text x="22" y="19" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#1A1A1A" letter-spacing="-0.5">TechCrunch</text></svg>
+          </div>
+          <div class="pp-featured-logo">
+            <svg viewBox="0 0 70 26" fill="none"><text x="4" y="20" font-family="'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="900" fill="#CC0000" letter-spacing="1">CNN</text></svg>
+          </div>
+        </div>
+      </div>
+
       <!-- SECOND CTA -->
       <button class="pp-cta" onclick="handleSubscribe()" style="margin-bottom:32px;">Start Free Trial — 7 Days Free</button>
 
@@ -2881,22 +3141,37 @@ function renderPricing() {
       <div class="pp-section-title">Trusted by Muslims worldwide</div>
       <div class="pp-reviews">
         <div class="pp-review">
-          <div class="pp-review-stars">${starBlock}${starBlock}${starBlock}${starBlock}${starBlock}</div>
+          <div class="pp-review-header">
+            <img class="pp-review-avatar" src="img/sarah.jpg" alt="Sarah M.">
+            <div class="pp-review-header-info">
+              <div class="pp-review-author">Sarah M. <span class="pp-review-verified"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#51A780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Verified</span></div>
+              <div class="pp-review-meta">London, UK</div>
+            </div>
+            <div class="pp-review-stars">${starBlock}${starBlock}${starBlock}${starBlock}${starBlock}</div>
+          </div>
           <div class="pp-review-text">"I've been wanting to memorize Quran for years but never knew where to start. Deen Buddy gave me a plan and I've already memorized Surah Mulk in three weeks. This app is a blessing."</div>
-          <div class="pp-review-author">Sarah M.</div>
-          <div class="pp-review-meta">London, UK</div>
         </div>
         <div class="pp-review">
-          <div class="pp-review-stars">${starBlock}${starBlock}${starBlock}${starBlock}${starBlock}</div>
+          <div class="pp-review-header">
+            <img class="pp-review-avatar" src="img/ahmed.jpg" alt="Ahmed K.">
+            <div class="pp-review-header-info">
+              <div class="pp-review-author">Ahmed K. <span class="pp-review-verified"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#51A780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Verified</span></div>
+              <div class="pp-review-meta">Toronto, Canada</div>
+            </div>
+            <div class="pp-review-stars">${starBlock}${starBlock}${starBlock}${starBlock}${starBlock}</div>
+          </div>
           <div class="pp-review-text">"I hadn't prayed consistently in years. The daily verse notifications and AI chat helped me start small and build a real habit. Now I look forward to Fajr."</div>
-          <div class="pp-review-author">Ahmed K.</div>
-          <div class="pp-review-meta">Toronto, Canada</div>
         </div>
         <div class="pp-review">
-          <div class="pp-review-stars">${starBlock}${starBlock}${starBlock}${starBlock}${starBlock}</div>
+          <div class="pp-review-header">
+            <img class="pp-review-avatar" src="img/fatima.jpg" alt="Fatima B.">
+            <div class="pp-review-header-info">
+              <div class="pp-review-author">Fatima B. <span class="pp-review-verified"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#51A780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Verified</span></div>
+              <div class="pp-review-meta">Dallas, USA</div>
+            </div>
+            <div class="pp-review-stars">${starBlock}${starBlock}${starBlock}${starBlock}${starBlock}</div>
+          </div>
           <div class="pp-review-text">"As a mother of three I never had time for Islamic classes. Deen Buddy fits into my schedule — even 5 minutes a day has made me feel so much more connected."</div>
-          <div class="pp-review-author">Fatima B.</div>
-          <div class="pp-review-meta">Dallas, USA</div>
         </div>
       </div>
 
@@ -2936,6 +3211,37 @@ function renderPricing() {
       <!-- FINAL CTA -->
       <button class="pp-cta" onclick="handleSubscribe()">Start My 7-Day Free Trial</button>
       <div class="pp-cta-sub">Then $39.99/year · Cancel anytime · No commitment<br><a>100% money-back guarantee</a></div>
+
+      <!-- GUARANTEED SAFE CHECKOUT -->
+      <div class="pp-checkout-safe">
+        <div class="pp-checkout-safe-title">Guaranteed safe checkout</div>
+        <div class="pp-payment-badges">
+          <div class="pp-payment-badge">
+            <svg viewBox="0 0 60 20" fill="none"><text x="0" y="16" font-family="Arial, sans-serif" font-size="16" font-weight="900" fill="#1A1F71" font-style="italic">VISA</text></svg>
+          </div>
+          <div class="pp-payment-badge">
+            <svg viewBox="0 0 36 24" fill="none"><circle cx="13" cy="12" r="10" fill="#EB001B"/><circle cx="23" cy="12" r="10" fill="#F79E1B"/><path d="M18 4.8a10 10 0 0 1 0 14.4 10 10 0 0 1 0-14.4z" fill="#FF5F00"/></svg>
+          </div>
+          <div class="pp-payment-badge">
+            <svg viewBox="0 0 70 24" fill="none"><text x="0" y="10" font-family="Arial, sans-serif" font-size="7" font-weight="700" fill="#006FCF" letter-spacing="0.3">AMERICAN</text><text x="0" y="19" font-family="Arial, sans-serif" font-size="7" font-weight="700" fill="#006FCF" letter-spacing="0.3">EXPRESS</text></svg>
+          </div>
+          <div class="pp-payment-badge">
+            <svg viewBox="0 0 80 20" fill="none"><text x="0" y="15" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#1A1A1A" letter-spacing="-0.3">DISC</text><text x="37" y="15" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#F47216" letter-spacing="-0.3">O</text><text x="48" y="15" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#1A1A1A" letter-spacing="-0.3">VER</text></svg>
+          </div>
+        </div>
+        <div class="pp-payment-badges" style="gap: 24px; border: none; padding: 12px 20px;">
+          <div class="pp-payment-badge">
+            <svg viewBox="0 0 50 22" fill="none"><path d="M9.5 2.5C7.5 2.5 6 4 6 6v10c0 2 1.5 3.5 3.5 3.5h0c1.2 0 2.3-.6 2.9-1.6l6.6-11c.6-1 1.7-1.6 2.9-1.6h0c2 0 3.5 1.5 3.5 3.5v10c0 2-1.5 3.5-3.5 3.5" stroke="#1A1A1A" stroke-width="1.5" fill="none"/><text x="28" y="16" font-family="-apple-system, sans-serif" font-size="12" font-weight="500" fill="#1A1A1A">Pay</text></svg>
+          </div>
+          <div class="pp-payment-badge">
+            <svg viewBox="0 0 52 22" fill="none"><text x="1" y="16" font-family="Arial, sans-serif" font-size="14" font-weight="500" fill="#5F6368">G</text><text x="13" y="16" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#1A1A1A"> Pay</text></svg>
+          </div>
+        </div>
+        <div class="pp-checkout-safe-note">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.167L2.333 3.5v3.033c0 2.845 1.99 5.507 4.667 6.134 2.677-.627 4.667-3.289 4.667-6.134V3.5L7 1.167z" stroke="#888" stroke-width="1.2" stroke-linejoin="round"/><path d="M5 7l1.5 1.5L9.5 5" stroke="#888" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          All transactions are secure and encrypted
+        </div>
+      </div>
 
       <!-- TRUST SECTION -->
       <div class="pp-trust-section">
@@ -3081,6 +3387,37 @@ function startSocialToasts() {
 function stopSocialToasts() {
   if (spInterval) { clearInterval(spInterval); spInterval = null; }
   if (spToastEl) { spToastEl.classList.remove('visible'); }
+}
+
+
+// ---- RAMADAN COUNTDOWN ----
+let ramadanInterval = null;
+function startRamadanCountdown() {
+  const ramadanDate = new Date('2026-02-17T00:00:00');
+  function tick() {
+    const now = new Date();
+    const diff = ramadanDate - now;
+    if (diff <= 0) {
+      const el = document.getElementById('ramadanCountdown');
+      if (el) el.innerHTML = '<div style="color:#D4AF37; font-size:14px; font-weight:600;">Ramadan Mubarak!</div>';
+      clearInterval(ramadanInterval);
+      return;
+    }
+    const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((diff / (1000 * 60 * 60)) % 24);
+    const mins = Math.floor((diff / (1000 * 60)) % 60);
+    const secs = Math.floor((diff / 1000) % 60);
+    const $d = document.getElementById('ramDays');
+    const $h = document.getElementById('ramHours');
+    const $m = document.getElementById('ramMins');
+    const $s = document.getElementById('ramSecs');
+    if ($d) $d.textContent = String(days).padStart(2, '0');
+    if ($h) $h.textContent = String(hours).padStart(2, '0');
+    if ($m) $m.textContent = String(mins).padStart(2, '0');
+    if ($s) $s.textContent = String(secs).padStart(2, '0');
+  }
+  tick();
+  ramadanInterval = setInterval(tick, 1000);
 }
 
 
