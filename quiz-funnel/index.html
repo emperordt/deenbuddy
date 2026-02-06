@@ -2807,7 +2807,9 @@ function renderResults() {
           <!-- Starting dot -->
           <circle cx="35" cy="92" r="4" fill="#D4AF37"/>
           <circle cx="35" cy="92" r="8" fill="#D4AF37" opacity="0.15"/>
-          <text x="45" y="90" font-family="Inter, sans-serif" font-size="8" fill="#D4AF37" font-weight="600">Today</text>
+          <!-- Today label above chart with dashed line down to dot -->
+          <text x="35" y="8" font-family="Inter, sans-serif" font-size="9" fill="#D4AF37" font-weight="700" text-anchor="middle">Today</text>
+          <line x1="35" y1="12" x2="35" y2="84" stroke="#D4AF37" stroke-width="1" stroke-dasharray="3,3" opacity="0.45"/>
           <!-- Week labels -->
           <text x="35" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 1</text>
           <text x="107" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 2</text>
