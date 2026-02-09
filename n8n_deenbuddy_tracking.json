@@ -1,466 +1,138 @@
 {
-  "name": "DeenBuddy — Quiz Tracking (All Events)",
+  "name": "DeenBuddy — Quiz Tracking",
   "nodes": [
     {
       "parameters": {
         "httpMethod": "POST",
         "path": "deenbuddy-quiz",
         "responseMode": "onReceived",
-        "responseData": "allEntries",
-        "options": {
-          "rawBody": false
-        }
+        "options": {}
       },
-      "id": "webhook-1",
+      "id": "a1b2c3d4-0001-4000-8000-000000000001",
       "name": "Quiz Webhook",
       "type": "n8n-nodes-base.webhook",
-      "typeVersion": 2,
-      "position": [200, 400],
-      "webhookId": "deenbuddy-quiz"
+      "typeVersion": 1.1,
+      "position": [240, 400]
     },
     {
       "parameters": {
-        "method": "GET",
-        "url": "=http://ip-api.com/json/{{ $json.client_ip }}?fields=status,country,regionName,city,zip,query",
-        "options": {
-          "timeout": 5000
-        }
+        "url": "=http://ip-api.com/json/{{ $json.body.client_ip }}?fields=status,country,regionName,city,zip,query",
+        "options": {}
       },
-      "id": "ip-lookup-1",
+      "id": "a1b2c3d4-0002-4000-8000-000000000002",
       "name": "IP Geo Lookup",
       "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [420, 400],
-      "onError": "continueRegularOutput"
+      "typeVersion": 3,
+      "position": [460, 400]
     },
     {
       "parameters": {
-        "jsCode": "// ============================================\n// FORMAT DATA — builds Meta CAPI payload + Sheet row\n// ============================================\n\nconst crypto = require('crypto');\nconst input = $input.first().json;\n\n// Get webhook data (from Quiz Webhook node)\nconst webhookData = $('Quiz Webhook').first().json;\n\n// Get geo data (from IP Geo Lookup node)\nconst geo = input || {};\n\n// SHA256 helper\nfunction sha256(val) {\n  if (!val) return null;\n  return crypto.createHash('sha256').update(String(val).trim().toLowerCase()).digest('hex');\n}\n\n// ---- EVENT NAME MAPPING ----\nconst META_EVENT_MAP = {\n  'page_view': null,                    // Don't send to Meta (browser pixel handles it)\n  'quiz_started': 'ViewContent',        // Standard\n  'question_answered': null,            // Don't send to Meta (quiz dropoff only)\n  'quiz_completed': 'CompleteRegistration', // Standard\n  'email_captured': 'Lead',             // Standard — the big one\n  'download_clicked': 'AddToCart',      // Standard (proxy for download intent)\n};\n\nconst eventName = webhookData.event_name || 'unknown';\nconst metaEventName = META_EVENT_MAP[eventName] || null;\nconst email = webhookData.email || null;\n\n// ---- BUILD OUTPUT ----\nreturn [{\n  json: {\n    // Original webhook data\n    ...webhookData,\n\n    // Geo enrichment\n    city: geo.city || null,\n    state: geo.regionName || null,\n    zip: geo.zip || null,\n    country: geo.country || null,\n\n    // Meta CAPI fields\n    meta_event_name: metaEventName,\n    send_to_meta: metaEventName !== null,\n\n    // Hashed user_data for Meta CAPI\n    hashed_email: sha256(email),\n    hashed_city: sha256(geo.city),\n    hashed_state: sha256(geo.regionName),\n    hashed_zip: sha256(geo.zip),\n    hashed_country: sha256(geo.country),\n\n    // EMQ count (how many match params we're sending)\n    emq_count: [\n      email,                          // em\n      webhookData.fbc,                // fbc\n      webhookData.fbp,                // fbp\n      webhookData.browser_id,         // external_id\n      webhookData.client_ip,          // client_ip_address\n      webhookData.user_agent,         // client_user_agent\n      geo.city,                       // ct\n      geo.regionName,                 // st\n      geo.zip,                        // zp\n      geo.country,                    // country\n    ].filter(Boolean).length,\n\n    // Sheet timestamp (human readable)\n    sheet_timestamp: new Date(webhookData.event_time * 1000).toISOString().replace('T', ' ').substring(0, 19),\n    sheet_date: new Date(webhookData.event_time * 1000).toISOString().substring(0, 10),\n\n    // Status for Raw Data upsert\n    status: eventName === 'question_answered' ? null : eventName.replace('_', '_'),\n  }\n}];"
+        "jsCode": "// ============================================\n// FORMAT — merge webhook + geo, hash for Meta, map event names\n// ============================================\nconst crypto = require('crypto');\n\n// Webhook body (from Quiz Webhook)\nconst wb = $('Quiz Webhook').first().json.body;\n// Geo data (from IP lookup)\nconst geo = $input.first().json || {};\n\nfunction sha256(val) {\n  if (!val) return null;\n  return crypto.createHash('sha256').update(String(val).trim().toLowerCase()).digest('hex');\n}\n\n// Meta event name mapping\nconst META_MAP = {\n  'quiz_started': 'ViewContent',\n  'quiz_completed': 'CompleteRegistration',\n  'email_captured': 'Lead',\n  'download_clicked': 'AddToCart',\n};\n\nconst eventName = wb.event_name || 'unknown';\nconst metaEvent = META_MAP[eventName] || null;\nconst ts = new Date((wb.event_time || Math.floor(Date.now()/1000)) * 1000);\n\nreturn [{\n  json: {\n    // Pass through all webhook data\n    ...wb,\n    // Geo enrichment\n    city: geo.city || null,\n    state: geo.regionName || null,\n    zip: geo.zip || null,\n    country: geo.country || null,\n    // Meta CAPI\n    meta_event_name: metaEvent,\n    send_to_meta: metaEvent !== null,\n    // Hashed fields for Meta\n    hashed_email: sha256(wb.email),\n    hashed_city: sha256(geo.city),\n    hashed_state: sha256(geo.regionName),\n    hashed_zip: sha256(geo.zip),\n    hashed_country: sha256(geo.country),\n    // EMQ count\n    emq_count: [wb.email, wb.fbc, wb.fbp, wb.browser_id, wb.client_ip, wb.user_agent, geo.city, geo.regionName, geo.zip, geo.country].filter(Boolean).length,\n    // Sheet-friendly timestamps\n    sheet_timestamp: ts.toISOString().replace('T', ' ').substring(0, 19),\n    sheet_date: ts.toISOString().substring(0, 10),\n  }\n}];"
       },
-      "id": "format-1",
+      "id": "a1b2c3d4-0003-4000-8000-000000000003",
       "name": "Format Data",
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
-      "position": [640, 400]
+      "position": [680, 400]
     },
     {
       "parameters": {
-        "rules": {
-          "rules": [
+        "conditions": {
+          "boolean": [
             {
-              "value": "quiz_started",
-              "outputIndex": 0
-            },
-            {
-              "value": "quiz_completed",
-              "outputIndex": 1
-            },
-            {
-              "value": "email_captured",
-              "outputIndex": 2
-            },
-            {
-              "value": "download_clicked",
-              "outputIndex": 3
-            },
-            {
-              "value": "question_answered",
-              "outputIndex": 4
-            },
-            {
-              "value": "page_view",
-              "outputIndex": 5
+              "value1": "={{ $json.send_to_meta }}",
+              "value2": true
             }
-          ],
-          "fallbackOutput": 5
-        },
-        "dataType": "string",
-        "value1": "={{ $json.event_name }}"
+          ]
+        }
       },
-      "id": "switch-1",
-      "name": "Route by Event",
-      "type": "n8n-nodes-base.switch",
+      "id": "a1b2c3d4-0004-4000-8000-000000000004",
+      "name": "Send to Meta?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [900, 400]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v21.0/YOUR_PIXEL_ID/events?access_token=YOUR_ACCESS_TOKEN",
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": []
+        },
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"data\": [{\n    \"event_name\": \"{{ $json.meta_event_name }}\",\n    \"event_time\": {{ $json.event_time }},\n    \"event_id\": \"{{ $json.event_id }}\",\n    \"event_source_url\": \"{{ $json.source_url || 'https://deenbuddy.vercel.app/quiz-funnel/' }}\",\n    \"action_source\": \"website\",\n    \"user_data\": {\n      \"em\": {{ $json.hashed_email ? '[\"' + $json.hashed_email + '\"]' : '[]' }},\n      \"fbc\": {{ $json.fbc ? '\"' + $json.fbc + '\"' : 'null' }},\n      \"fbp\": {{ $json.fbp ? '\"' + $json.fbp + '\"' : 'null' }},\n      \"external_id\": {{ $json.browser_id ? '[\"' + $json.browser_id + '\"]' : '[]' }},\n      \"client_ip_address\": {{ $json.client_ip ? '\"' + $json.client_ip + '\"' : 'null' }},\n      \"client_user_agent\": {{ $json.user_agent ? '\"' + $json.user_agent + '\"' : 'null' }},\n      \"ct\": {{ $json.hashed_city ? '[\"' + $json.hashed_city + '\"]' : '[]' }},\n      \"st\": {{ $json.hashed_state ? '[\"' + $json.hashed_state + '\"]' : '[]' }},\n      \"zp\": {{ $json.hashed_zip ? '[\"' + $json.hashed_zip + '\"]' : '[]' }},\n      \"country\": {{ $json.hashed_country ? '[\"' + $json.hashed_country + '\"]' : '[]' }}\n    },\n    \"custom_data\": {\n      \"value\": {{ $json.value || 0 }},\n      \"currency\": \"USD\",\n      \"content_name\": \"quiz_funnel\",\n      \"content_category\": \"{{ $json.avatar || 'unknown' }}\"\n    }\n  }]\n}",
+        "options": {}
+      },
+      "id": "a1b2c3d4-0005-4000-8000-000000000005",
+      "name": "Send to Meta CAPI",
+      "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 3,
-      "position": [860, 400]
+      "position": [1140, 300]
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "=https://graph.facebook.com/v21.0/YOUR_PIXEL_ID/events?access_token=YOUR_ACCESS_TOKEN",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"data\": [{\n    \"event_name\": \"{{ $json.meta_event_name }}\",\n    \"event_time\": {{ $json.event_time }},\n    \"event_id\": \"{{ $json.event_id }}\",\n    \"event_source_url\": \"{{ $json.source_url }}\",\n    \"action_source\": \"website\",\n    \"user_data\": {\n      {{ $json.hashed_email ? '\"em\": [\"' + $json.hashed_email + '\"],' : '' }}\n      {{ $json.fbc ? '\"fbc\": \"' + $json.fbc + '\",' : '' }}\n      {{ $json.fbp ? '\"fbp\": \"' + $json.fbp + '\",' : '' }}\n      {{ $json.browser_id ? '\"external_id\": [\"' + $json.browser_id + '\"],' : '' }}\n      {{ $json.client_ip ? '\"client_ip_address\": \"' + $json.client_ip + '\",' : '' }}\n      {{ $json.user_agent ? '\"client_user_agent\": \"' + $json.user_agent + '\",' : '' }}\n      {{ $json.hashed_city ? '\"ct\": [\"' + $json.hashed_city + '\"],' : '' }}\n      {{ $json.hashed_state ? '\"st\": [\"' + $json.hashed_state + '\"],' : '' }}\n      {{ $json.hashed_zip ? '\"zp\": [\"' + $json.hashed_zip + '\"],' : '' }}\n      {{ $json.hashed_country ? '\"country\": [\"' + $json.hashed_country + '\"]' : '' }}\n    },\n    \"custom_data\": {\n      {{ $json.value ? '\"value\": ' + $json.value + ',' : '' }}\n      \"currency\": \"USD\",\n      \"content_name\": \"quiz_funnel\",\n      \"content_category\": \"{{ $json.avatar || 'unknown' }}\"\n    }\n  }]\n}",
-        "options": {
-          "timeout": 10000
-        }
+        "jsCode": "// Log: event was not sent to Meta (page_view, question_answered)\nconst item = $input.first().json;\nconsole.log('Skipped Meta for:', item.event_name);\nreturn [$input.first()];"
       },
-      "id": "meta-capi-quiz-started",
-      "name": "Meta CAPI — ViewContent",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [1120, 100]
+      "id": "a1b2c3d4-0006-4000-8000-000000000006",
+      "name": "Skip Meta",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1140, 500]
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "=https://graph.facebook.com/v21.0/YOUR_PIXEL_ID/events?access_token=YOUR_ACCESS_TOKEN",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"data\": [{\n    \"event_name\": \"{{ $json.meta_event_name }}\",\n    \"event_time\": {{ $json.event_time }},\n    \"event_id\": \"{{ $json.event_id }}\",\n    \"event_source_url\": \"{{ $json.source_url }}\",\n    \"action_source\": \"website\",\n    \"user_data\": {\n      {{ $json.hashed_email ? '\"em\": [\"' + $json.hashed_email + '\"],' : '' }}\n      {{ $json.fbc ? '\"fbc\": \"' + $json.fbc + '\",' : '' }}\n      {{ $json.fbp ? '\"fbp\": \"' + $json.fbp + '\",' : '' }}\n      {{ $json.browser_id ? '\"external_id\": [\"' + $json.browser_id + '\"],' : '' }}\n      {{ $json.client_ip ? '\"client_ip_address\": \"' + $json.client_ip + '\",' : '' }}\n      {{ $json.user_agent ? '\"client_user_agent\": \"' + $json.user_agent + '\",' : '' }}\n      {{ $json.hashed_city ? '\"ct\": [\"' + $json.hashed_city + '\"],' : '' }}\n      {{ $json.hashed_state ? '\"st\": [\"' + $json.hashed_state + '\"],' : '' }}\n      {{ $json.hashed_zip ? '\"zp\": [\"' + $json.hashed_zip + '\"],' : '' }}\n      {{ $json.hashed_country ? '\"country\": [\"' + $json.hashed_country + '\"]' : '' }}\n    },\n    \"custom_data\": {\n      \"currency\": \"USD\",\n      \"content_name\": \"quiz_funnel\",\n      \"content_category\": \"{{ $json.avatar || 'unknown' }}\"\n    }\n  }]\n}",
-        "options": {
-          "timeout": 10000
-        }
+        "jsCode": "// ============================================\n// UPSERT LOGIC — determines which columns to update\n// based on event_name. Wire this to your Google Sheet node.\n// ============================================\nconst d = $input.first().json;\nconst event = d.event_name;\n\n// Base columns (always sent)\nconst row = {\n  session_id: d.session_id,\n  updated_at: d.sheet_timestamp,\n  status: event,\n};\n\n// Only set created_at + tracking params on first event (page_view)\nif (event === 'page_view') {\n  row.created_at = d.sheet_timestamp;\n  row.fbclid = d.fbclid;\n  row.fbc = d.fbc;\n  row.fbp = d.fbp;\n  row.external_id = d.browser_id;\n  row.client_ip = d.client_ip;\n  row.user_agent = d.user_agent;\n  row.city = d.city;\n  row.state = d.state;\n  row.zip = d.zip;\n  row.country = d.country;\n  row.utm_source = d.utm_source;\n  row.utm_medium = d.utm_medium;\n  row.utm_campaign = d.utm_campaign;\n  row.utm_campaign_id = d.utm_campaign_id;\n  row.utm_adset = d.utm_adset;\n  row.utm_adset_id = d.utm_adset_id;\n  row.utm_ad = d.utm_ad;\n  row.utm_ad_id = d.utm_ad_id;\n  row.source_url = d.source_url;\n  row.referrer = d.referrer;\n  row.variant = d.variant;\n  row.browser_id = d.browser_id;\n}\n\n// Set timestamp columns based on event\nif (event === 'quiz_started') row.quiz_started_at = d.sheet_timestamp;\nif (event === 'quiz_completed') {\n  row.quiz_completed_at = d.sheet_timestamp;\n  row.avatar = d.avatar;\n  row.answers_json = d.answers_json;\n}\nif (event === 'email_captured') {\n  row.email_captured_at = d.sheet_timestamp;\n  row.email = d.email;\n  row.avatar = d.avatar;\n}\nif (event === 'download_clicked') {\n  row.download_clicked_at = d.sheet_timestamp;\n  row.plan_selected = d.plan_selected;\n}\n\nreturn [{ json: row }];"
       },
-      "id": "meta-capi-quiz-completed",
-      "name": "Meta CAPI — CompleteRegistration",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [1120, 260]
+      "id": "a1b2c3d4-0007-4000-8000-000000000007",
+      "name": "Build Sheet Row",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [1380, 400]
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "=https://graph.facebook.com/v21.0/YOUR_PIXEL_ID/events?access_token=YOUR_ACCESS_TOKEN",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"data\": [{\n    \"event_name\": \"Lead\",\n    \"event_time\": {{ $json.event_time }},\n    \"event_id\": \"{{ $json.event_id }}\",\n    \"event_source_url\": \"{{ $json.source_url }}\",\n    \"action_source\": \"website\",\n    \"user_data\": {\n      {{ $json.hashed_email ? '\"em\": [\"' + $json.hashed_email + '\"],' : '' }}\n      {{ $json.fbc ? '\"fbc\": \"' + $json.fbc + '\",' : '' }}\n      {{ $json.fbp ? '\"fbp\": \"' + $json.fbp + '\",' : '' }}\n      {{ $json.browser_id ? '\"external_id\": [\"' + $json.browser_id + '\"],' : '' }}\n      {{ $json.client_ip ? '\"client_ip_address\": \"' + $json.client_ip + '\",' : '' }}\n      {{ $json.user_agent ? '\"client_user_agent\": \"' + $json.user_agent + '\",' : '' }}\n      {{ $json.hashed_city ? '\"ct\": [\"' + $json.hashed_city + '\"],' : '' }}\n      {{ $json.hashed_state ? '\"st\": [\"' + $json.hashed_state + '\"],' : '' }}\n      {{ $json.hashed_zip ? '\"zp\": [\"' + $json.hashed_zip + '\"],' : '' }}\n      {{ $json.hashed_country ? '\"country\": [\"' + $json.hashed_country + '\"]' : '' }}\n    },\n    \"custom_data\": {\n      \"currency\": \"USD\",\n      \"content_name\": \"quiz_funnel\",\n      \"content_category\": \"{{ $json.avatar || 'unknown' }}\"\n    }\n  }]\n}",
-        "options": {
-          "timeout": 10000
-        }
+        "jsCode": "// ============================================\n// BUILD EVENTS LOG ROW\n// Wire this output to an Append Google Sheets node → Events tab\n// ============================================\nconst d = $('Format Data').first().json;\n\nreturn [{ json: {\n  Timestamp: d.sheet_timestamp,\n  'Event Name': d.event_name,\n  'Meta Event Name': d.meta_event_name || 'N/A',\n  Email: d.email || '',\n  'Event Value': d.value || '',\n  Currency: 'USD',\n  'Event ID': d.event_id,\n  'EMQ Count': d.emq_count,\n  session_id: d.session_id,\n  fbc: d.fbc || '',\n  fbp: d.fbp || '',\n  external_id: d.browser_id || '',\n  'IP Address': d.client_ip || '',\n  'User Agent': d.user_agent || '',\n  City: d.city || '',\n  State: d.state || '',\n  Zip: d.zip || '',\n  Country: d.country || '',\n  utm_source: d.utm_source || '',\n  utm_medium: d.utm_medium || '',\n  utm_campaign: d.utm_campaign || '',\n  utm_campaign_id: d.utm_campaign_id || '',\n  utm_adset: d.utm_adset || '',\n  utm_adset_id: d.utm_adset_id || '',\n  utm_ad: d.utm_ad || '',\n  utm_ad_id: d.utm_ad_id || '',\n  'Sent to FB': d.send_to_meta ? 'YES' : 'NO',\n}}];"
       },
-      "id": "meta-capi-lead",
-      "name": "Meta CAPI — Lead",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [1120, 420]
+      "id": "a1b2c3d4-0008-4000-8000-000000000008",
+      "name": "Build Events Log",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 640]
     },
     {
       "parameters": {
-        "method": "POST",
-        "url": "=https://graph.facebook.com/v21.0/YOUR_PIXEL_ID/events?access_token=YOUR_ACCESS_TOKEN",
-        "sendBody": true,
-        "specifyBody": "json",
-        "jsonBody": "={\n  \"data\": [{\n    \"event_name\": \"AddToCart\",\n    \"event_time\": {{ $json.event_time }},\n    \"event_id\": \"{{ $json.event_id }}\",\n    \"event_source_url\": \"{{ $json.source_url }}\",\n    \"action_source\": \"website\",\n    \"user_data\": {\n      {{ $json.hashed_email ? '\"em\": [\"' + $json.hashed_email + '\"],' : '' }}\n      {{ $json.fbc ? '\"fbc\": \"' + $json.fbc + '\",' : '' }}\n      {{ $json.fbp ? '\"fbp\": \"' + $json.fbp + '\",' : '' }}\n      {{ $json.browser_id ? '\"external_id\": [\"' + $json.browser_id + '\"],' : '' }}\n      {{ $json.client_ip ? '\"client_ip_address\": \"' + $json.client_ip + '\",' : '' }}\n      {{ $json.user_agent ? '\"client_user_agent\": \"' + $json.user_agent + '\",' : '' }}\n      {{ $json.hashed_city ? '\"ct\": [\"' + $json.hashed_city + '\"],' : '' }}\n      {{ $json.hashed_state ? '\"st\": [\"' + $json.hashed_state + '\"],' : '' }}\n      {{ $json.hashed_zip ? '\"zp\": [\"' + $json.hashed_zip + '\"],' : '' }}\n      {{ $json.hashed_country ? '\"country\": [\"' + $json.hashed_country + '\"]' : '' }}\n    },\n    \"custom_data\": {\n      \"value\": {{ $json.value || 0 }},\n      \"currency\": \"USD\",\n      \"content_name\": \"quiz_funnel\",\n      \"content_category\": \"{{ $json.avatar || 'unknown' }}\"\n    }\n  }]\n}",
-        "options": {
-          "timeout": 10000
-        }
+        "jsCode": "// ============================================\n// BUILD QUIZ DROPOFF ROW (only for question_answered events)\n// Wire this output to an Append Google Sheets node → Quiz Dropoff tab\n// ============================================\nconst d = $('Format Data').first().json;\n\nif (d.event_name !== 'question_answered') {\n  return []; // Skip — not a quiz step\n}\n\nreturn [{ json: {\n  Timestamp: d.sheet_timestamp,\n  session_id: d.session_id,\n  browser_id: d.browser_id || '',\n  'Step Number': d.question_number || '',\n  Question: d.question || '',\n  Answer: d.answer || '',\n  'Total Steps': d.total_questions || '',\n  Avatar: d.avatar || '',\n  utm_source: d.utm_source || '',\n  utm_medium: d.utm_medium || '',\n  utm_campaign: d.utm_campaign || '',\n  utm_campaign_id: d.utm_campaign_id || '',\n  utm_adset: d.utm_adset || '',\n  utm_adset_id: d.utm_adset_id || '',\n  utm_ad: d.utm_ad || '',\n  utm_ad_id: d.utm_ad_id || '',\n  'IP Address': d.client_ip || '',\n  'User Agent': d.user_agent || '',\n  'Source URL': d.source_url || '',\n}}];"
       },
-      "id": "meta-capi-download",
-      "name": "Meta CAPI — AddToCart (Download)",
-      "type": "n8n-nodes-base.httpRequest",
-      "typeVersion": 4.2,
-      "position": [1120, 580]
+      "id": "a1b2c3d4-0009-4000-8000-000000000009",
+      "name": "Build Quiz Dropoff",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [900, 820]
     },
     {
-      "parameters": {
-        "operation": "appendOrUpdate",
-        "documentId": {
-          "__rl": true,
-          "mode": "id",
-          "value": "YOUR_GOOGLE_SHEET_ID"
-        },
-        "sheetName": {
-          "__rl": true,
-          "mode": "name",
-          "value": "Raw Data"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "session_id": "={{ $json.session_id }}",
-            "email": "={{ $json.email }}",
-            "avatar": "={{ $json.avatar }}",
-            "status": "={{ $json.event_name }}",
-            "created_at": "={{ $json.sheet_timestamp }}",
-            "updated_at": "={{ $json.sheet_timestamp }}",
-            "quiz_started_at": "={{ $json.event_name === 'quiz_started' ? $json.sheet_timestamp : '' }}",
-            "quiz_completed_at": "={{ $json.event_name === 'quiz_completed' ? $json.sheet_timestamp : '' }}",
-            "email_captured_at": "={{ $json.event_name === 'email_captured' ? $json.sheet_timestamp : '' }}",
-            "download_clicked_at": "={{ $json.event_name === 'download_clicked' ? $json.sheet_timestamp : '' }}",
-            "plan_selected": "={{ $json.plan_selected }}",
-            "fbclid": "={{ $json.fbclid }}",
-            "fbc": "={{ $json.fbc }}",
-            "fbp": "={{ $json.fbp }}",
-            "external_id": "={{ $json.browser_id }}",
-            "client_ip": "={{ $json.client_ip }}",
-            "user_agent": "={{ $json.user_agent }}",
-            "city": "={{ $json.city }}",
-            "state": "={{ $json.state }}",
-            "zip": "={{ $json.zip }}",
-            "country": "={{ $json.country }}",
-            "utm_source": "={{ $json.utm_source }}",
-            "utm_medium": "={{ $json.utm_medium }}",
-            "utm_campaign": "={{ $json.utm_campaign }}",
-            "utm_campaign_id": "={{ $json.utm_campaign_id }}",
-            "utm_adset": "={{ $json.utm_adset }}",
-            "utm_adset_id": "={{ $json.utm_adset_id }}",
-            "utm_ad": "={{ $json.utm_ad }}",
-            "utm_ad_id": "={{ $json.utm_ad_id }}",
-            "source_url": "={{ $json.source_url }}",
-            "referrer": "={{ $json.referrer }}",
-            "variant": "={{ $json.variant }}",
-            "answers_json": "={{ $json.answers_json }}",
-            "browser_id": "={{ $json.browser_id }}"
-          }
-        },
-        "matchingColumns": ["session_id"],
-        "options": {}
-      },
-      "id": "sheet-upsert-started",
-      "name": "Upsert Raw Data — Quiz Started",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [1380, 100]
+      "parameters": {},
+      "id": "a1b2c3d4-0010-4000-8000-000000000010",
+      "name": "→ Wire to: Google Sheets UPSERT (Raw Data tab, match on session_id)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1620, 400]
     },
     {
-      "parameters": {
-        "operation": "appendOrUpdate",
-        "documentId": {
-          "__rl": true,
-          "mode": "id",
-          "value": "YOUR_GOOGLE_SHEET_ID"
-        },
-        "sheetName": {
-          "__rl": true,
-          "mode": "name",
-          "value": "Raw Data"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "session_id": "={{ $json.session_id }}",
-            "avatar": "={{ $json.avatar }}",
-            "status": "=quiz_completed",
-            "updated_at": "={{ $json.sheet_timestamp }}",
-            "quiz_completed_at": "={{ $json.sheet_timestamp }}",
-            "answers_json": "={{ $json.answers_json }}"
-          }
-        },
-        "matchingColumns": ["session_id"],
-        "options": {}
-      },
-      "id": "sheet-upsert-completed",
-      "name": "Upsert Raw Data — Quiz Completed",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [1380, 260]
+      "parameters": {},
+      "id": "a1b2c3d4-0011-4000-8000-000000000011",
+      "name": "→ Wire to: Google Sheets APPEND (Events tab)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1140, 640]
     },
     {
-      "parameters": {
-        "operation": "appendOrUpdate",
-        "documentId": {
-          "__rl": true,
-          "mode": "id",
-          "value": "YOUR_GOOGLE_SHEET_ID"
-        },
-        "sheetName": {
-          "__rl": true,
-          "mode": "name",
-          "value": "Raw Data"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "session_id": "={{ $json.session_id }}",
-            "email": "={{ $json.email }}",
-            "avatar": "={{ $json.avatar }}",
-            "status": "=email_captured",
-            "updated_at": "={{ $json.sheet_timestamp }}",
-            "email_captured_at": "={{ $json.sheet_timestamp }}",
-            "answers_json": "={{ $json.answers_json }}"
-          }
-        },
-        "matchingColumns": ["session_id"],
-        "options": {}
-      },
-      "id": "sheet-upsert-lead",
-      "name": "Upsert Raw Data — Email Captured",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [1380, 420]
-    },
-    {
-      "parameters": {
-        "operation": "appendOrUpdate",
-        "documentId": {
-          "__rl": true,
-          "mode": "id",
-          "value": "YOUR_GOOGLE_SHEET_ID"
-        },
-        "sheetName": {
-          "__rl": true,
-          "mode": "name",
-          "value": "Raw Data"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "session_id": "={{ $json.session_id }}",
-            "status": "=download_clicked",
-            "updated_at": "={{ $json.sheet_timestamp }}",
-            "download_clicked_at": "={{ $json.sheet_timestamp }}",
-            "plan_selected": "={{ $json.plan_selected }}"
-          }
-        },
-        "matchingColumns": ["session_id"],
-        "options": {}
-      },
-      "id": "sheet-upsert-download",
-      "name": "Upsert Raw Data — Download Clicked",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [1380, 580]
-    },
-    {
-      "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "mode": "id",
-          "value": "YOUR_GOOGLE_SHEET_ID"
-        },
-        "sheetName": {
-          "__rl": true,
-          "mode": "name",
-          "value": "Quiz Dropoff"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Timestamp": "={{ $json.sheet_timestamp }}",
-            "session_id": "={{ $json.session_id }}",
-            "browser_id": "={{ $json.browser_id }}",
-            "Step Number": "={{ $json.question_number }}",
-            "Question": "={{ $json.question }}",
-            "Answer": "={{ $json.answer }}",
-            "Total Steps": "={{ $json.total_questions }}",
-            "Avatar": "={{ $json.avatar }}",
-            "utm_source": "={{ $json.utm_source }}",
-            "utm_medium": "={{ $json.utm_medium }}",
-            "utm_campaign": "={{ $json.utm_campaign }}",
-            "utm_campaign_id": "={{ $json.utm_campaign_id }}",
-            "utm_adset": "={{ $json.utm_adset }}",
-            "utm_adset_id": "={{ $json.utm_adset_id }}",
-            "utm_ad": "={{ $json.utm_ad }}",
-            "utm_ad_id": "={{ $json.utm_ad_id }}",
-            "IP Address": "={{ $json.client_ip }}",
-            "User Agent": "={{ $json.user_agent }}",
-            "Source URL": "={{ $json.source_url }}"
-          }
-        },
-        "options": {}
-      },
-      "id": "sheet-quiz-dropoff",
-      "name": "Append Quiz Dropoff",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [1120, 740]
-    },
-    {
-      "parameters": {
-        "operation": "append",
-        "documentId": {
-          "__rl": true,
-          "mode": "id",
-          "value": "YOUR_GOOGLE_SHEET_ID"
-        },
-        "sheetName": {
-          "__rl": true,
-          "mode": "name",
-          "value": "Events"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "Timestamp": "={{ $json.sheet_timestamp }}",
-            "Event Name": "={{ $json.event_name }}",
-            "Meta Event Name": "={{ $json.meta_event_name }}",
-            "Email": "={{ $json.email }}",
-            "Event Value": "={{ $json.value }}",
-            "Currency": "=USD",
-            "Event ID": "={{ $json.event_id }}",
-            "EMQ Count": "={{ $json.emq_count }}",
-            "session_id": "={{ $json.session_id }}",
-            "fbc": "={{ $json.fbc }}",
-            "fbp": "={{ $json.fbp }}",
-            "external_id": "={{ $json.browser_id }}",
-            "IP Address": "={{ $json.client_ip }}",
-            "User Agent": "={{ $json.user_agent }}",
-            "City": "={{ $json.city }}",
-            "State": "={{ $json.state }}",
-            "Zip": "={{ $json.zip }}",
-            "Country": "={{ $json.country }}",
-            "utm_source": "={{ $json.utm_source }}",
-            "utm_medium": "={{ $json.utm_medium }}",
-            "utm_campaign": "={{ $json.utm_campaign }}",
-            "utm_campaign_id": "={{ $json.utm_campaign_id }}",
-            "utm_adset": "={{ $json.utm_adset }}",
-            "utm_adset_id": "={{ $json.utm_adset_id }}",
-            "utm_ad": "={{ $json.utm_ad }}",
-            "utm_ad_id": "={{ $json.utm_ad_id }}",
-            "Sent to FB": "={{ $json.send_to_meta ? 'YES' : 'NO' }}"
-          }
-        },
-        "options": {}
-      },
-      "id": "sheet-events-log",
-      "name": "Log to Events Sheet",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [1380, 900]
-    },
-    {
-      "parameters": {
-        "operation": "appendOrUpdate",
-        "documentId": {
-          "__rl": true,
-          "mode": "id",
-          "value": "YOUR_GOOGLE_SHEET_ID"
-        },
-        "sheetName": {
-          "__rl": true,
-          "mode": "name",
-          "value": "Raw Data"
-        },
-        "columns": {
-          "mappingMode": "defineBelow",
-          "value": {
-            "session_id": "={{ $json.session_id }}",
-            "status": "=page_view",
-            "created_at": "={{ $json.sheet_timestamp }}",
-            "updated_at": "={{ $json.sheet_timestamp }}",
-            "fbclid": "={{ $json.fbclid }}",
-            "fbc": "={{ $json.fbc }}",
-            "fbp": "={{ $json.fbp }}",
-            "external_id": "={{ $json.browser_id }}",
-            "client_ip": "={{ $json.client_ip }}",
-            "user_agent": "={{ $json.user_agent }}",
-            "city": "={{ $json.city }}",
-            "state": "={{ $json.state }}",
-            "zip": "={{ $json.zip }}",
-            "country": "={{ $json.country }}",
-            "utm_source": "={{ $json.utm_source }}",
-            "utm_medium": "={{ $json.utm_medium }}",
-            "utm_campaign": "={{ $json.utm_campaign }}",
-            "utm_campaign_id": "={{ $json.utm_campaign_id }}",
-            "utm_adset": "={{ $json.utm_adset }}",
-            "utm_adset_id": "={{ $json.utm_adset_id }}",
-            "utm_ad": "={{ $json.utm_ad }}",
-            "utm_ad_id": "={{ $json.utm_ad_id }}",
-            "source_url": "={{ $json.source_url }}",
-            "referrer": "={{ $json.referrer }}",
-            "variant": "={{ $json.variant }}",
-            "browser_id": "={{ $json.browser_id }}"
-          }
-        },
-        "matchingColumns": ["session_id"],
-        "options": {}
-      },
-      "id": "sheet-upsert-pageview",
-      "name": "Upsert Raw Data — Page View",
-      "type": "n8n-nodes-base.googleSheets",
-      "typeVersion": 4.5,
-      "position": [1120, 900]
+      "parameters": {},
+      "id": "a1b2c3d4-0012-4000-8000-000000000012",
+      "name": "→ Wire to: Google Sheets APPEND (Quiz Dropoff tab)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1140, 820]
     }
   ],
   "connections": {
@@ -490,78 +162,90 @@
       "main": [
         [
           {
-            "node": "Route by Event",
+            "node": "Send to Meta?",
             "type": "main",
             "index": 0
           },
           {
-            "node": "Log to Events Sheet",
+            "node": "Build Events Log",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Build Quiz Dropoff",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "Route by Event": {
+    "Send to Meta?": {
       "main": [
         [
           {
-            "node": "Meta CAPI — ViewContent",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Upsert Raw Data — Quiz Started",
+            "node": "Send to Meta CAPI",
             "type": "main",
             "index": 0
           }
         ],
         [
           {
-            "node": "Meta CAPI — CompleteRegistration",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Upsert Raw Data — Quiz Completed",
+            "node": "Skip Meta",
             "type": "main",
             "index": 0
           }
-        ],
+        ]
+      ]
+    },
+    "Send to Meta CAPI": {
+      "main": [
         [
           {
-            "node": "Meta CAPI — Lead",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Upsert Raw Data — Email Captured",
+            "node": "Build Sheet Row",
             "type": "main",
             "index": 0
           }
-        ],
+        ]
+      ]
+    },
+    "Skip Meta": {
+      "main": [
         [
           {
-            "node": "Meta CAPI — AddToCart (Download)",
-            "type": "main",
-            "index": 0
-          },
-          {
-            "node": "Upsert Raw Data — Download Clicked",
-            "type": "main",
-            "index": 0
-          }
-        ],
-        [
-          {
-            "node": "Append Quiz Dropoff",
+            "node": "Build Sheet Row",
             "type": "main",
             "index": 0
           }
-        ],
+        ]
+      ]
+    },
+    "Build Sheet Row": {
+      "main": [
         [
           {
-            "node": "Upsert Raw Data — Page View",
+            "node": "→ Wire to: Google Sheets UPSERT (Raw Data tab, match on session_id)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Events Log": {
+      "main": [
+        [
+          {
+            "node": "→ Wire to: Google Sheets APPEND (Events tab)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Build Quiz Dropoff": {
+      "main": [
+        [
+          {
+            "node": "→ Wire to: Google Sheets APPEND (Quiz Dropoff tab)",
             "type": "main",
             "index": 0
           }
@@ -571,10 +255,5 @@
   },
   "settings": {
     "executionOrder": "v1"
-  },
-  "tags": [
-    {
-      "name": "DeenBuddy"
-    }
-  ]
+  }
 }
