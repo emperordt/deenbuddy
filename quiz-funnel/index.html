@@ -8,21 +8,271 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <script>
-    !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init rs ls yi ns us ts ss capture calculateEventProperties vs register register_once register_for_session unregister unregister_for_session gs getFeatureFlag getFeatureFlagPayload getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSurveysLoaded onSessionId getSurveys getActiveMatchingSurveys renderSurvey displaySurvey cancelPendingSurvey canRenderSurvey canRenderSurveyAsync identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException startExceptionAutocapture stopExceptionAutocapture loadToolbar get_property getSessionProperty fs ds createPersonProfile setInternalOrTestUser ps Qr opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing get_explicit_consent_status is_capturing clear_opt_in_out_capturing hs debug M cs getPageViewId captureTraceFeedback captureTraceMetric Kr".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    // =====================================================
+    // POSTHOG (will fix later — low priority)
+    // =====================================================
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture identify alias set_config register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing reset get_distinct_id getGroups get_session_id get_session_replay_url setPersonProperties group startSessionRecording stopSessionRecording".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
     posthog.init('phc_HaTKif5f2PJQ6bg4RPoUl1IMlY7yZIPfxZjvO61to6s', {
         api_host: 'https://us.i.posthog.com',
         person_profiles: 'identified_only',
         capture_pageview: true,
         capture_pageleave: true,
-        autocapture: true,
-    })
-    // Safe wrappers — never let tracking break the quiz
-    function phCapture(event, props) {
-      try { if (window.posthog && posthog.capture) posthog.capture(event, props); } catch(e) { console.warn('PostHog capture error:', e); }
+        autocapture: false,
+    });
+    function phCapture(ev, p) { try { posthog.capture(ev, p); } catch(e) {} }
+    function phIdentify(id, p) { try { posthog.identify(id, p); } catch(e) {} }
+</script>
+
+<!-- =====================================================
+     UNIFIED TRACKER — collects all URL/cookie/IP data
+     Handles: fbclid, fbc, fbp, UTMs, IP, browser_id
+     Data lives in window.UnifiedTracker.data
+     ===================================================== -->
+<script>
+(function() {
+  'use strict';
+
+  var CONFIG = {
+    cookieExpiry: 90,
+    debug: true,
+    ipEndpoint: 'https://api64.ipify.org?format=json',
+    ipFallback: 'https://api.ipify.org?format=json'
+  };
+
+  // ---- STORAGE LAYER (Cookie + localStorage + sessionStorage fallback) ----
+  var Storage = {
+    set: function(name, value) {
+      if (!value) return;
+      try {
+        var expires = new Date(Date.now() + CONFIG.cookieExpiry * 86400000).toUTCString();
+        document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + expires + ';path=/;SameSite=Lax;Secure';
+      } catch(e) {}
+      try { localStorage.setItem('_tr_' + name, JSON.stringify({ value: value, expires: Date.now() + CONFIG.cookieExpiry * 86400000 })); } catch(e) {}
+      try { sessionStorage.setItem('_tr_' + name, value); } catch(e) {}
+    },
+    get: function(name) {
+      var value = null;
+      try {
+        var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)'));
+        if (match) value = decodeURIComponent(match[2]);
+      } catch(e) {}
+      if (!value) {
+        try {
+          var stored = localStorage.getItem('_tr_' + name);
+          if (stored) {
+            var parsed = JSON.parse(stored);
+            if (parsed.expires > Date.now()) value = parsed.value;
+            else localStorage.removeItem('_tr_' + name);
+          }
+        } catch(e) {}
+      }
+      if (!value) { try { value = sessionStorage.getItem('_tr_' + name); } catch(e) {} }
+      return value;
     }
-    function phIdentify(id, props) {
-      try { if (window.posthog && posthog.identify) posthog.identify(id, props); } catch(e) { console.warn('PostHog identify error:', e); }
+  };
+
+  // ---- PARAMETER EXTRACTION ----
+  var params = new URL(location.href).searchParams;
+
+  // fbclid
+  var fbclid = params.get('fbclid') || Storage.get('fbclid');
+  if (params.get('fbclid')) Storage.set('fbclid', params.get('fbclid'));
+
+  // fbc
+  var fbc = null;
+  try { var fbcMatch = document.cookie.match(/(^| )_fbc=([^;]+)/); if (fbcMatch) fbc = decodeURIComponent(fbcMatch[2]); } catch(e) {}
+  if (!fbc) fbc = Storage.get('fbc');
+  if (!fbc && fbclid) { fbc = 'fb.1.' + Date.now() + '.' + fbclid; Storage.set('fbc', fbc); }
+  else if (fbc) Storage.set('fbc', fbc);
+
+  // fbp
+  var fbp = null;
+  try { var fbpMatch = document.cookie.match(/(^| )_fbp=([^;]+)/); if (fbpMatch) fbp = decodeURIComponent(fbpMatch[2]); } catch(e) {}
+  if (!fbp) fbp = Storage.get('fbp');
+  if (!fbp) fbp = 'fb.1.' + Date.now() + '.' + Math.floor(Math.random() * 10000000000);
+  Storage.set('fbp', fbp);
+
+  // UTMs (first-touch attribution)
+  var utmFields = ['utm_source', 'utm_medium', 'utm_campaign', 'utm_campaign_id', 'utm_adset', 'utm_adset_id', 'utm_ad', 'utm_ad_id', 'utm_content', 'utm_term'];
+  var utmData = {};
+  utmFields.forEach(function(field) {
+    var urlValue = params.get(field);
+    var storedValue = Storage.get(field);
+    if (urlValue && !storedValue) { Storage.set(field, urlValue); utmData[field] = urlValue; }
+    else utmData[field] = urlValue || storedValue;
+  });
+
+  // Browser ID (persistent fingerprint fallback)
+  function generateBrowserId() {
+    var canvas = document.createElement('canvas');
+    var ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top';
+    ctx.font = '14px Arial';
+    ctx.fillText('browser-id', 2, 2);
+    var data = [navigator.userAgent, navigator.language, screen.width + 'x' + screen.height, new Date().getTimezoneOffset(), canvas.toDataURL()].join('|');
+    var hash = 0;
+    for (var i = 0; i < data.length; i++) { hash = ((hash << 5) - hash) + data.charCodeAt(i); hash = hash & hash; }
+    return 'bid.' + Math.abs(hash).toString(36) + '.' + Date.now();
+  }
+  var browserId = Storage.get('browser_id');
+  if (!browserId) { browserId = generateBrowserId(); Storage.set('browser_id', browserId); }
+
+  // ---- UNIFIED TRACKER OBJECT ----
+  window.UnifiedTracker = {
+    data: {
+      fbclid: fbclid,
+      fbc: fbc,
+      fbp: fbp,
+      browser_id: browserId,
+      user_agent: navigator.userAgent,
+      source_url: location.href,
+      referrer: document.referrer || null,
+      client_ip: null,
+      utm_source: utmData.utm_source,
+      utm_medium: utmData.utm_medium,
+      utm_campaign: utmData.utm_campaign,
+      utm_campaign_id: utmData.utm_campaign_id,
+      utm_adset: utmData.utm_adset,
+      utm_adset_id: utmData.utm_adset_id,
+      utm_ad: utmData.utm_ad,
+      utm_ad_id: utmData.utm_ad_id,
+      utm_content: utmData.utm_content,
+      utm_term: utmData.utm_term,
+    },
+    debug: function() {
+      console.log('%c UnifiedTracker Data', 'font-size: 14px; font-weight: bold;');
+      console.table(this.data);
+      return this.data;
     }
+  };
+
+  // ---- IP DETECTION ----
+  function fetchIP(url, retries) {
+    return fetch(url, { mode: 'cors' })
+      .then(function(r) { if (!r.ok) throw new Error('IP fetch failed'); return r.json(); })
+      .then(function(data) { Storage.set('client_ip', data.ip); window.UnifiedTracker.data.client_ip = data.ip; return data.ip; })
+      .catch(function(err) {
+        if (retries > 0 && url === CONFIG.ipEndpoint) return fetchIP(CONFIG.ipFallback, retries - 1);
+        var storedIP = Storage.get('client_ip');
+        if (storedIP) window.UnifiedTracker.data.client_ip = storedIP;
+        return storedIP;
+      });
+  }
+
+  fetchIP(CONFIG.ipEndpoint, 2).finally(function() {
+    if (CONFIG.debug) window.UnifiedTracker.debug();
+  });
+})();
+</script>
+
+<!-- =====================================================
+     N8N WEBHOOK TRACKING — trackQuizEvent()
+     Merges UnifiedTracker data + event data + timestamp
+     POSTs to n8n via sendBeacon (survives page exits)
+     ===================================================== -->
+<script>
+(function() {
+  'use strict';
+
+  // Session ID — unique per quiz session, persists through the quiz
+  var SESSION_ID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+    var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+  });
+
+  // A/B variant from URL
+  var variant = new URL(location.href).searchParams.get('variant') || 'control';
+
+  // ---- N8N WEBHOOK URLs ----
+  // Paste your webhook URLs from n8n here:
+  var N8N = {
+    lead:           '',  // Index.HTMLWebhook — EmailCaptured + DownloadClicked
+    quiz_step:      '',  // Quiz Step Webhook — each question answer
+    quiz_complete:  '',  // Quiz Complete Webhook — quiz finished
+    quiz_start:     '',  // Quiz Start Webhook — Begin My Journey click
+    download_click: '',  // Download Click Webhook — App Store redirect
+  };
+
+  // ---- SEND TO N8N ----
+  function sendToN8n(webhookUrl, payload) {
+    if (!webhookUrl) {
+      console.log('[n8n] No URL configured, payload:', payload);
+      return;
+    }
+    var json = JSON.stringify(payload);
+    // sendBeacon survives page navigation (critical for download_clicked)
+    try {
+      var sent = navigator.sendBeacon(webhookUrl, new Blob([json], { type: 'application/json' }));
+      if (!sent) throw new Error('sendBeacon returned false');
+      console.log('[n8n] SENT via beacon:', payload.event_name);
+    } catch(e) {
+      // Fallback: fetch with keepalive
+      try {
+        fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: json, keepalive: true }).catch(function() {});
+        console.log('[n8n] SENT via fetch:', payload.event_name);
+      } catch(e2) { console.warn('[n8n] FAILED:', payload.event_name, e2); }
+    }
+  }
+
+  // ---- BUILD PAYLOAD ----
+  // Merges: UnifiedTracker data + session + event-specific data + ISO timestamp
+  function buildPayload(eventName, eventData) {
+    var ut = (window.UnifiedTracker && window.UnifiedTracker.data) || {};
+    return Object.assign({
+      // Event info
+      event_name: eventName,
+      event_time: Math.floor(Date.now() / 1000),         // Unix seconds (Meta wants this)
+      event_timestamp: new Date().toISOString(),           // ISO string (Sheet wants this)
+      event_id: SESSION_ID + '_' + eventName,              // Dedup key for Meta CAPI
+
+      // Session
+      session_id: SESSION_ID,
+      variant: variant,
+
+      // From UnifiedTracker
+      fbclid: ut.fbclid || null,
+      fbc: ut.fbc || null,
+      fbp: ut.fbp || null,
+      browser_id: ut.browser_id || null,
+      client_ip: ut.client_ip || null,
+      user_agent: ut.user_agent || null,
+      source_url: ut.source_url || null,
+      referrer: ut.referrer || null,
+      utm_source: ut.utm_source || null,
+      utm_medium: ut.utm_medium || null,
+      utm_campaign: ut.utm_campaign || null,
+      utm_campaign_id: ut.utm_campaign_id || null,
+      utm_adset: ut.utm_adset || null,
+      utm_adset_id: ut.utm_adset_id || null,
+      utm_ad: ut.utm_ad || null,
+      utm_ad_id: ut.utm_ad_id || null,
+    }, eventData || {});
+  }
+
+  // ---- MAIN TRACKING FUNCTION ----
+  window.trackQuizEvent = function(eventName, eventData) {
+    var payload = buildPayload(eventName, eventData);
+
+    // Route to correct webhook
+    var url = '';
+    switch(eventName) {
+      case 'quiz_started':       url = N8N.quiz_start || N8N.lead; break;
+      case 'question_answered':  url = N8N.quiz_step; break;
+      case 'quiz_completed':     url = N8N.quiz_complete; break;
+      case 'email_captured':     url = N8N.lead; break;
+      case 'download_clicked':   url = N8N.download_click || N8N.lead; break;
+      default:                   url = N8N.lead; break;
+    }
+
+    sendToN8n(url, payload);
+    return payload; // Return for debugging
+  };
+
+  // Expose session_id globally so quiz code can reference it
+  window.QUIZ_SESSION_ID = SESSION_ID;
+  window.QUIZ_VARIANT = variant;
+
+  console.log('[Tracking] session_id:', SESSION_ID, 'variant:', variant);
+})();
 </script>
 <style>
 /* ============================================
@@ -1997,6 +2247,10 @@ const state = {
   email: null,
 };
 
+// Fire PageView event to n8n on load
+// Fire page_view to n8n on load
+trackQuizEvent('page_view', {});
+
 // ---- DOM ----
 const $progressBar = document.getElementById('progressBar');
 const $progressFill = document.getElementById('progressFill');
@@ -2484,7 +2738,7 @@ function renderWelcome() {
           <div class="welcome-social-label">Reviews</div>
         </div>
       </div>
-      <button class="btn-primary" onclick="phCapture('quiz_started'); goNext();">Begin My Journey</button>
+      <button class="btn-primary" onclick="phCapture('quiz_started'); trackQuizEvent('quiz_started', {}); goNext();">Begin My Journey</button>
       <div class="welcome-footer">Takes less than 2 minutes <span>·</span> 100% private</div>
     </div>
   `;
@@ -2549,12 +2803,22 @@ function handleOptionClick(step, optionId) {
     step.onAnswer(opt);
   }
 
-  // PostHog: track every answer
+  // Track every answer — PostHog + n8n
+  var questionNum = getVisibleSteps().filter(s => s.type === 'question').findIndex(s => s.id === step.id) + 1;
+  var totalQuestions = getVisibleSteps().filter(s => s.type === 'question').length;
   phCapture('question_answered', {
     step_id: step.id,
     answer: optionId,
     avatar: state.avatar,
-    question_number: getVisibleSteps().filter(s => s.type === 'question').findIndex(s => s.id === step.id) + 1,
+    question_number: questionNum,
+  });
+  trackQuizEvent('question_answered', {
+    step_id: step.id,
+    question: step.question,
+    answer: optionId,
+    avatar: state.avatar,
+    question_number: questionNum,
+    total_questions: totalQuestions,
   });
 
   // Visual feedback
@@ -2628,9 +2892,10 @@ function renderSocialProof() {
 
 // ---- PROCESSING ----
 function renderProcessing() {
-  phCapture('quiz_completed', {
+  phCapture('quiz_completed', { avatar: state.avatar });
+  trackQuizEvent('quiz_completed', {
     avatar: state.avatar,
-    answers: { ...state.answers },
+    answers_json: JSON.stringify(state.answers),
   });
 
   const steps_list = [
@@ -2939,20 +3204,16 @@ function renderEmailGate() {
     $error.classList.remove('visible');
     state.email = email;
 
-    // PostHog: identify user by email + track capture
-    phIdentify(email, {
+    // PostHog
+    phIdentify(email, { email: email, avatar: state.avatar });
+    phCapture('email_captured', { avatar: state.avatar });
+
+    // n8n — this is the BIG event (Lead)
+    trackQuizEvent('email_captured', {
       email: email,
       avatar: state.avatar,
-      quiz_answers: { ...state.answers },
+      answers_json: JSON.stringify(state.answers),
     });
-    phCapture('email_captured', {
-      avatar: state.avatar,
-    });
-
-    // Fire tracking event (hook point for n8n/Meta)
-    if (typeof window.trackQuizEvent === 'function') {
-      window.trackQuizEvent('email_captured', { email, avatar: state.avatar });
-    }
 
     goNext();
   }
@@ -3494,20 +3755,37 @@ function startRamadanCountdown() {
 }
 
 
+// App Store URL — UPDATE THIS with the real App Store link when live
+var APP_STORE_URL = '';  // e.g. 'https://apps.apple.com/app/deen-buddy/id123456789'
+
 function handleSubscribe() {
   const plan = state.selectedPlan || 'annual';
-  const prices = { monthly: '$9.99/month', annual: '$39.99/year', lifetime: '$79.99 one-time' };
   const values = { monthly: 9.99, annual: 39.99, lifetime: 79.99 };
 
-  phCapture('checkout_initiated', {
+  // Fire download_clicked to PostHog
+  phCapture('download_clicked', {
     plan: plan,
     value: values[plan],
-    currency: 'USD',
     avatar: state.avatar,
     email: state.email,
   });
 
-  alert('This would redirect to checkout.\n\nPlan: ' + plan + ' (' + prices[plan] + ')\n\nIn production, connect to Stripe or App Store.');
+  // Fire download_clicked to n8n → CAPI (this is the money event)
+  trackQuizEvent('download_clicked', {
+    email: state.email,
+    avatar: state.avatar,
+    plan_selected: plan,
+    value: values[plan],
+    currency: 'USD',
+  });
+
+  // Redirect to App Store after 200ms (gives sendBeacon time to fire)
+  if (APP_STORE_URL) {
+    setTimeout(function() { window.location.href = APP_STORE_URL; }, 200);
+  } else {
+    // No App Store URL set — show placeholder
+    alert('App Store link not configured yet.\n\nPlan: ' + plan + '\nEmail: ' + (state.email || 'not captured') + '\n\nThe download_clicked event was fired to n8n.');
+  }
 }
 
 
