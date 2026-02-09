@@ -1,0 +1,125 @@
+{
+  "name": "DeenBuddy – Quiz Step",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "deenbuddy-quiz-step",
+        "responseMode": "onReceived",
+        "options": {}
+      },
+      "id": "c3d4e5f6-3003-4ccc-b003-000000000001",
+      "name": "Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 1.1,
+      "position": [260, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=http://ip-api.com/json/{{ $json.body.client_ip }}?fields=status,country,regionName,city,zip,query",
+        "options": {}
+      },
+      "id": "c3d4e5f6-3003-4ccc-b003-000000000002",
+      "name": "IP Geo Lookup",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [480, 300]
+    },
+    {
+      "parameters": {
+        "jsCode": "const crypto = require('crypto');\nconst wb = $('Webhook').first().json.body;\nconst geo = $input.first().json || {};\n\nfunction sha256(val) {\n  if (!val) return null;\n  return crypto.createHash('sha256').update(String(val).trim().toLowerCase()).digest('hex');\n}\n\nconst ts = new Date((wb.event_time || Math.floor(Date.now()/1000)) * 1000);\nconst sheetTs = ts.toISOString().replace('T', ' ').substring(0, 19);\n\n// META CAPI PAYLOAD\nconst metaPayload = {\n  data: [{\n    event_name: \"QuizStep\",\n    event_time: wb.event_time,\n    event_id: wb.event_id,\n    event_source_url: wb.source_url || \"https://deenbuddy.vercel.app/quiz-funnel/\",\n    action_source: \"website\",\n    user_data: {\n      em: wb.email ? [sha256(wb.email)] : [],\n      fbc: wb.fbc || null,\n      fbp: wb.fbp || null,\n      external_id: wb.browser_id ? [wb.browser_id] : [],\n      client_ip_address: wb.client_ip || null,\n      client_user_agent: wb.user_agent || null,\n      ct: geo.city ? [sha256(geo.city)] : [],\n      st: geo.regionName ? [sha256(geo.regionName)] : [],\n      zp: geo.zip ? [sha256(geo.zip)] : [],\n      country: geo.country ? [sha256(geo.country)] : [],\n    },\n    custom_data: {\n      value: wb.value || 0,\n      currency: \"USD\",\n      content_name: \"quiz_funnel\",\n      content_category: wb.avatar || \"unknown\",\n      question_number: wb.question_number || null,\n      question: wb.question || null,\n      answer: wb.answer || null,\n    }\n  }]\n};\n\n// SHEET ROW – for Quiz Dropoff tab (APPEND)\nconst sheetRow = {\n  session_id: wb.session_id,\n  timestamp: sheetTs,\n  question_number: wb.question_number || null,\n  question: wb.question || null,\n  answer: wb.answer || null,\n};\n\nreturn [{ json: { meta_payload: metaPayload, sheet_row: sheetRow } }];"
+      },
+      "id": "c3d4e5f6-3003-4ccc-b003-000000000003",
+      "name": "Format & Hash",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [700, 300]
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://graph.facebook.com/v21.0/YOUR_PIXEL_ID/events?access_token=YOUR_ACCESS_TOKEN",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={{ JSON.stringify($json.meta_payload) }}",
+        "options": {}
+      },
+      "id": "c3d4e5f6-3003-4ccc-b003-000000000004",
+      "name": "Send to Meta CAPI",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 3,
+      "position": [920, 300]
+    },
+    {
+      "parameters": {},
+      "id": "c3d4e5f6-3003-4ccc-b003-000000000005",
+      "name": "→ Wire to: Google Sheets UPSERT (Raw Data tab, match on session_id)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1140, 200]
+    },
+    {
+      "parameters": {},
+      "id": "c3d4e5f6-3003-4ccc-b003-000000000006",
+      "name": "→ Wire to: Google Sheets APPEND (Quiz Dropoff tab)",
+      "type": "n8n-nodes-base.noOp",
+      "typeVersion": 1,
+      "position": [1140, 400]
+    }
+  ],
+  "connections": {
+    "Webhook": {
+      "main": [
+        [
+          {
+            "node": "IP Geo Lookup",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "IP Geo Lookup": {
+      "main": [
+        [
+          {
+            "node": "Format & Hash",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format & Hash": {
+      "main": [
+        [
+          {
+            "node": "Send to Meta CAPI",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Send to Meta CAPI": {
+      "main": [
+        [
+          {
+            "node": "→ Wire to: Google Sheets UPSERT (Raw Data tab, match on session_id)",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "→ Wire to: Google Sheets APPEND (Quiz Dropoff tab)",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
