@@ -202,13 +202,13 @@
     var json = JSON.stringify(payload);
     // sendBeacon survives page navigation (critical for download_clicked)
     try {
-      var sent = navigator.sendBeacon(webhookUrl, new Blob([json], { type: 'application/json' }));
+      var sent = navigator.sendBeacon(webhookUrl, new Blob([json], { type: 'text/plain' }));
       if (!sent) throw new Error('sendBeacon returned false');
       console.log('[n8n] SENT via beacon:', payload.event_name);
     } catch(e) {
       // Fallback: fetch with keepalive
       try {
-        fetch(webhookUrl, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: json, keepalive: true }).catch(function() {});
+        fetch(webhookUrl, { method: 'POST', body: json, keepalive: true, mode: 'no-cors' }).catch(function() {});
         console.log('[n8n] SENT via fetch:', payload.event_name);
       } catch(e2) { console.warn('[n8n] FAILED:', payload.event_name, e2); }
     }
