@@ -183,13 +183,14 @@
   var variant = new URL(location.href).searchParams.get('variant') || 'control';
 
   // ---- N8N WEBHOOK URLs ----
-  // Paste your webhook URLs from n8n here:
+  // Each event gets its own webhook → its own n8n workflow → its own CAPI + Sheet path
   var N8N = {
-    lead:           '',  // Index.HTMLWebhook — EmailCaptured + DownloadClicked
-    quiz_step:      '',  // Quiz Step Webhook — each question answer
-    quiz_complete:  '',  // Quiz Complete Webhook — quiz finished
-    quiz_start:     '',  // Quiz Start Webhook — Begin My Journey click
-    download_click: '',  // Download Click Webhook — App Store redirect
+    page_view:       'https://n8n.dtthomas.cloud/webhook/deenbuddy-pageview',
+    quiz_start:      'https://n8n.dtthomas.cloud/webhook/deenbuddy-quiz-start',
+    quiz_step:       'https://n8n.dtthomas.cloud/webhook/deenbuddy-quiz-step',
+    quiz_complete:   'https://n8n.dtthomas.cloud/webhook/deenbuddy-quiz-complete',
+    lead:            'https://n8n.dtthomas.cloud/webhook/deenbuddy-email',
+    download_click:  'https://n8n.dtthomas.cloud/webhook/deenbuddy-download',
   };
 
   // ---- SEND TO N8N ----
@@ -252,15 +253,16 @@
   window.trackQuizEvent = function(eventName, eventData) {
     var payload = buildPayload(eventName, eventData);
 
-    // Route to correct webhook
+    // Route to correct webhook — each event has its own n8n workflow
     var url = '';
     switch(eventName) {
-      case 'quiz_started':       url = N8N.quiz_start || N8N.lead; break;
+      case 'page_view':          url = N8N.page_view; break;
+      case 'quiz_started':       url = N8N.quiz_start; break;
       case 'question_answered':  url = N8N.quiz_step; break;
       case 'quiz_completed':     url = N8N.quiz_complete; break;
       case 'email_captured':     url = N8N.lead; break;
-      case 'download_clicked':   url = N8N.download_click || N8N.lead; break;
-      default:                   url = N8N.lead; break;
+      case 'download_clicked':   url = N8N.download_click; break;
+      default: console.log('[n8n] Unknown event:', eventName); return;
     }
 
     sendToN8n(url, payload);
