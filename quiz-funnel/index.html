@@ -2833,7 +2833,7 @@ function handleOptionClick(step, optionId) {
   });
 
   // Auto-advance
-  setTimeout(() => goNext(), 600);
+  setTimeout(() => goNext(), 400);
 }
 
 
@@ -3679,7 +3679,7 @@ function goNext() {
     state.currentStep = nextIdx;
     render();
     state.transitioning = false;
-  }, 500);
+  }, 280);
 }
 
 function goBack() {
