@@ -3178,6 +3178,7 @@ function renderEmailGate() {
         ${itemsHtml}
       </div>
       <div class="email-gate-form" style="opacity:0; animation: slideUp 0.5s ease 0.32s forwards;">
+        <input type="text" class="email-gate-input" id="firstNameInput" placeholder="First name" autocomplete="given-name" style="margin-bottom:10px;">
         <input type="email" class="email-gate-input" id="emailInput" placeholder="your@email.com" autocomplete="email" inputmode="email">
         <div class="email-gate-error" id="emailError">Please enter a valid email address</div>
         <button class="email-gate-btn" id="emailSubmitBtn">Send My Personalized Plan</button>
@@ -3189,12 +3190,14 @@ function renderEmailGate() {
     </div>
   `;
 
+  const $firstName = document.getElementById('firstNameInput');
   const $input = document.getElementById('emailInput');
   const $error = document.getElementById('emailError');
   const $btn = document.getElementById('emailSubmitBtn');
 
   function validateAndSubmit() {
     const email = $input.value.trim();
+    const firstName = $firstName.value.trim();
     const valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
     if (!valid) {
       $input.classList.add('error');
@@ -3205,14 +3208,16 @@ function renderEmailGate() {
     $input.classList.remove('error');
     $error.classList.remove('visible');
     state.email = email;
+    state.firstName = firstName;
 
     // PostHog
-    phIdentify(email, { email: email, avatar: state.avatar });
+    phIdentify(email, { email: email, first_name: firstName, avatar: state.avatar });
     phCapture('email_captured', { avatar: state.avatar });
 
     // n8n — this is the BIG event (Lead)
     trackQuizEvent('email_captured', {
       email: email,
+      first_name: firstName,
       avatar: state.avatar,
       answers_json: JSON.stringify(state.answers),
     });
