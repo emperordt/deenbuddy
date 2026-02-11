@@ -3305,92 +3305,20 @@ function renderPricing() {
         </ul>
       </div>
 
-      <!-- RAMADAN DISCOUNT BANNER -->
+      <!-- RAMADAN OFFER BANNER -->
       <div class="discount-banner" style="opacity:0; animation: slideUp 0.5s ease 0.12s forwards;">
         <div class="discount-banner-label">🌙 Ramadan Limited Offer</div>
         <div class="discount-banner-row">
           <div class="discount-banner-event">Ramadan 2026</div>
-          <div class="discount-banner-badge">Save 67%</div>
+          <div class="discount-banner-badge">7 Days Free</div>
         </div>
-        <div class="discount-banner-countdown">Discount reserved for: <span id="bannerTimer">09:59</span></div>
-      </div>
-
-      <!-- FIND YOUR PLAN -->
-      <div class="pp-section-title" style="opacity:0; animation: slideUp 0.5s ease 0.18s forwards;">Find your perfect plan</div>
-
-      <!-- DISCOUNT ACTIVE -->
-      <div class="discount-active" style="opacity:0; animation: slideUp 0.5s ease 0.22s forwards;">
-        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><circle cx="7" cy="7" r="6" stroke="white" stroke-width="1.5"/><path d="M7 4v3.5M7 9.5v0" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-        Ramadan discount active
-      </div>
-
-      <!-- PRICING TIERS -->
-      <div class="pp-tiers" style="opacity:0; animation: slideUp 0.5s ease 0.26s forwards;">
-        <!-- MONTHLY (High anchor) -->
-        <div class="pp-tier" data-plan="monthly" onclick="selectPlan('monthly')">
-          <div class="pp-tier-left">
-            <div class="pp-tier-radio">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div>
-              <div class="pp-tier-name">Monthly</div>
-              <div class="pp-tier-original"><s>$14.99</s> → $9.99/mo</div>
-            </div>
-          </div>
-          <div class="pp-tier-right">
-            <div class="pp-tier-price">$0<span style="font-size:18px;">.33</span></div>
-            <div class="pp-tier-unit">per day</div>
-          </div>
-        </div>
-
-        <!-- ANNUAL (Selected - target) -->
-        <div class="pp-tier selected" data-plan="annual" onclick="selectPlan('annual')">
-          <div class="pp-tier-badges">
-            <span class="pp-tier-badge best">Best Value</span>
-            <span class="pp-tier-badge save">Save 67%</span>
-          </div>
-          <div class="pp-tier-left">
-            <div class="pp-tier-radio">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div>
-              <div class="pp-tier-name">Annual</div>
-              <div class="pp-tier-original"><s>$119.88</s> → $39.99/yr</div>
-            </div>
-          </div>
-          <div class="pp-tier-right">
-            <div class="pp-tier-price highlight">$0<span style="font-size:18px;">.11</span></div>
-            <div class="pp-tier-unit">per day</div>
-          </div>
-        </div>
-
-        <!-- LIFETIME -->
-        <div class="pp-tier" data-plan="lifetime" onclick="selectPlan('lifetime')">
-          <div class="pp-tier-left">
-            <div class="pp-tier-radio">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2.5 6L5 8.5L9.5 4" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </div>
-            <div>
-              <div class="pp-tier-name">Lifetime</div>
-              <div class="pp-tier-original"><s>$149.99</s> → $79.99</div>
-            </div>
-          </div>
-          <div class="pp-tier-right">
-            <div class="pp-tier-price">Once</div>
-            <div class="pp-tier-unit">forever</div>
-          </div>
-        </div>
+        <div class="discount-banner-countdown">Offer reserved for: <span id="bannerTimer">09:59</span></div>
       </div>
 
       <!-- PRIMARY CTA -->
-      <div style="opacity:0; animation: slideUp 0.5s ease 0.32s forwards;">
-        <button class="pp-cta" onclick="handleSubscribe()">Start My 7-Day Free Trial</button>
-        <div class="pp-cta-sub">Try free for 7 days. Then $39.99/year.<br>Cancel anytime · <a>Money-back guarantee</a></div>
-        <div class="pp-trust-strip">
-          <span>🔒 Secure checkout</span>
-          <span>↩️ Cancel anytime</span>
-          <span>💯 Money-back</span>
-        </div>
+      <div style="opacity:0; animation: slideUp 0.5s ease 0.22s forwards;">
+        <button class="pp-cta" onclick="handleSubscribe()">Start Your 7-Day Free Trial</button>
+        <div class="pp-cta-sub">Full access to every feature — completely free for 7 days.<br>Cancel anytime · No credit card required</div>
       </div>
 
       <!-- YOUR PLAN INCLUDES -->
@@ -3471,7 +3399,7 @@ function renderPricing() {
       </div>
 
       <!-- SECOND CTA -->
-      <button class="pp-cta" onclick="handleSubscribe()" style="margin-bottom:32px;">Start Free Trial — 7 Days Free</button>
+      <button class="pp-cta" onclick="handleSubscribe()" style="margin-bottom:32px;">Start Your 7-Day Free Trial</button>
 
       <!-- TESTIMONIALS -->
       <div class="pp-section-title">Trusted by Muslims worldwide</div>
@@ -3535,68 +3463,18 @@ function renderPricing() {
           <div class="pp-faq-a">Absolutely. Deen Buddy was designed to meet you wherever you are — whether you're a new Muslim, returning to practice, or a lifelong learner. The AI adapts to your level and never makes you feel judged for asking any question.</div>
         </div>
         <div class="pp-faq-item">
-          <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">Should I really pay for Islamic knowledge? <span>+</span></div>
-          <div class="pp-faq-a">Islamic knowledge itself is free and always will be. Your subscription doesn't pay for knowledge — it pays for the technology, servers, and team that makes Deen Buddy possible. It keeps the app 100% ad-free, protects your privacy, and helps us provide access to Muslims around the world who can't afford it. Think of it as supporting a mission, not buying religion.</div>
+          <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">Is it really free? <span>+</span></div>
+          <div class="pp-faq-a">Yes — you get full access to every feature for 7 days completely free. No credit card required to start. After your trial, you can choose a plan that works for you, or cancel anytime.</div>
         </div>
         <div class="pp-faq-item">
           <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">What if I don't like it? <span>+</span></div>
-          <div class="pp-faq-a">We offer a 100% money-back guarantee. If you're not satisfied within 30 days of your purchase, contact us and we'll refund you in full — no questions asked. We only want you to stay if Deen Buddy genuinely helps you.</div>
+          <div class="pp-faq-a">Simply cancel during your free trial and you won't be charged a thing. We only want you to stay if Deen Buddy genuinely helps you.</div>
         </div>
       </div>
 
       <!-- FINAL CTA -->
-      <button class="pp-cta" onclick="handleSubscribe()">Start My 7-Day Free Trial</button>
-      <div class="pp-cta-sub">Then $39.99/year · Cancel anytime · No commitment<br><a>100% money-back guarantee</a></div>
-
-      <!-- GUARANTEED SAFE CHECKOUT -->
-      <div class="pp-checkout-safe">
-        <div class="pp-checkout-safe-title">Guaranteed safe checkout</div>
-        <div class="pp-payment-badges">
-          <div class="pp-payment-badge">
-            <svg viewBox="0 0 60 20" fill="none"><text x="0" y="16" font-family="Arial, sans-serif" font-size="16" font-weight="900" fill="#1A1F71" font-style="italic">VISA</text></svg>
-          </div>
-          <div class="pp-payment-badge">
-            <svg viewBox="0 0 36 24" fill="none"><circle cx="13" cy="12" r="10" fill="#EB001B"/><circle cx="23" cy="12" r="10" fill="#F79E1B"/><path d="M18 4.8a10 10 0 0 1 0 14.4 10 10 0 0 1 0-14.4z" fill="#FF5F00"/></svg>
-          </div>
-          <div class="pp-payment-badge">
-            <svg viewBox="0 0 70 24" fill="none"><text x="0" y="10" font-family="Arial, sans-serif" font-size="7" font-weight="700" fill="#006FCF" letter-spacing="0.3">AMERICAN</text><text x="0" y="19" font-family="Arial, sans-serif" font-size="7" font-weight="700" fill="#006FCF" letter-spacing="0.3">EXPRESS</text></svg>
-          </div>
-          <div class="pp-payment-badge">
-            <svg viewBox="0 0 80 20" fill="none"><text x="0" y="15" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#1A1A1A" letter-spacing="-0.3">DISC</text><text x="37" y="15" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#F47216" letter-spacing="-0.3">O</text><text x="48" y="15" font-family="Arial, sans-serif" font-size="13" font-weight="700" fill="#1A1A1A" letter-spacing="-0.3">VER</text></svg>
-          </div>
-        </div>
-        <div class="pp-payment-badges" style="gap: 24px; border: none; padding: 12px 20px;">
-          <div class="pp-payment-badge">
-            <svg viewBox="0 0 50 22" fill="none"><path d="M9.5 2.5C7.5 2.5 6 4 6 6v10c0 2 1.5 3.5 3.5 3.5h0c1.2 0 2.3-.6 2.9-1.6l6.6-11c.6-1 1.7-1.6 2.9-1.6h0c2 0 3.5 1.5 3.5 3.5v10c0 2-1.5 3.5-3.5 3.5" stroke="#1A1A1A" stroke-width="1.5" fill="none"/><text x="28" y="16" font-family="-apple-system, sans-serif" font-size="12" font-weight="500" fill="#1A1A1A">Pay</text></svg>
-          </div>
-          <div class="pp-payment-badge">
-            <svg viewBox="0 0 52 22" fill="none"><text x="1" y="16" font-family="Arial, sans-serif" font-size="14" font-weight="500" fill="#5F6368">G</text><text x="13" y="16" font-family="Arial, sans-serif" font-size="12" font-weight="400" fill="#1A1A1A"> Pay</text></svg>
-          </div>
-        </div>
-        <div class="pp-checkout-safe-note">
-          <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.167L2.333 3.5v3.033c0 2.845 1.99 5.507 4.667 6.134 2.677-.627 4.667-3.289 4.667-6.134V3.5L7 1.167z" stroke="#888" stroke-width="1.2" stroke-linejoin="round"/><path d="M5 7l1.5 1.5L9.5 5" stroke="#888" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          All transactions are secure and encrypted
-        </div>
-      </div>
-
-      <!-- TRUST SECTION -->
-      <div class="pp-trust-section">
-        <div class="pp-trust-item">
-          <div class="pp-trust-item-icon">🔒</div>
-          <div class="pp-trust-item-title">Secure checkout</div>
-          <div class="pp-trust-item-desc">All transactions are encrypted and transmitted without risk using SSL protocol.</div>
-        </div>
-        <div class="pp-trust-item">
-          <div class="pp-trust-item-icon">💯</div>
-          <div class="pp-trust-item-title">100% money-back guarantee</div>
-          <div class="pp-trust-item-desc">Try Deen Buddy risk-free. If you're not satisfied within 30 days, we'll refund you in full — no questions asked.</div>
-        </div>
-        <div class="pp-trust-item">
-          <div class="pp-trust-item-icon">🛡️</div>
-          <div class="pp-trust-item-title">Your data is private</div>
-          <div class="pp-trust-item-desc">We don't sell or share your data. Ever. Your spiritual journey is yours alone.</div>
-        </div>
-      </div>
+      <button class="pp-cta" onclick="handleSubscribe()">Start Your 7-Day Free Trial</button>
+      <div class="pp-cta-sub">Full access · Cancel anytime · No credit card required</div>
 
       <!-- FOOTER -->
       <div class="pp-footer">
@@ -3611,17 +3489,6 @@ function renderPricing() {
 
   // Start the countdown timer
   startPricingCountdown();
-}
-
-function selectPlan(plan) {
-  state.selectedPlan = plan;
-  document.querySelectorAll('.pp-tier').forEach(el => {
-    if (el.dataset.plan === plan) {
-      el.classList.add('selected');
-    } else {
-      el.classList.remove('selected');
-    }
-  });
 }
 
 function toggleFaq(item) {
@@ -3761,23 +3628,19 @@ function startRamadanCountdown() {
 var APP_STORE_URL = '';  // e.g. 'https://apps.apple.com/app/deen-buddy/id123456789'
 
 function handleSubscribe() {
-  const plan = state.selectedPlan || 'annual';
-  const values = { monthly: 9.99, annual: 39.99, lifetime: 79.99 };
-
   // Fire download_clicked to PostHog
   phCapture('download_clicked', {
-    plan: plan,
-    value: values[plan],
+    plan: 'free_trial',
     avatar: state.avatar,
     email: state.email,
   });
 
-  // Fire download_clicked to n8n → CAPI (this is the money event)
+  // Fire download_clicked to n8n → CAPI
   trackQuizEvent('download_clicked', {
     email: state.email,
     avatar: state.avatar,
-    plan_selected: plan,
-    value: values[plan],
+    plan_selected: 'free_trial',
+    value: 0,
     currency: 'USD',
   });
 
@@ -3785,8 +3648,7 @@ function handleSubscribe() {
   if (APP_STORE_URL) {
     setTimeout(function() { window.location.href = APP_STORE_URL; }, 200);
   } else {
-    // No App Store URL set — show placeholder
-    alert('App Store link not configured yet.\n\nPlan: ' + plan + '\nEmail: ' + (state.email || 'not captured') + '\n\nThe download_clicked event was fired to n8n.');
+    alert('App Store link not configured yet.\n\nEmail: ' + (state.email || 'not captured') + '\n\nThe download_clicked event was fired to n8n.');
   }
 }
 
