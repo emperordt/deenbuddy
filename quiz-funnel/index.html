@@ -3643,6 +3643,7 @@ function handleSubscribe() {
   // Fire download_clicked to n8n → CAPI
   trackQuizEvent('download_clicked', {
     email: state.email,
+    first_name: state.firstName || '',
     avatar: state.avatar,
     plan_selected: 'free_trial',
     value: 0,
