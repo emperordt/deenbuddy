@@ -2740,7 +2740,7 @@ function renderWelcome() {
           <div class="welcome-social-label">Reviews</div>
         </div>
       </div>
-      <button class="btn-primary" onclick="phCapture('quiz_started'); trackQuizEvent('quiz_started', {}); goNext();">Begin My Journey</button>
+      <button class="btn-primary" onclick="this.disabled=true; var btn=this; goNext(); setTimeout(function(){ phCapture('quiz_started'); trackQuizEvent('quiz_started', {}); btn.disabled=false; }, 1500);">Begin My Journey</button>
       <div class="welcome-footer">Takes less than 2 minutes <span>·</span> 100% private</div>
     </div>
   `;
@@ -2833,7 +2833,7 @@ function handleOptionClick(step, optionId) {
   });
 
   // Auto-advance
-  setTimeout(() => goNext(), 380);
+  setTimeout(() => goNext(), 600);
 }
 
 
@@ -3217,7 +3217,7 @@ function renderEmailGate() {
       answers_json: JSON.stringify(state.answers),
     });
 
-    goNext();
+    setTimeout(() => goNext(), 500);
   }
 
   $btn.addEventListener('click', validateAndSubmit);
@@ -3817,7 +3817,7 @@ function goNext() {
     state.currentStep = nextIdx;
     render();
     state.transitioning = false;
-  }, 220);
+  }, 500);
 }
 
 function goBack() {
