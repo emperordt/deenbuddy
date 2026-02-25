@@ -695,6 +695,19 @@ body {
     <div class="pp-section-title">Choose your plan</div>
 
     <div class="pp-tiers" id="pricingTiers">
+      <div class="pp-tier" onclick="selectPlan('weekly')" data-plan="weekly">
+        <div class="pp-tier-left">
+          <div class="pp-tier-radio"></div>
+          <div>
+            <div class="pp-tier-name">Weekly</div>
+            <div class="pp-tier-original">$259.48/yr &middot; 7-day free trial</div>
+          </div>
+        </div>
+        <div class="pp-tier-right">
+          <div class="pp-tier-price">$4.99</div>
+          <div class="pp-tier-unit">/week</div>
+        </div>
+      </div>
       <div class="pp-tier" onclick="selectPlan('monthly')" data-plan="monthly">
         <div class="pp-tier-left">
           <div class="pp-tier-radio"></div>
@@ -708,15 +721,15 @@ body {
           <div class="pp-tier-unit">/month</div>
         </div>
       </div>
-      <div class="pp-tier selected" onclick="selectPlan('annual')" data-plan="annual">
+      <div class="pp-tier selected" onclick="selectPlan('yearly')" data-plan="yearly">
         <div class="pp-tier-badges">
           <span class="pp-tier-badge best">Most Popular</span>
-          <span class="pp-tier-badge save">Save 61%</span>
+          <span class="pp-tier-badge save">Save 73%</span>
         </div>
         <div class="pp-tier-left">
           <div class="pp-tier-radio"></div>
           <div>
-            <div class="pp-tier-name">Annual</div>
+            <div class="pp-tier-name">Yearly</div>
             <div class="pp-tier-original">$5.83/mo &middot; 7-day free trial</div>
           </div>
         </div>
@@ -725,28 +738,12 @@ body {
           <div class="pp-tier-unit">/year</div>
         </div>
       </div>
-      <div class="pp-tier" onclick="selectPlan('lifetime')" data-plan="lifetime">
-        <div class="pp-tier-badges">
-          <span class="pp-tier-badge best" style="background:var(--gold);">Best Value</span>
-        </div>
-        <div class="pp-tier-left">
-          <div class="pp-tier-radio"></div>
-          <div>
-            <div class="pp-tier-name">Lifetime</div>
-            <div class="pp-tier-original">Less than 2 years &middot; Pay once</div>
-          </div>
-        </div>
-        <div class="pp-tier-right">
-          <div class="pp-tier-price">$149.99</div>
-          <div class="pp-tier-unit">one-time</div>
-        </div>
-      </div>
     </div>
 
     <!-- CTA + Checkout -->
     <div id="checkoutArea">
       <button class="pp-cta" id="ppCtaBtn" onclick="handleCheckout()">Start Your 7-Day Free Trial</button>
-      <div class="pp-cta-sub" id="ppCtaSub">Full access to every feature &mdash; free for 7 days. Cancel anytime.</div>
+      <div class="pp-cta-sub" id="ppCtaSub">Full access for 7 days free, then $69.99/yr. Cancel anytime.</div>
       <div id="checkout-container" style="display:none;"></div>
     </div>
 
@@ -885,7 +882,7 @@ body {
       </div>
       <div class="pp-faq-item">
         <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">How does the free trial work? <span>+</span></div>
-        <div class="pp-faq-a">Choose Monthly ($14.99/mo) or Annual ($69.99/yr) and get 7 days completely free. You won't be charged until your trial ends. Cancel anytime before that and pay nothing. The Lifetime plan ($149.99) is a one-time payment with no trial needed.</div>
+        <div class="pp-faq-a">Choose Weekly ($4.99/wk), Monthly ($14.99/mo), or Yearly ($69.99/yr) and get 7 days completely free. You won't be charged until your trial ends. Cancel anytime before that and pay nothing.</div>
       </div>
       <div class="pp-faq-item">
         <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">Is Deen Buddy good for beginners? <span>+</span></div>
@@ -897,7 +894,7 @@ body {
       </div>
       <div class="pp-faq-item">
         <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">What if I don't like it? <span>+</span></div>
-        <div class="pp-faq-a">Simply cancel during your 7-day free trial and you won't be charged a thing. If you chose Lifetime, we offer a 30-day money-back guarantee &mdash; no questions asked.</div>
+        <div class="pp-faq-a">Simply cancel during your 7-day free trial and you won't be charged a thing. No questions asked.</div>
       </div>
     </div>
 
@@ -1009,14 +1006,14 @@ function startCountdown() {
 }
 
 // ---- STRIPE CONFIG ----
-var STRIPE_PK = 'pk_live_REPLACE_WITH_YOUR_KEY';
+var STRIPE_PK = 'pk_live_51SadFvBV2pRc9ERwAnHfM1DhIUFzMTMdgnkbdbr6c5V63BSrmHKq2J7MjAZlIlIdlsd2G4V7LXEpAz5Kg8c2a63N00UIm335tm';
 var STRIPE_PRICES = {
-  monthly:  'price_REPLACE_MONTHLY',
-  annual:   'price_REPLACE_ANNUAL',
-  lifetime: 'price_REPLACE_LIFETIME',
+  weekly:   'price_1T4d5fBV2pRc9ERwxb7PgmTV',
+  monthly:  'price_1T4d67BV2pRc9ERwDlCtGk9e',
+  yearly:   'price_1T43H2BV2pRc9ERw8ObeGGE4',
 };
-var PLAN_VALUES = { monthly: 14.99, annual: 69.99, lifetime: 149.99 };
-var selectedPlan = 'annual';
+var PLAN_VALUES = { weekly: 4.99, monthly: 14.99, yearly: 69.99 };
+var selectedPlan = 'yearly';
 var stripeCheckout = null;
 
 function selectPlan(plan) {
@@ -1026,15 +1023,15 @@ function selectPlan(plan) {
   });
   var btn = document.getElementById('ppCtaBtn');
   var sub = document.getElementById('ppCtaSub');
-  if (plan === 'lifetime') {
-    btn.textContent = 'Get Lifetime Access — $149.99';
-    sub.textContent = 'One-time payment. Yours forever. 30-day money-back guarantee.';
-  } else if (plan === 'annual') {
+  if (plan === 'yearly') {
     btn.textContent = 'Start Your 7-Day Free Trial';
     sub.textContent = 'Full access for 7 days free, then $69.99/yr. Cancel anytime.';
-  } else {
+  } else if (plan === 'monthly') {
     btn.textContent = 'Start Your 7-Day Free Trial';
     sub.textContent = 'Full access for 7 days free, then $14.99/mo. Cancel anytime.';
+  } else {
+    btn.textContent = 'Start Your 7-Day Free Trial';
+    sub.textContent = 'Full access for 7 days free, then $4.99/wk. Cancel anytime.';
   }
   if (stripeCheckout) {
     stripeCheckout.destroy();
@@ -1110,7 +1107,7 @@ async function handleCheckout() {
   } catch (err) {
     console.error('[Checkout] Error:', err);
     btn.disabled = false;
-    btn.textContent = plan === 'lifetime' ? 'Get Lifetime Access — $149.99' : 'Start Your 7-Day Free Trial';
+    btn.textContent = 'Start Your 7-Day Free Trial';
     alert('Something went wrong loading checkout. Please try again.');
   }
 }
