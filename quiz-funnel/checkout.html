@@ -20,7 +20,7 @@ src="https://www.facebook.com/tr?id=786953523815077&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Deen Buddy — Start Your Journey</title>
+<title>Checkout — Deen Buddy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -713,11 +713,11 @@ body {
           <div class="pp-tier-radio"></div>
           <div>
             <div class="pp-tier-name">Monthly</div>
-            <div class="pp-tier-original">\$83.88/yr &middot; 7-day free trial</div>
+            <div class="pp-tier-original">$83.88/yr &middot; 7-day free trial</div>
           </div>
         </div>
         <div class="pp-tier-right">
-          <div class="pp-tier-price">\$6.99</div>
+          <div class="pp-tier-price">$6.99</div>
           <div class="pp-tier-unit">/month</div>
         </div>
       </div>
@@ -730,11 +730,11 @@ body {
           <div class="pp-tier-radio"></div>
           <div>
             <div class="pp-tier-name">Yearly</div>
-            <div class="pp-tier-original">\$3.33/mo &middot; 7-day free trial</div>
+            <div class="pp-tier-original">$3.33/mo &middot; 7-day free trial</div>
           </div>
         </div>
         <div class="pp-tier-right">
-          <div class="pp-tier-price highlight">\$39.99</div>
+          <div class="pp-tier-price highlight">$39.99</div>
           <div class="pp-tier-unit">/year</div>
         </div>
       </div>
@@ -743,7 +743,7 @@ body {
     <!-- CTA + Checkout -->
     <div id="checkoutArea">
       <button class="pp-cta" id="ppCtaBtn" onclick="handleCheckout()">Start Your 7-Day Free Trial</button>
-      <div class="pp-cta-sub" id="ppCtaSub">Full access for 7 days free, then \$39.99/yr. Cancel anytime.</div>
+      <div class="pp-cta-sub" id="ppCtaSub">Full access for 7 days free, then $39.99/yr. Cancel anytime.</div>
       <div id="checkout-container" style="display:none;"></div>
     </div>
 
@@ -882,7 +882,7 @@ body {
       </div>
       <div class="pp-faq-item">
         <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">How does the free trial work? <span>+</span></div>
-        <div class="pp-faq-a">Choose Weekly ($4.99/wk), Monthly (\$6.99/mo), or Yearly (\$39.99/yr) and get 7 days completely free. You won't be charged until your trial ends. Cancel anytime before that and pay nothing.</div>
+        <div class="pp-faq-a">Choose Weekly ($4.99/wk), Monthly ($6.99/mo), or Yearly ($39.99/yr) and get 7 days completely free. You won't be charged until your trial ends. Cancel anytime before that and pay nothing.</div>
       </div>
       <div class="pp-faq-item">
         <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">Is Deen Buddy good for beginners? <span>+</span></div>
@@ -940,7 +940,7 @@ function trackEvent(eventName, extraData) {
 }
 
 // Fire page view
-trackEvent('page_view', { page: 'pricing_direct' });
+trackEvent('page_view', { page: 'checkout' });
 
 // ---- EMAIL CAPTURE ----
 var capturedEmail = '';
@@ -964,14 +964,14 @@ function handleEmail() {
   btn.textContent = 'Loading...';
 
   // Identify in PostHog
-  phIdentify(email, { source: 'pricing_direct' });
-  phCapture('lead_captured', { email: email, source: 'pricing_direct' });
+  phIdentify(email, { source: 'checkout' });
+  phCapture('lead_captured', { email: email, source: 'checkout' });
 
   // Fire lead event to n8n
-  trackEvent('lead', { email: email, first_name: '', source: 'pricing_direct' });
+  trackEvent('lead', { email: email, first_name: '', source: 'checkout' });
 
   // Fire Meta Pixel Lead event
-  try { fbq('track', 'Lead', { content_name: 'pricing_direct' }); } catch(e) {}
+  try { fbq('track', 'Lead', { content_name: 'checkout' }); } catch(e) {}
 
   // Reveal pricing section
   setTimeout(function() {
@@ -1026,10 +1026,10 @@ function selectPlan(plan) {
   var sub = document.getElementById('ppCtaSub');
   if (plan === 'yearly') {
     btn.textContent = 'Start Your 7-Day Free Trial';
-    sub.textContent = 'Full access for 7 days free, then \$39.99/yr. Cancel anytime.';
+    sub.textContent = 'Full access for 7 days free, then $39.99/yr. Cancel anytime.';
   } else if (plan === 'monthly') {
     btn.textContent = 'Start Your 7-Day Free Trial';
-    sub.textContent = 'Full access for 7 days free, then \$6.99/mo. Cancel anytime.';
+    sub.textContent = 'Full access for 7 days free, then $6.99/mo. Cancel anytime.';
   } else {
     btn.textContent = 'Start Your 7-Day Free Trial';
     sub.textContent = 'Full access for 7 days free, then $4.99/wk. Cancel anytime.';
@@ -1055,7 +1055,7 @@ async function handleCheckout() {
     plan: plan,
     email: capturedEmail,
     value: PLAN_VALUES[plan],
-    source: 'pricing_direct',
+    source: 'checkout',
   });
   trackEvent('checkout_initiated', {
     email: capturedEmail,
@@ -1063,7 +1063,7 @@ async function handleCheckout() {
     plan_selected: plan,
     value: PLAN_VALUES[plan],
     currency: 'USD',
-    source: 'pricing_direct',
+    source: 'checkout',
   });
 
   try {
@@ -1085,7 +1085,7 @@ async function handleCheckout() {
         browser_id: tracker.browser_id || null,
         client_ip: tracker.client_ip || null,
         user_agent: navigator.userAgent,
-        source: 'pricing_direct',
+        source: 'checkout',
       }),
     });
 

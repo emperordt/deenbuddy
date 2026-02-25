@@ -20,7 +20,7 @@ src="https://www.facebook.com/tr?id=786953823815077&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Complete Islamic Library | Deen Buddy</title>
+<title>Understand What You Recite | Deen Buddy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -391,33 +391,33 @@ body {
     </div>
 
     <div style="text-align:center;">
-      <span class="badge">Final Offer</span>
+      <span class="badge">Special Offer</span>
     </div>
 
-    <h1 class="headline" style="text-align:center;">One More Thing...</h1>
-    <p class="subhead" style="text-align:center;">The complete Islamic knowledge library to guide you beyond Ramadan</p>
+    <h1 class="headline" style="text-align:center;">You&#x27;ve Been Reciting Without Understanding. That Changes Today.</h1>
+    <p class="subhead" style="text-align:center;">What if you actually knew what you were saying to Allah five times a day?</p>
 
     <ul class="bundle-list">
       <li class="bundle-item">
         <div class="bundle-item-title">
           <span class="icon">&#10024;</span>
-          99 Names of Allah &mdash; Deep Dive Guide
+          What You&#x27;re Actually Saying in Salah
         </div>
-        <div class="bundle-item-desc">Understand each name with meanings, reflections, and daily applications</div>
+        <div class="bundle-item-desc">Every word of Al-Fatiha, tashahhud, ruku, and sujood &mdash; Arabic + meaning + context</div>
       </li>
       <li class="bundle-item">
         <div class="bundle-item-title">
           <span class="icon">&#127775;</span>
-          Seerah Highlights &mdash; Key Lessons from the Prophet's Life
+          The 20 Most-Recited Surahs &mdash; Explained
         </div>
-        <div class="bundle-item-desc">The most impactful moments and timeless lessons, beautifully organized</div>
+        <div class="bundle-item-desc">Verse-by-verse meaning, historical context, and scholars&#x27; insights</div>
       </li>
       <li class="bundle-item">
         <div class="bundle-item-title">
           <span class="icon">&#128220;</span>
-          Arabic Foundations for Quran Reading
+          Common Duas Decoded + Arabic Root Words
         </div>
-        <div class="bundle-item-desc">Learn to read the Quran in Arabic with this beginner-friendly guide</div>
+        <div class="bundle-item-desc">Word-by-word dua meanings plus the 50 most common Quranic Arabic roots</div>
       </li>
     </ul>
 
@@ -437,13 +437,13 @@ body {
     </div>
 
     <div class="social-proof">
-      <strong id="socialCount">52</strong> people added this library today
+      <strong id="socialCount">52</strong> people started understanding today
     </div>
 
     <div class="error-msg" id="errorMsg">Payment failed &mdash; please try again.</div>
 
     <button class="btn-yes" id="btnYes" onclick="handleYes()">
-      <span class="btn-text">Yes! Add the Islamic Library &mdash; $37</span>
+      <span class="btn-text">Yes &mdash; I Want to Understand What I Recite ($37)</span>
       <span class="spinner"></span>
     </button>
 
@@ -452,7 +452,7 @@ body {
       Instant delivery &bull; Beautiful PDFs &bull; 7-day guarantee
     </div>
 
-    <a class="skip-link" id="skipLink" href="#">No thanks, take me to my order</a>
+    <a class="skip-link" id="skipLink" href="#">No thanks, I&#x27;m okay not understanding for now</a>
   </div>
 </div>
 
@@ -466,7 +466,7 @@ body {
   var plan = params.get('plan') || '';
   var paramString = '?cs=' + encodeURIComponent(cs) + '&sid=' + encodeURIComponent(sid) + '&plan=' + encodeURIComponent(plan);
 
-  document.getElementById('skipLink').href = 'thank-you.html' + paramString;
+  document.getElementById('skipLink').href = 'downsell-3.html' + paramString;
 
   // COUNTDOWN
   var totalSeconds = 300;
@@ -476,7 +476,7 @@ body {
     var s = totalSeconds % 60;
     timerEl.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
     if (totalSeconds <= 0) {
-      window.location.href = 'thank-you.html' + paramString;
+      window.location.href = 'downsell-3.html' + paramString;
       return;
     }
     totalSeconds--;
@@ -510,7 +510,7 @@ body {
         session_id: sid,
         upsell_name: 'oto3_library',
         amount: 3700,
-        product: 'Complete Islamic Library'
+        product: 'Understand What You Recite'
       })
     })
     .then(function(res) { return res.json(); })

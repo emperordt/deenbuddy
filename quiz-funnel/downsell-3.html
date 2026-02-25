@@ -20,7 +20,7 @@ src="https://www.facebook.com/tr?id=786953823815077&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Your 30 Nights of Ramadan | Deen Buddy</title>
+<title>7 Verses That Changed Everything | Deen Buddy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -128,49 +128,23 @@ body {
   to { opacity: 1; transform: translateY(0); }
 }
 
-/* ---- RAMADAN CRESCENT + STAR ---- */
-.ramadan-icon {
-  width: 64px;
-  height: 64px;
+.wait-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--primary-ghost);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin: 0 auto 20px;
-  position: relative;
-}
-.ramadan-icon::before {
-  content: '';
-  position: absolute;
-  width: 52px;
-  height: 52px;
-  border-radius: 50%;
-  background: var(--gold);
-  top: 6px;
-  left: 0;
-  opacity: 0.15;
-}
-.ramadan-icon::after {
-  content: '';
-  position: absolute;
-  width: 42px;
-  height: 42px;
-  border-radius: 50%;
-  background: var(--bg);
-  top: 2px;
-  left: 10px;
-}
-.ramadan-star {
-  position: absolute;
-  width: 10px;
-  height: 10px;
-  background: var(--gold);
-  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
-  top: 8px;
-  right: 6px;
-  opacity: 0.25;
+  font-size: 28px;
+  animation: slideUp 0.5s ease both;
 }
 
 .badge {
   display: inline-block;
-  background: var(--primary-ghost);
-  color: var(--primary);
+  background: #FFF3E0;
+  color: #E65100;
   font-size: 12px;
   font-weight: 600;
   text-transform: uppercase;
@@ -197,7 +171,7 @@ body {
   margin-bottom: 28px;
 }
 
-/* ---- BUNDLE ITEMS ---- */
+/* BUNDLE ITEMS */
 .bundle-list {
   list-style: none;
   margin-bottom: 12px;
@@ -212,7 +186,6 @@ body {
 }
 .bundle-item:nth-child(1) { animation-delay: 0.1s; }
 .bundle-item:nth-child(2) { animation-delay: 0.15s; }
-.bundle-item:nth-child(3) { animation-delay: 0.2s; }
 .bundle-item-title {
   font-size: 15px;
   font-weight: 600;
@@ -249,13 +222,13 @@ body {
   padding: 12px 16px;
   background: var(--primary-ghost);
   border-radius: 10px;
-  animation: slideUp 0.5s ease 0.25s both;
+  animation: slideUp 0.5s ease 0.2s both;
 }
 
 .price-tag {
   text-align: center;
   margin-bottom: 24px;
-  animation: slideUp 0.5s ease 0.3s both;
+  animation: slideUp 0.5s ease 0.25s both;
 }
 .price-tag .amount {
   font-family: var(--serif);
@@ -291,7 +264,7 @@ body {
   margin-bottom: 8px;
   position: relative;
   overflow: hidden;
-  animation: slideUp 0.6s ease 0.35s both;
+  animation: slideUp 0.6s ease 0.3s both;
 }
 .btn-yes:hover {
   background: var(--primary-hover);
@@ -324,7 +297,7 @@ body {
   font-size: 12px;
   color: var(--text3);
   margin-bottom: 20px;
-  animation: slideUp 0.6s ease 0.4s both;
+  animation: slideUp 0.6s ease 0.35s both;
 }
 .guarantee svg { width: 14px; height: 14px; }
 
@@ -333,7 +306,7 @@ body {
   font-size: 13px;
   color: var(--text3);
   margin-bottom: 24px;
-  animation: slideUp 0.6s ease 0.4s both;
+  animation: slideUp 0.6s ease 0.35s both;
 }
 .social-proof strong { color: var(--primary); font-weight: 600; }
 
@@ -346,7 +319,7 @@ body {
   padding: 12px;
   cursor: pointer;
   transition: color 0.2s;
-  animation: slideUp 0.6s ease 0.45s both;
+  animation: slideUp 0.6s ease 0.4s both;
 }
 .skip-link:hover { color: var(--text2); }
 
@@ -390,39 +363,29 @@ body {
   </div>
 
   <div class="content">
-    <div class="ramadan-icon">
-      <div class="ramadan-star"></div>
-    </div>
+    <div class="wait-icon">&#128214;</div>
 
     <div style="text-align:center;">
-      <span class="badge">Ramadan Special</span>
+      <span class="badge">Just $9</span>
     </div>
 
-    <h1 class="headline" style="text-align:center;">Ramadan Is Happening Right Now. Do You Have a Plan?</h1>
-    <p class="subhead" style="text-align:center;">Don't let another night pass without purpose.</p>
+    <h1 class="headline" style="text-align:center;">Here's Something You Can Read in 15 Minutes Tonight</h1>
+    <p class="subhead" style="text-align:center;">7 Quranic verses you've heard a thousand times, with the meaning most people miss.</p>
 
-    <!-- BUNDLE ITEMS -->
     <ul class="bundle-list">
       <li class="bundle-item">
         <div class="bundle-item-title">
-          <span class="icon">&#128214;</span>
-          Night-by-Night Ramadan Planner
+          <span class="icon">&#10024;</span>
+          7 Life-Changing Verse Breakdowns
         </div>
-        <div class="bundle-item-desc">30 daily pages with specific Quran passages, duas, reflection prompts, and worship actions for each night</div>
+        <div class="bundle-item-desc">The 7 most impactful Quranic verses with full meaning, context, and what scholars say</div>
       </li>
       <li class="bundle-item">
         <div class="bundle-item-title">
-          <span class="icon">&#128588;</span>
-          Maximize Laylatul Qadr Deep Guide
+          <span class="icon">&#129302;</span>
+          7 Deen Buddy AI Prompts
         </div>
-        <div class="bundle-item-desc">Worship plan for the last 10 nights plus the specific duas the Prophet ﷺ recommended</div>
-      </li>
-      <li class="bundle-item">
-        <div class="bundle-item-title">
-          <span class="icon">&#128197;</span>
-          Ramadan Dua Collection + Power Prompts
-        </div>
-        <div class="bundle-item-desc">40+ Ramadan duas plus 30 AI prompts for Deen Buddy — one per night</div>
+        <div class="bundle-item-desc">One custom prompt per verse to go deeper with the Deen Buddy AI companion</div>
       </li>
     </ul>
 
@@ -437,18 +400,18 @@ body {
     </div>
 
     <div class="price-tag">
-      <div class="amount"><sup>$</sup>27</div>
+      <div class="amount"><sup>$</sup>9</div>
       <div class="label">One-time purchase &mdash; instant delivery</div>
     </div>
 
     <div class="social-proof">
-      <strong id="socialCount">89</strong> people got their Ramadan plan today
+      <strong id="socialCount">XX</strong> people grabbed this tonight
     </div>
 
     <div class="error-msg" id="errorMsg">Payment failed &mdash; please try again.</div>
 
     <button class="btn-yes" id="btnYes" onclick="handleYes()">
-      <span class="btn-text">Yes &mdash; Give Me My Ramadan Plan ($27)</span>
+      <span class="btn-text">Give Me the 7 Verses ($9)</span>
       <span class="spinner"></span>
     </button>
 
@@ -457,7 +420,7 @@ body {
       Instant delivery &bull; Beautiful PDFs &bull; 7-day guarantee
     </div>
 
-    <a class="skip-link" id="skipLink" href="#">No thanks, I'll figure out Ramadan on my own</a>
+    <a class="skip-link" id="skipLink" href="#">No thanks</a>
   </div>
 </div>
 
@@ -471,7 +434,7 @@ body {
   var plan = params.get('plan') || '';
   var paramString = '?cs=' + encodeURIComponent(cs) + '&sid=' + encodeURIComponent(sid) + '&plan=' + encodeURIComponent(plan);
 
-  document.getElementById('skipLink').href = 'downsell-2.html' + paramString;
+  document.getElementById('skipLink').href = 'thank-you.html' + paramString;
 
   // COUNTDOWN
   var totalSeconds = 300;
@@ -481,7 +444,7 @@ body {
     var s = totalSeconds % 60;
     timerEl.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
     if (totalSeconds <= 0) {
-      window.location.href = 'downsell-2.html' + paramString;
+      window.location.href = 'thank-you.html' + paramString;
       return;
     }
     totalSeconds--;
@@ -490,7 +453,7 @@ body {
   setInterval(updateTimer, 1000);
 
   // SOCIAL PROOF
-  var baseCount = 70 + Math.floor(Math.random() * 40);
+  var baseCount = 40 + Math.floor(Math.random() * 20);
   document.getElementById('socialCount').textContent = baseCount;
   setInterval(function() {
     if (Math.random() < 0.3) {
@@ -513,15 +476,15 @@ body {
       body: JSON.stringify({
         checkout_session_id: cs,
         session_id: sid,
-        upsell_name: 'oto2_ramadan',
-        amount: 2700,
-        product: 'Your 30 Nights of Ramadan'
+        upsell_name: 'ds3_verses',
+        amount: 900,
+        product: '7 Verses That Changed Everything'
       })
     })
     .then(function(res) { return res.json(); })
     .then(function(data) {
       if (data.success) {
-        window.location.href = 'upsell-3.html' + paramString;
+        window.location.href = 'thank-you.html' + paramString;
       } else {
         throw new Error(data.message || 'Payment failed');
       }

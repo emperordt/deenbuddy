@@ -20,7 +20,7 @@ src="https://www.facebook.com/tr?id=786953823815077&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Upgrade to Lifetime — 50% Off | Deen Buddy</title>
+<title>Wait — Before You Download the App | Deen Buddy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -421,18 +421,18 @@ body {
     <div class="crescent-decoration"></div>
 
     <div style="text-align:center;">
-      <span class="badge">One-Time Offer &mdash; 50% Off</span>
+      <span class="badge">One-Time Offer</span>
     </div>
 
-    <h1 class="headline" style="text-align:center;">Wait! Upgrade to Lifetime &mdash; 50% Off</h1>
-    <p class="subhead" style="text-align:center;">You just started your journey. Why not make it permanent?</p>
+    <h1 class="headline" style="text-align:center;">Wait &mdash; Upgrade to Lifetime for Just $59 More</h1>
+    <p class="subhead" style="text-align:center;">Save Hundreds &mdash; One Payment, Yours Forever</p>
 
     <!-- PRICE -->
     <div class="price-box">
-      <div class="price-original">$149.99</div>
-      <div class="price-current"><sup>$</sup>74<sup>.99</sup></div>
+      <div class="price-original">$197</div>
+      <div class="price-current"><sup>$</sup>59</div>
       <div class="price-label">One-time payment &mdash; forever</div>
-      <div class="price-savings">You save $75.00</div>
+      <div class="price-savings">You save $138</div>
     </div>
 
     <!-- BENEFITS -->
@@ -463,8 +463,8 @@ body {
 
     <!-- URGENCY -->
     <div class="urgency">
-      This 50% discount disappears when you leave this page.<br>
-      You won't see this offer again.
+      This offer is only available right now. Once you leave this page, lifetime access goes to full price ($197).
+      
     </div>
 
     <!-- SOCIAL PROOF -->
@@ -477,7 +477,7 @@ body {
 
     <!-- CTA -->
     <button class="btn-yes" id="btnYes" onclick="handleYes()">
-      <span class="btn-text">Yes! Upgrade to Lifetime &mdash; $74.99</span>
+      <span class="btn-text">Yes &mdash; Upgrade Me to Lifetime ($59)</span>
       <span class="spinner"></span>
     </button>
 
@@ -504,7 +504,7 @@ body {
   var paramString = '?cs=' + encodeURIComponent(cs) + '&sid=' + encodeURIComponent(sid) + '&plan=' + encodeURIComponent(plan);
 
   // Skip link -> downsell
-  document.getElementById('skipLink').href = 'downsell-1.html' + paramString;
+  document.getElementById('skipLink').href = 'upsell-2.html' + paramString;
 
   // ---- COUNTDOWN TIMER ----
   var totalSeconds = 300; // 5 minutes
@@ -516,7 +516,7 @@ body {
     timerEl.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
     if (totalSeconds <= 0) {
       // Auto-skip when expired
-      window.location.href = 'downsell-1.html' + paramString;
+      window.location.href = 'upsell-2.html' + paramString;
       return;
     }
     totalSeconds--;
@@ -549,8 +549,8 @@ body {
         checkout_session_id: cs,
         session_id: sid,
         upsell_name: 'oto1_lifetime',
-        amount: 7499,
-        product: 'Lifetime Upgrade — 50% Off'
+        amount: 5900,
+        product: 'Lifetime Upgrade'
       })
     })
     .then(function(res) { return res.json(); })

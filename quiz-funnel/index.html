@@ -3825,28 +3825,28 @@ function renderResultsOffer() {
             <div class="pp-tier-radio"></div>
             <div>
               <div class="pp-tier-name">Monthly</div>
-              <div class="pp-tier-original">$179.88/yr · 7-day free trial</div>
+              <div class="pp-tier-original">$83.88/yr · 7-day free trial</div>
             </div>
           </div>
           <div class="pp-tier-right">
-            <div class="pp-tier-price">$14.99</div>
+            <div class="pp-tier-price">$6.99</div>
             <div class="pp-tier-unit">/month</div>
           </div>
         </div>
         <div class="pp-tier selected" onclick="selectPlan('yearly')" data-plan="yearly">
           <div class="pp-tier-badges">
-            <span class="pp-tier-badge best">Most Popular</span>
-            <span class="pp-tier-badge save">Save 73%</span>
+            <span class="pp-tier-badge best">Best Value</span>
+            <span class="pp-tier-badge save">Save 85%</span>
           </div>
           <div class="pp-tier-left">
             <div class="pp-tier-radio"></div>
             <div>
               <div class="pp-tier-name">Yearly</div>
-              <div class="pp-tier-original">$5.83/mo · 7-day free trial</div>
+              <div class="pp-tier-original">$3.33/mo · 7-day free trial</div>
             </div>
           </div>
           <div class="pp-tier-right">
-            <div class="pp-tier-price highlight">$69.99</div>
+            <div class="pp-tier-price highlight">$39.99</div>
             <div class="pp-tier-unit">/year</div>
           </div>
         </div>
@@ -3855,7 +3855,7 @@ function renderResultsOffer() {
       <!-- CTA + CHECKOUT -->
       <div id="checkoutArea">
         <button class="pp-cta" id="ppCtaBtn" onclick="handleCheckout()">Start Your 7-Day Free Trial</button>
-        <div class="pp-cta-sub" id="ppCtaSub">Full access for 7 days free, then $69.99/yr. Cancel anytime.</div>
+        <div class="pp-cta-sub" id="ppCtaSub">Full access for 7 days free, then $39.99/yr. Cancel anytime.</div>
         <div id="checkout-container" style="display:none;"></div>
       </div>
 
@@ -4103,28 +4103,28 @@ function renderPricing() {
             <div class="pp-tier-radio"></div>
             <div>
               <div class="pp-tier-name">Monthly</div>
-              <div class="pp-tier-original">$179.88/yr · 7-day free trial</div>
+              <div class="pp-tier-original">$83.88/yr · 7-day free trial</div>
             </div>
           </div>
           <div class="pp-tier-right">
-            <div class="pp-tier-price">$14.99</div>
+            <div class="pp-tier-price">$6.99</div>
             <div class="pp-tier-unit">/month</div>
           </div>
         </div>
         <div class="pp-tier selected" onclick="selectPlan('yearly')" data-plan="yearly">
           <div class="pp-tier-badges">
-            <span class="pp-tier-badge best">Most Popular</span>
-            <span class="pp-tier-badge save">Save 73%</span>
+            <span class="pp-tier-badge best">Best Value</span>
+            <span class="pp-tier-badge save">Save 85%</span>
           </div>
           <div class="pp-tier-left">
             <div class="pp-tier-radio"></div>
             <div>
               <div class="pp-tier-name">Yearly</div>
-              <div class="pp-tier-original">$5.83/mo · 7-day free trial</div>
+              <div class="pp-tier-original">$3.33/mo · 7-day free trial</div>
             </div>
           </div>
           <div class="pp-tier-right">
-            <div class="pp-tier-price highlight">$69.99</div>
+            <div class="pp-tier-price highlight">$39.99</div>
             <div class="pp-tier-unit">/year</div>
           </div>
         </div>
@@ -4133,7 +4133,7 @@ function renderPricing() {
       <!-- CTA + CHECKOUT -->
       <div id="checkoutArea" style="opacity:0; animation: slideUp 0.5s ease 0.30s forwards;">
         <button class="pp-cta" id="ppCtaBtn" onclick="handleCheckout()">Start Your 7-Day Free Trial</button>
-        <div class="pp-cta-sub" id="ppCtaSub">Full access for 7 days free, then $69.99/yr. Cancel anytime.</div>
+        <div class="pp-cta-sub" id="ppCtaSub">Full access for 7 days free, then $39.99/yr. Cancel anytime.</div>
         <div id="checkout-container" style="display:none;"></div>
       </div>
 
@@ -4272,7 +4272,7 @@ function renderPricing() {
         </div>
         <div class="pp-faq-item">
           <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">How does the free trial work? <span>+</span></div>
-          <div class="pp-faq-a">Choose Weekly ($4.99/wk), Monthly ($14.99/mo), or Yearly ($69.99/yr) and get 7 days completely free. You won't be charged until your trial ends. Cancel anytime before that and pay nothing.</div>
+          <div class="pp-faq-a">Choose Weekly ($4.99/wk), Monthly ($6.99/mo), or Yearly ($39.99/yr) and get 7 days completely free. You won't be charged until your trial ends. Cancel anytime before that and pay nothing.</div>
         </div>
         <div class="pp-faq-item">
           <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">Is Deen Buddy good for beginners? <span>+</span></div>
@@ -4448,7 +4448,8 @@ var STRIPE_PRICES = {
   monthly:  'price_1T4d67BV2pRc9ERwDlCtGk9e',
   yearly:   'price_1T43H2BV2pRc9ERw8ObeGGE4',
 };
-var PLAN_VALUES = { weekly: 4.99, monthly: 14.99, yearly: 69.99 };
+// TODO: Create new Stripe prices for $6.99/mo and $39.99/yr — current IDs are old prices
+var PLAN_VALUES = { weekly: 4.99, monthly: 6.99, yearly: 39.99 };
 var selectedPlan = 'yearly'; // default
 var stripeCheckout = null;
 
@@ -4463,10 +4464,10 @@ function selectPlan(plan) {
   var sub = document.getElementById('ppCtaSub');
   if (plan === 'yearly') {
     btn.textContent = 'Start Your 7-Day Free Trial';
-    sub.textContent = 'Full access for 7 days free, then $69.99/yr. Cancel anytime.';
+    sub.textContent = 'Full access for 7 days free, then $39.99/yr. Cancel anytime.';
   } else if (plan === 'monthly') {
     btn.textContent = 'Start Your 7-Day Free Trial';
-    sub.textContent = 'Full access for 7 days free, then $14.99/mo. Cancel anytime.';
+    sub.textContent = 'Full access for 7 days free, then $6.99/mo. Cancel anytime.';
   } else {
     btn.textContent = 'Start Your 7-Day Free Trial';
     sub.textContent = 'Full access for 7 days free, then $4.99/wk. Cancel anytime.';
