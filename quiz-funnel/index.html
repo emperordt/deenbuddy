@@ -24,6 +24,7 @@ src="https://www.facebook.com/tr?id=786953523815077&ev=PageView&noscript=1"
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://js.stripe.com/v3/"></script>
 <script>
     // =====================================================
     // POSTHOG (will fix later — low priority)
@@ -208,6 +209,7 @@ src="https://www.facebook.com/tr?id=786953523815077&ev=PageView&noscript=1"
     quiz_complete:   'https://n8n.dtthomas.cloud/webhook/deenbuddy-quiz-complete',
     lead:            'https://n8n.dtthomas.cloud/webhook/deenbuddy-email',
     download_click:  'https://n8n.dtthomas.cloud/webhook/deenbuddy-download',
+    create_checkout: 'https://n8n.dtthomas.cloud/webhook/deenbuddy-create-checkout',
   };
 
   // ---- SEND TO N8N ----
@@ -279,6 +281,7 @@ src="https://www.facebook.com/tr?id=786953523815077&ev=PageView&noscript=1"
       case 'quiz_completed':     url = N8N.quiz_complete; break;
       case 'email_captured':     url = N8N.lead; break;
       case 'download_clicked':   url = N8N.download_click; break;
+      case 'checkout_initiated': url = N8N.download_click; break;
       default: console.log('[n8n] Unknown event:', eventName); return;
     }
 
@@ -1815,6 +1818,51 @@ body {
   cursor: pointer;
 }
 
+/* Embedded checkout container */
+#checkout-container {
+  margin: 20px 0 28px;
+  min-height: 300px;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+#checkout-container.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 2px dashed var(--border);
+}
+.checkout-spinner {
+  width: 32px;
+  height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+.pp-selected-plan {
+  text-align: center;
+  margin-bottom: 8px;
+  font-size: 13px;
+  color: var(--text3);
+}
+.pp-selected-plan strong {
+  color: var(--primary);
+  font-weight: 700;
+}
+.pp-change-plan {
+  text-align: center;
+  margin-bottom: 16px;
+}
+.pp-change-plan a {
+  font-size: 12px;
+  color: var(--primary);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
 /* Trust strip */
 .pp-trust-strip {
   display: flex;
@@ -3337,10 +3385,62 @@ function renderPricing() {
         <div class="discount-banner-countdown">Offer reserved for: <span id="bannerTimer">09:59</span></div>
       </div>
 
-      <!-- PRIMARY CTA -->
-      <div style="opacity:0; animation: slideUp 0.5s ease 0.22s forwards;">
-        <button class="pp-cta" onclick="handleSubscribe()">Start Your 7-Day Free Trial</button>
-        <div class="pp-cta-sub">Full access to every feature — completely free for 7 days.<br>Cancel anytime · No credit card required</div>
+      <!-- PRICING TIERS -->
+      <div class="pp-section-title" style="opacity:0; animation: slideUp 0.5s ease 0.18s forwards;">Choose your plan</div>
+      <div class="pp-tiers" id="pricingTiers" style="opacity:0; animation: slideUp 0.5s ease 0.22s forwards;">
+        <div class="pp-tier" onclick="selectPlan('monthly')" data-plan="monthly">
+          <div class="pp-tier-left">
+            <div class="pp-tier-radio"></div>
+            <div>
+              <div class="pp-tier-name">Monthly</div>
+              <div class="pp-tier-original">$179.88/yr · 7-day free trial</div>
+            </div>
+          </div>
+          <div class="pp-tier-right">
+            <div class="pp-tier-price">$14.99</div>
+            <div class="pp-tier-unit">/month</div>
+          </div>
+        </div>
+        <div class="pp-tier selected" onclick="selectPlan('annual')" data-plan="annual">
+          <div class="pp-tier-badges">
+            <span class="pp-tier-badge best">Most Popular</span>
+            <span class="pp-tier-badge save">Save 61%</span>
+          </div>
+          <div class="pp-tier-left">
+            <div class="pp-tier-radio"></div>
+            <div>
+              <div class="pp-tier-name">Annual</div>
+              <div class="pp-tier-original">$5.83/mo · 7-day free trial</div>
+            </div>
+          </div>
+          <div class="pp-tier-right">
+            <div class="pp-tier-price highlight">$69.99</div>
+            <div class="pp-tier-unit">/year</div>
+          </div>
+        </div>
+        <div class="pp-tier" onclick="selectPlan('lifetime')" data-plan="lifetime">
+          <div class="pp-tier-badges">
+            <span class="pp-tier-badge best" style="background:var(--gold);">Best Value</span>
+          </div>
+          <div class="pp-tier-left">
+            <div class="pp-tier-radio"></div>
+            <div>
+              <div class="pp-tier-name">Lifetime</div>
+              <div class="pp-tier-original">Less than 2 years · Pay once</div>
+            </div>
+          </div>
+          <div class="pp-tier-right">
+            <div class="pp-tier-price">$149.99</div>
+            <div class="pp-tier-unit">one-time</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA + CHECKOUT -->
+      <div id="checkoutArea" style="opacity:0; animation: slideUp 0.5s ease 0.30s forwards;">
+        <button class="pp-cta" id="ppCtaBtn" onclick="handleCheckout()">Start Your 7-Day Free Trial</button>
+        <div class="pp-cta-sub" id="ppCtaSub">Full access to every feature — free for 7 days. Cancel anytime.</div>
+        <div id="checkout-container" style="display:none;"></div>
       </div>
 
       <!-- YOUR PLAN INCLUDES -->
@@ -3421,7 +3521,7 @@ function renderPricing() {
       </div>
 
       <!-- SECOND CTA -->
-      <button class="pp-cta" onclick="handleSubscribe()" style="margin-bottom:32px;">Start Your 7-Day Free Trial</button>
+      <button class="pp-cta" onclick="handleCheckout()" style="margin-bottom:32px;">Start Your 7-Day Free Trial</button>
 
       <!-- TESTIMONIALS -->
       <div class="pp-section-title">Trusted by Muslims worldwide</div>
@@ -3478,7 +3578,7 @@ function renderPricing() {
         </div>
         <div class="pp-faq-item">
           <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">How does the free trial work? <span>+</span></div>
-          <div class="pp-faq-a">You get full access to every feature for 7 days completely free. You won't be charged until your trial ends. If you cancel before the trial period, you pay nothing. No hidden fees, no tricks.</div>
+          <div class="pp-faq-a">Choose Monthly ($14.99/mo) or Annual ($69.99/yr) and get 7 days completely free. You won't be charged until your trial ends. Cancel anytime before that and pay nothing. The Lifetime plan ($149.99) is a one-time payment with no trial needed.</div>
         </div>
         <div class="pp-faq-item">
           <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">Is Deen Buddy good for beginners? <span>+</span></div>
@@ -3490,12 +3590,12 @@ function renderPricing() {
         </div>
         <div class="pp-faq-item">
           <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">What if I don't like it? <span>+</span></div>
-          <div class="pp-faq-a">Simply cancel during your free trial and you won't be charged a thing. We only want you to stay if Deen Buddy genuinely helps you.</div>
+          <div class="pp-faq-a">Simply cancel during your 7-day free trial and you won't be charged a thing. If you chose Lifetime, we offer a 30-day money-back guarantee — no questions asked.</div>
         </div>
       </div>
 
       <!-- FINAL CTA -->
-      <button class="pp-cta" onclick="handleSubscribe()">Start Your 7-Day Free Trial</button>
+      <button class="pp-cta" onclick="handleCheckout()">Start Your 7-Day Free Trial</button>
       <div class="pp-cta-sub">Full access · Cancel anytime · No credit card required</div>
 
       <!-- FOOTER -->
@@ -3553,10 +3653,11 @@ const spNames = [
   { name: 'Isa', city: 'Charlotte' }, { name: 'Ruqayya', city: 'Auckland' },
 ];
 const spActions = [
-  'just started their free trial',
   'just subscribed to the annual plan',
-  'just began their journey',
-  'just unlocked their personalized plan',
+  'just got lifetime access',
+  'just started their free trial',
+  'just upgraded to lifetime',
+  'just joined for Ramadan',
 ];
 const spTimes = ['just now', '1 min ago', '2 min ago', '3 min ago', '5 min ago'];
 const spEmojis = ['🌙', '📖', '🤲', '💚', '🕌', '✨', '🌿'];
@@ -3646,32 +3747,117 @@ function startRamadanCountdown() {
 }
 
 
-// App Store URL — UPDATE THIS with the real App Store link when live
-var APP_STORE_URL = 'https://apps.apple.com/us/app/deen-buddy-quran-chat/id6740403566';
+// ---- STRIPE CONFIG ----
+// IMPORTANT: Replace with your real Stripe publishable key and price IDs
+var STRIPE_PK = 'pk_live_REPLACE_WITH_YOUR_KEY';
+var STRIPE_PRICES = {
+  monthly:  'price_REPLACE_MONTHLY',
+  annual:   'price_REPLACE_ANNUAL',
+  lifetime: 'price_REPLACE_LIFETIME',
+};
+var PLAN_VALUES = { monthly: 14.99, annual: 69.99, lifetime: 149.99 };
+var selectedPlan = 'annual'; // default
+var stripeCheckout = null;
 
-function handleSubscribe() {
-  // Fire download_clicked to PostHog
-  phCapture('download_clicked', {
-    plan: 'free_trial',
+function selectPlan(plan) {
+  selectedPlan = plan;
+  // Update radio UI
+  document.querySelectorAll('.pp-tier').forEach(function(t) {
+    t.classList.toggle('selected', t.dataset.plan === plan);
+  });
+  // Update CTA text
+  var btn = document.getElementById('ppCtaBtn');
+  var sub = document.getElementById('ppCtaSub');
+  if (plan === 'lifetime') {
+    btn.textContent = 'Get Lifetime Access — $149.99';
+    sub.textContent = 'One-time payment. Yours forever. 30-day money-back guarantee.';
+  } else if (plan === 'annual') {
+    btn.textContent = 'Start Your 7-Day Free Trial';
+    sub.textContent = 'Full access for 7 days free, then $69.99/yr. Cancel anytime.';
+  } else {
+    btn.textContent = 'Start Your 7-Day Free Trial';
+    sub.textContent = 'Full access for 7 days free, then $14.99/mo. Cancel anytime.';
+  }
+  // If checkout is already showing, destroy and re-create for new plan
+  if (stripeCheckout) {
+    stripeCheckout.destroy();
+    stripeCheckout = null;
+    document.getElementById('checkout-container').style.display = 'none';
+    document.getElementById('ppCtaBtn').style.display = 'block';
+  }
+}
+
+async function handleCheckout() {
+  var btn = document.getElementById('ppCtaBtn');
+  var container = document.getElementById('checkout-container');
+  var plan = selectedPlan;
+  var priceId = STRIPE_PRICES[plan];
+
+  // Disable button, show loading
+  btn.disabled = true;
+  btn.textContent = 'Loading checkout...';
+
+  // Fire tracking events
+  phCapture('checkout_initiated', {
+    plan: plan,
     avatar: state.avatar,
     email: state.email,
+    value: PLAN_VALUES[plan],
   });
-
-  // Fire download_clicked to n8n → CAPI
-  trackQuizEvent('download_clicked', {
+  trackQuizEvent('checkout_initiated', {
     email: state.email,
     first_name: state.firstName || '',
     avatar: state.avatar,
-    plan_selected: 'free_trial',
-    value: 0,
+    plan_selected: plan,
+    value: PLAN_VALUES[plan],
     currency: 'USD',
   });
 
-  // Redirect to App Store after 200ms (gives sendBeacon time to fire)
-  if (APP_STORE_URL) {
-    setTimeout(function() { window.location.href = APP_STORE_URL; }, 200);
-  } else {
-    alert('App Store link not configured yet.\n\nEmail: ' + (state.email || 'not captured') + '\n\nThe download_clicked event was fired to n8n.');
+  try {
+    // Call n8n to create embedded checkout session
+    var response = await fetch('https://n8n.dtthomas.cloud/webhook/deenbuddy-create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        plan: plan,
+        price_id: priceId,
+        email: state.email,
+        session_id: window.QUIZ_SESSION_ID,
+        avatar: state.avatar,
+        first_name: state.firstName || '',
+        event_time: Math.floor(Date.now() / 1000),
+        fbclid: (window.UnifiedTracker && window.UnifiedTracker.data && window.UnifiedTracker.data.fbclid) || null,
+        fbc: (window.UnifiedTracker && window.UnifiedTracker.data && window.UnifiedTracker.data.fbc) || null,
+        fbp: (window.UnifiedTracker && window.UnifiedTracker.data && window.UnifiedTracker.data.fbp) || null,
+        browser_id: (window.UnifiedTracker && window.UnifiedTracker.data && window.UnifiedTracker.data.browser_id) || null,
+        client_ip: (window.UnifiedTracker && window.UnifiedTracker.data && window.UnifiedTracker.data.client_ip) || null,
+        user_agent: navigator.userAgent,
+      }),
+    });
+
+    var data = await response.json();
+    if (!data.client_secret) throw new Error('No client_secret returned');
+
+    // Hide button, show checkout container
+    btn.style.display = 'none';
+    container.style.display = 'block';
+    container.innerHTML = '<div class="checkout-spinner" style="margin:40px auto;"></div>';
+    container.classList.add('loading');
+
+    // Mount Stripe Embedded Checkout
+    var stripe = Stripe(STRIPE_PK);
+    stripeCheckout = await stripe.initEmbeddedCheckout({
+      clientSecret: data.client_secret,
+    });
+    container.innerHTML = '';
+    container.classList.remove('loading');
+    stripeCheckout.mount('#checkout-container');
+
+  } catch (err) {
+    console.error('[Checkout] Error:', err);
+    btn.disabled = false;
+    btn.textContent = plan === 'lifetime' ? 'Get Lifetime Access — $149.99' : 'Start Your 7-Day Free Trial';
+    alert('Something went wrong loading checkout. Please try again.');
   }
 }
 

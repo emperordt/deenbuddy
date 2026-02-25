@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '786953823815077');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=786953823815077&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>You're All Set! | Deen Buddy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --primary: #51A780;
+  --primary-hover: #48A078;
+  --primary-light: #7CB098;
+  --primary-pale: #C5E5CD;
+  --primary-ghost: #EDF7F1;
+  --bg: #FFFFFF;
+  --surface: #F8F9F8;
+  --border: #E8E8E4;
+  --text: #1A1A1A;
+  --text2: #505050;
+  --text3: #888888;
+  --night: #0C1420;
+  --teal: #182830;
+  --gold: #887860;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { height: 100%; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--sans);
+  background: #F5F5F3;
+  color: var(--text);
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#app {
+  width: 100%;
+  max-width: 440px;
+  min-height: 100vh;
+  background: var(--bg);
+  position: relative;
+  overflow-x: hidden;
+}
+@media (min-width: 480px) {
+  #app { min-height: 100vh; box-shadow: 0 0 60px rgba(0,0,0,0.08); }
+}
+
+/* ---- SUCCESS HEADER ---- */
+.success-header {
+  background: linear-gradient(160deg, var(--night) 0%, var(--teal) 100%);
+  padding: 40px 24px 48px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.success-header::before {
+  content: '';
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border: 1px solid rgba(81,167,128,0.1);
+  border-radius: 50%;
+  top: -60px;
+  right: -60px;
+}
+.success-header::after {
+  content: '';
+  position: absolute;
+  width: 140px;
+  height: 140px;
+  border: 1px solid rgba(136,120,96,0.1);
+  border-radius: 50%;
+  bottom: -40px;
+  left: -40px;
+}
+
+/* ---- CRESCENT AND STAR DECORATION ---- */
+.thank-you-decor {
+  width: 72px;
+  height: 72px;
+  margin: 0 auto 20px;
+  position: relative;
+}
+.thank-you-decor::before {
+  content: '';
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: var(--primary);
+  top: 4px;
+  left: 0;
+  opacity: 0.2;
+}
+.thank-you-decor::after {
+  content: '';
+  position: absolute;
+  width: 52px;
+  height: 52px;
+  border-radius: 50%;
+  background: var(--night);
+  top: -2px;
+  left: 14px;
+}
+.thank-you-star {
+  position: absolute;
+  z-index: 1;
+  width: 14px;
+  height: 14px;
+  background: var(--primary-pale);
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  top: 10px;
+  left: 2px;
+}
+
+/* ---- CHECKMARK CIRCLE ---- */
+.check-circle {
+  width: 72px;
+  height: 72px;
+  background: var(--primary);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px;
+  animation: scaleIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+  box-shadow: 0 4px 24px rgba(81,167,128,0.3);
+}
+.check-circle svg {
+  width: 32px;
+  height: 32px;
+  animation: drawCheck 0.4s ease 0.3s both;
+}
+
+@keyframes scaleIn {
+  from { transform: scale(0); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+@keyframes drawCheck {
+  from { stroke-dashoffset: 30; opacity: 0; }
+  to { stroke-dashoffset: 0; opacity: 1; }
+}
+
+.success-title {
+  font-family: var(--serif);
+  font-size: 26px;
+  font-weight: 600;
+  color: #fff;
+  margin-bottom: 8px;
+  animation: fadeInUp 0.5s ease 0.2s both;
+}
+
+.success-sub {
+  font-size: 15px;
+  color: var(--primary-pale);
+  line-height: 1.5;
+  animation: fadeInUp 0.5s ease 0.3s both;
+}
+
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(16px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* ---- CONTENT ---- */
+.content {
+  padding: 28px 24px 40px;
+}
+
+.section-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 16px;
+  animation: slideUp 0.5s ease 0.4s both;
+}
+
+/* ---- NEXT STEPS ---- */
+.steps {
+  list-style: none;
+  margin-bottom: 32px;
+}
+.step {
+  display: flex;
+  gap: 14px;
+  padding: 16px 0;
+  border-bottom: 1px solid var(--border);
+  animation: slideUp 0.5s ease both;
+}
+.step:nth-child(1) { animation-delay: 0.45s; }
+.step:nth-child(2) { animation-delay: 0.5s; }
+.step:nth-child(3) { animation-delay: 0.55s; }
+.step:last-child { border-bottom: none; }
+
+.step-number {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  background: var(--primary-ghost);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--primary);
+}
+.step-content {
+  flex: 1;
+}
+.step-title {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 2px;
+}
+.step-desc {
+  font-size: 13px;
+  color: var(--text3);
+  line-height: 1.5;
+}
+
+/* ---- GEOMETRIC DIVIDER ---- */
+.geometric-divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  margin: 8px 0 28px;
+  opacity: 0.5;
+}
+.geometric-divider .line {
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border), transparent);
+}
+.geometric-divider .diamond {
+  width: 8px;
+  height: 8px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  opacity: 0.6;
+}
+
+/* ---- ORDER SUMMARY ---- */
+.order-summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 28px;
+  animation: slideUp 0.5s ease 0.6s both;
+}
+.order-summary-title {
+  font-size: 13px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text3);
+  margin-bottom: 12px;
+}
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  font-size: 14px;
+}
+.order-row .label { color: var(--text2); }
+.order-row .value { font-weight: 600; color: var(--text); }
+.order-row.plan .value {
+  text-transform: capitalize;
+  background: var(--primary-ghost);
+  color: var(--primary);
+  padding: 2px 10px;
+  border-radius: 8px;
+  font-size: 13px;
+}
+
+/* ---- APP STORE BUTTON ---- */
+.app-store-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 16px 24px;
+  background: var(--night);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  margin-bottom: 16px;
+  animation: slideUp 0.5s ease 0.65s both;
+}
+.app-store-btn:hover {
+  background: var(--teal);
+  transform: translateY(-1px);
+}
+.app-store-btn svg { width: 22px; height: 22px; }
+
+/* ---- SUPPORT ---- */
+.support {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text3);
+  padding: 20px 0;
+  line-height: 1.6;
+  animation: slideUp 0.5s ease 0.7s both;
+}
+.support a {
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.support a:hover { text-decoration: underline; }
+
+/* ---- PATTERN ---- */
+.pattern-top {
+  height: 4px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--primary) 0px,
+    var(--primary) 8px,
+    transparent 8px,
+    transparent 12px,
+    var(--gold) 12px,
+    var(--gold) 20px,
+    transparent 20px,
+    transparent 24px
+  );
+  opacity: 0.4;
+}
+
+/* ---- CONFETTI ---- */
+.confetti-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 999;
+  overflow: hidden;
+}
+.confetti {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  opacity: 0;
+  animation: confettiFall 3s ease-out forwards;
+}
+
+@keyframes confettiFall {
+  0% { opacity: 1; transform: translateY(-20px) rotate(0deg); }
+  100% { opacity: 0; transform: translateY(100vh) rotate(720deg); }
+}
+</style>
+</head>
+<body>
+<div id="app">
+  <div class="pattern-top"></div>
+
+  <!-- SUCCESS HEADER -->
+  <div class="success-header">
+    <div class="check-circle">
+      <svg viewBox="0 0 32 32" fill="none">
+        <path d="M8 16l6 6 10-10" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" stroke-dasharray="30" stroke-dashoffset="0"/>
+      </svg>
+    </div>
+    <h1 class="success-title">You're All Set!</h1>
+    <p class="success-sub">Jazakallahu Khairan</p>
+  </div>
+
+  <div class="content">
+    <!-- WHAT HAPPENS NEXT -->
+    <h2 class="section-title">What happens next</h2>
+
+    <ul class="steps">
+      <li class="step">
+        <span class="step-number">1</span>
+        <div class="step-content">
+          <div class="step-title">Check your email</div>
+          <div class="step-desc">Your digital products will arrive within 15 minutes. Check your spam folder if you don't see them.</div>
+        </div>
+      </li>
+      <li class="step">
+        <span class="step-number">2</span>
+        <div class="step-content">
+          <div class="step-title">Download Deen Buddy</div>
+          <div class="step-desc">Get the app from the App Store to start your personalized plan.</div>
+        </div>
+      </li>
+      <li class="step">
+        <span class="step-number">3</span>
+        <div class="step-content">
+          <div class="step-title">Begin your journey</div>
+          <div class="step-desc">Open the app and follow your personalized recommendations. Your path to a stronger deen starts now.</div>
+        </div>
+      </li>
+    </ul>
+
+    <div class="geometric-divider">
+      <span class="line"></span>
+      <span class="diamond"></span>
+      <span class="line"></span>
+    </div>
+
+    <!-- ORDER SUMMARY -->
+    <div class="order-summary">
+      <div class="order-summary-title">Order Summary</div>
+      <div class="order-row plan">
+        <span class="label">Plan</span>
+        <span class="value" id="planValue">-</span>
+      </div>
+      <div class="order-row">
+        <span class="label">Session ID</span>
+        <span class="value" id="sidValue" style="font-size:12px;color:var(--text3);font-family:monospace;">-</span>
+      </div>
+    </div>
+
+    <!-- APP STORE BUTTON -->
+    <a class="app-store-btn" href="https://apps.apple.com/us/app/deen-buddy-quran-chat/id6740403566" target="_blank" rel="noopener">
+      <svg viewBox="0 0 22 22" fill="none">
+        <path d="M15.5 1.5C14.2 1.5 13 2.1 12.2 3.1L11 4.6L9.8 3.1C9 2.1 7.8 1.5 6.5 1.5C4 1.5 2 3.5 2 6C2 11 11 19.5 11 19.5C11 19.5 20 11 20 6C20 3.5 18 1.5 15.5 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      Download Deen Buddy from the App Store
+    </a>
+
+    <!-- SUPPORT -->
+    <div class="support">
+      Questions? Email <a href="mailto:support@deenbuddy.app">support@deenbuddy.app</a><br>
+      We're here to help you on your journey.
+    </div>
+  </div>
+</div>
+
+<!-- CONFETTI -->
+<div class="confetti-container" id="confettiContainer"></div>
+
+<script>
+(function() {
+  'use strict';
+
+  // ---- URL PARAMS ----
+  var params = new URLSearchParams(window.location.search);
+  var cs = params.get('cs') || '';
+  var sid = params.get('sid') || '';
+  var plan = params.get('plan') || '';
+
+  // Display order summary
+  document.getElementById('planValue').textContent = plan || 'Standard';
+  document.getElementById('sidValue').textContent = sid ? sid.substring(0, 16) + '...' : '-';
+
+  // ---- FIRE PURCHASE_COMPLETE EVENT ----
+  try {
+    var payload = JSON.stringify({
+      session_id: sid,
+      event_name: 'purchase_complete',
+      event_time: Math.floor(Date.now() / 1000)
+    });
+    var sent = navigator.sendBeacon(
+      'https://n8n.dtthomas.cloud/webhook/deenbuddy-purchase-complete',
+      new Blob([payload], { type: 'text/plain' })
+    );
+    if (!sent) {
+      fetch('https://n8n.dtthomas.cloud/webhook/deenbuddy-purchase-complete', {
+        method: 'POST',
+        body: payload,
+        keepalive: true,
+        mode: 'no-cors'
+      }).catch(function() {});
+    }
+  } catch(e) {
+    console.warn('[tracking] purchase_complete failed:', e);
+  }
+
+  // ---- CONFETTI ANIMATION ----
+  var container = document.getElementById('confettiContainer');
+  var colors = ['#51A780', '#C5E5CD', '#887860', '#FFD700', '#EDF7F1', '#48A078'];
+
+  function createConfetti() {
+    for (var i = 0; i < 40; i++) {
+      var el = document.createElement('div');
+      el.className = 'confetti';
+      el.style.left = Math.random() * 100 + '%';
+      el.style.background = colors[Math.floor(Math.random() * colors.length)];
+      el.style.width = (Math.random() * 8 + 4) + 'px';
+      el.style.height = (Math.random() * 8 + 4) + 'px';
+      el.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+      el.style.animationDelay = Math.random() * 2 + 's';
+      el.style.animationDuration = (Math.random() * 2 + 2) + 's';
+      container.appendChild(el);
+    }
+    // Remove confetti after animation
+    setTimeout(function() {
+      container.innerHTML = '';
+    }, 5000);
+  }
+
+  // Trigger confetti on load
+  setTimeout(createConfetti, 300);
+})();
+</script>
+</body>
+</html>
