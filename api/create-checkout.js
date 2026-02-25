@@ -73,6 +73,7 @@ module.exports = async function handler(req, res) {
         },
       },
       metadata: {
+        email: email || '',
         session_id: session_id || '',
         avatar: avatar || '',
         first_name: first_name || '',

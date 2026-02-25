@@ -43,9 +43,10 @@ module.exports = async function handler(req, res) {
   };
 
   try {
-    // 1. Retrieve the original checkout session to get customer ID
+    // 1. Retrieve the original checkout session to get customer ID + email
     const checkoutSession = await stripe.checkout.sessions.retrieve(checkout_session_id);
     const customerId = checkoutSession.customer;
+    const customerEmail = (checkoutSession.customer_details && checkoutSession.customer_details.email) || checkoutSession.customer_email || '';
 
     if (!customerId) {
       return res.status(400).json({ success: false, message: 'No customer found on checkout session' });
@@ -78,6 +79,7 @@ module.exports = async function handler(req, res) {
         upsell_name: upsell_name || '',
         product: product || '',
         checkout_session_id: checkout_session_id,
+        email: customerEmail,
         client_ip: realIp,
         user_agent: (realUa || '').substring(0, 500),
       },
