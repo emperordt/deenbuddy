@@ -1,0 +1,1124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '786953523815077');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=786953523815077&ev=PageView&noscript=1"
+/></noscript>
+<!-- End Meta Pixel Code -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Deen Buddy — Start Your Journey</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<script src="https://js.stripe.com/v3/"></script>
+<script>
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="init capture identify alias set_config register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagPayload isFeatureEnabled reloadFeatureFlags on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing reset get_distinct_id getGroups get_session_id get_session_replay_url setPersonProperties group startSessionRecording stopSessionRecording".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    posthog.init('phc_HaTKif5f2PJQ6bg4RPoUl1IMlY7yZIPfxZjvO61to6s', {
+        api_host: 'https://us.i.posthog.com',
+        person_profiles: 'identified_only',
+        capture_pageview: true,
+        capture_pageleave: true,
+        autocapture: false,
+    });
+    function phCapture(ev, p) { try { posthog.capture(ev, p); } catch(e) {} }
+    function phIdentify(id, p) { try { posthog.identify(id, p); } catch(e) {} }
+</script>
+
+<!-- UnifiedTracker -->
+<script>
+(function() {
+  'use strict';
+  var CONFIG = { cookieExpiry: 90, debug: false, ipEndpoint: 'https://api64.ipify.org?format=json', ipFallback: 'https://api.ipify.org?format=json' };
+  var Storage = {
+    set: function(name, value) {
+      if (!value) return;
+      try { var expires = new Date(Date.now() + CONFIG.cookieExpiry * 86400000).toUTCString(); document.cookie = name + '=' + encodeURIComponent(value) + ';expires=' + expires + ';path=/;SameSite=Lax;Secure'; } catch(e) {}
+      try { localStorage.setItem('_tr_' + name, JSON.stringify({ value: value, expires: Date.now() + CONFIG.cookieExpiry * 86400000 })); } catch(e) {}
+      try { sessionStorage.setItem('_tr_' + name, value); } catch(e) {}
+    },
+    get: function(name) {
+      var value = null;
+      try { var match = document.cookie.match(new RegExp('(^| )' + name + '=([^;]+)')); if (match) value = decodeURIComponent(match[2]); } catch(e) {}
+      if (!value) { try { var stored = localStorage.getItem('_tr_' + name); if (stored) { var parsed = JSON.parse(stored); if (parsed.expires > Date.now()) value = parsed.value; else localStorage.removeItem('_tr_' + name); } } catch(e) {} }
+      if (!value) { try { value = sessionStorage.getItem('_tr_' + name); } catch(e) {} }
+      return value;
+    }
+  };
+  var params = new URL(location.href).searchParams;
+  var fbclid = params.get('fbclid') || Storage.get('fbclid');
+  if (params.get('fbclid')) Storage.set('fbclid', params.get('fbclid'));
+  var fbc = params.get('fbc') || null;
+  if (!fbc) { try { var fbcMatch = document.cookie.match(/(^| )_fbc=([^;]+)/); if (fbcMatch) fbc = decodeURIComponent(fbcMatch[2]); } catch(e) {} }
+  if (!fbc) fbc = Storage.get('fbc');
+  if (!fbc && fbclid) fbc = 'fb.1.' + Date.now() + '.' + fbclid;
+  if (fbc) Storage.set('fbc', fbc);
+  var fbp = params.get('fbp') || null;
+  if (!fbp) { try { var fbpMatch = document.cookie.match(/(^| )_fbp=([^;]+)/); if (fbpMatch) fbp = decodeURIComponent(fbpMatch[2]); } catch(e) {} }
+  if (!fbp) fbp = Storage.get('fbp');
+  if (!fbp) fbp = 'fb.1.' + Date.now() + '.' + Math.floor(Math.random() * 10000000000);
+  if (fbp) Storage.set('fbp', fbp);
+  var utmFields = ['utm_source','utm_medium','utm_campaign','utm_campaign_id','utm_adset','utm_adset_id','utm_ad','utm_ad_id','utm_content','utm_term'];
+  var utmData = {};
+  utmFields.forEach(function(field) {
+    var urlValue = params.get(field); var storedValue = Storage.get(field);
+    if (urlValue && !storedValue) { Storage.set(field, urlValue); utmData[field] = urlValue; }
+    else utmData[field] = urlValue || storedValue;
+  });
+  function generateBrowserId() {
+    var canvas = document.createElement('canvas'); var ctx = canvas.getContext('2d');
+    ctx.textBaseline = 'top'; ctx.font = '14px Arial'; ctx.fillText('browser-id', 2, 2);
+    var data = [navigator.userAgent, navigator.language, screen.width + 'x' + screen.height, new Date().getTimezoneOffset(), canvas.toDataURL()].join('|');
+    var hash = 0; for (var i = 0; i < data.length; i++) { hash = ((hash << 5) - hash) + data.charCodeAt(i); hash = hash & hash; }
+    return 'bid.' + Math.abs(hash).toString(36) + '.' + Date.now();
+  }
+  var browserId = Storage.get('browser_id');
+  if (!browserId) { browserId = generateBrowserId(); Storage.set('browser_id', browserId); }
+  window.UnifiedTracker = {
+    data: {
+      fbclid: fbclid, fbc: fbc, fbp: fbp, browser_id: browserId,
+      user_agent: navigator.userAgent, source_url: location.href, referrer: document.referrer || null, client_ip: null,
+      utm_source: utmData.utm_source, utm_medium: utmData.utm_medium, utm_campaign: utmData.utm_campaign,
+      utm_campaign_id: utmData.utm_campaign_id, utm_adset: utmData.utm_adset, utm_adset_id: utmData.utm_adset_id,
+      utm_ad: utmData.utm_ad, utm_ad_id: utmData.utm_ad_id, utm_content: utmData.utm_content, utm_term: utmData.utm_term,
+    }
+  };
+  function fetchIP(url, retries) {
+    return fetch(url, { mode: 'cors' })
+      .then(function(r) { if (!r.ok) throw new Error('fail'); return r.json(); })
+      .then(function(data) { Storage.set('client_ip', data.ip); window.UnifiedTracker.data.client_ip = data.ip; })
+      .catch(function() {
+        if (retries > 0 && url === CONFIG.ipEndpoint) return fetchIP(CONFIG.ipFallback, retries - 1);
+        var storedIP = Storage.get('client_ip'); if (storedIP) window.UnifiedTracker.data.client_ip = storedIP;
+      });
+  }
+  fetchIP(CONFIG.ipEndpoint, 2);
+})();
+</script>
+
+<style>
+:root {
+  --primary: #51A780;
+  --primary-hover: #48A078;
+  --primary-light: #7CB098;
+  --primary-pale: #C5E5CD;
+  --primary-ghost: #EDF7F1;
+  --bg: #FFFFFF;
+  --surface: #F8F9F8;
+  --border: #E8E8E4;
+  --border-medium: #D0D0CC;
+  --text: #1A1A1A;
+  --text2: #505050;
+  --text3: #888888;
+  --text-muted: #AAAAAA;
+  --night: #0C1420;
+  --teal: #182830;
+  --gold: #887860;
+  --error: #D94444;
+  --serif: 'Playfair Display', Georgia, serif;
+  --sans: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { height: 100%; -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--sans);
+  background: #F5F5F3;
+  color: var(--text);
+  min-height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
+  -webkit-font-smoothing: antialiased;
+}
+.container {
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg);
+  min-height: 100vh;
+  padding: 0 20px 40px;
+  position: relative;
+  box-shadow: 0 0 60px rgba(0,0,0,0.06);
+}
+@keyframes slideUp {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Hero */
+.hero {
+  text-align: center;
+  padding: 48px 0 32px;
+}
+.hero-logo {
+  font-family: var(--serif);
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--primary);
+  margin-bottom: 6px;
+  letter-spacing: -0.02em;
+}
+.hero-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--primary);
+  color: #fff;
+  padding: 6px 14px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 20px;
+}
+.hero h1 {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 700;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+.hero p {
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--text2);
+  max-width: 380px;
+  margin: 0 auto;
+}
+
+/* Email capture */
+.email-section {
+  margin-bottom: 28px;
+  opacity: 0;
+  animation: slideUp 0.5s ease 0.2s forwards;
+}
+.email-label {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 10px;
+  text-align: center;
+}
+.email-row {
+  display: flex;
+  gap: 8px;
+}
+.email-row input {
+  flex: 1;
+  padding: 14px 16px;
+  border: 2px solid var(--border);
+  border-radius: 12px;
+  font-size: 15px;
+  font-family: var(--sans);
+  outline: none;
+  transition: border-color 0.2s;
+  background: var(--surface);
+}
+.email-row input:focus {
+  border-color: var(--primary);
+  background: #fff;
+}
+.email-row button {
+  padding: 14px 22px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: background 0.2s;
+  white-space: nowrap;
+}
+.email-row button:hover { background: var(--primary-hover); }
+.email-row button:disabled { opacity: 0.6; cursor: not-allowed; }
+.email-error {
+  color: var(--error);
+  font-size: 13px;
+  margin-top: 6px;
+  text-align: center;
+  display: none;
+}
+
+/* Pricing section (hidden until email captured) */
+.pricing-section {
+  display: none;
+  opacity: 0;
+}
+.pricing-section.visible {
+  display: block;
+  animation: slideUp 0.5s ease forwards;
+}
+
+/* Discount banner */
+.discount-banner {
+  background: var(--teal);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 20px;
+  color: #fff;
+}
+.discount-banner-label {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--primary-pale);
+  margin-bottom: 4px;
+}
+.discount-banner-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.discount-banner-event {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 600;
+}
+.discount-banner-badge {
+  background: var(--primary);
+  color: #fff;
+  padding: 4px 12px;
+  border-radius: 99px;
+  font-size: 12px;
+  font-weight: 700;
+}
+.discount-banner-countdown {
+  font-size: 12px;
+  color: var(--primary-pale);
+  margin-top: 6px;
+}
+
+/* Section titles */
+.pp-section-title {
+  font-family: var(--serif);
+  font-size: 20px;
+  font-weight: 600;
+  text-align: center;
+  margin: 32px 0 18px;
+  color: var(--text);
+}
+
+/* Pricing tiers */
+.pp-tiers {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  margin-bottom: 24px;
+}
+.pp-tier {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px;
+  border: 2px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+  position: relative;
+}
+.pp-tier:first-child { border-radius: 14px 14px 0 0; }
+.pp-tier:last-child { border-radius: 0 0 14px 14px; }
+.pp-tier:not(:first-child) { border-top: none; }
+.pp-tier:hover { background: rgba(237,247,241,0.3); }
+.pp-tier.selected {
+  border-color: var(--primary);
+  background: var(--primary-ghost);
+  z-index: 1;
+  border-radius: 14px;
+  margin: -1px 0;
+  border-width: 2.5px;
+}
+.pp-tier-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+.pp-tier-radio {
+  width: 20px;
+  height: 20px;
+  border-radius: 99px;
+  border: 2px solid var(--border-medium);
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+}
+.pp-tier.selected .pp-tier-radio {
+  border-color: var(--primary);
+  background: var(--primary);
+}
+.pp-tier-name {
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+.pp-tier-original {
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 1px;
+}
+.pp-tier-right { text-align: right; }
+.pp-tier-price {
+  font-size: 26px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.pp-tier-price.highlight { color: var(--primary); }
+.pp-tier-unit {
+  font-size: 12px;
+  color: var(--text3);
+  font-weight: 500;
+}
+.pp-tier-badges {
+  position: absolute;
+  top: -11px;
+  left: 16px;
+  display: flex;
+  gap: 6px;
+}
+.pp-tier-badge {
+  font-size: 10px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 3px 10px;
+  border-radius: 99px;
+  background: var(--surface);
+  color: var(--text2);
+}
+.pp-tier-badge.best { background: var(--primary); color: #fff; }
+.pp-tier-badge.save { background: #D94444; color: #fff; }
+
+/* CTA */
+.pp-cta {
+  width: 100%;
+  padding: 16px 24px;
+  background: var(--primary);
+  color: #fff;
+  border: none;
+  border-radius: 14px;
+  font-size: 16px;
+  font-weight: 700;
+  font-family: var(--sans);
+  cursor: pointer;
+  transition: background 0.2s, transform 0.1s;
+  letter-spacing: -0.01em;
+}
+.pp-cta:hover { background: var(--primary-hover); }
+.pp-cta:active { transform: scale(0.98); }
+.pp-cta:disabled { opacity: 0.6; cursor: not-allowed; }
+.pp-cta-sub {
+  text-align: center;
+  font-size: 12px;
+  color: var(--text3);
+  margin-top: 10px;
+}
+
+/* Checkout container */
+#checkout-container {
+  margin: 20px 0 28px;
+  min-height: 300px;
+  border-radius: 14px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+#checkout-container.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+}
+.checkout-spinner {
+  width: 32px; height: 32px;
+  border: 3px solid var(--border);
+  border-top-color: var(--primary);
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* Features grid */
+.pp-features-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+.pp-feature-card {
+  background: var(--surface);
+  border-radius: 12px;
+  padding: 16px 14px;
+  text-align: center;
+}
+.pp-feature-card-icon { font-size: 24px; margin-bottom: 6px; }
+.pp-feature-card-name { font-size: 13px; font-weight: 600; color: var(--text); margin-bottom: 3px; }
+.pp-feature-card-desc { font-size: 11px; color: var(--text3); line-height: 1.4; }
+
+/* Stats */
+.pp-stats {
+  display: flex;
+  justify-content: space-around;
+  padding: 20px 0;
+  margin-bottom: 12px;
+}
+.pp-stat { text-align: center; }
+.pp-stat-value { font-size: 24px; font-weight: 800; color: var(--text); letter-spacing: -0.03em; }
+.pp-stat-label { font-size: 12px; color: var(--text3); margin-top: 2px; }
+
+/* Reviews */
+.pp-reviews {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  margin-bottom: 28px;
+}
+.pp-review {
+  background: var(--surface);
+  border-radius: 14px;
+  padding: 18px;
+}
+.pp-review-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.pp-review-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 16px;
+  color: #fff;
+  flex-shrink: 0;
+}
+.pp-review-header-info { flex: 1; }
+.pp-review-author {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+}
+.pp-review-verified {
+  font-size: 11px;
+  color: var(--primary);
+  font-weight: 500;
+}
+.pp-review-meta {
+  font-size: 12px;
+  color: var(--text3);
+}
+.pp-review-stars {
+  font-size: 13px;
+  color: #F5A623;
+  letter-spacing: 1px;
+}
+.pp-review-text {
+  font-size: 14px;
+  line-height: 1.55;
+  color: var(--text2);
+  font-style: italic;
+}
+
+/* Rating */
+.pp-rating {
+  text-align: center;
+  padding: 24px 0;
+  margin-bottom: 12px;
+}
+.pp-rating-number {
+  font-size: 48px;
+  font-weight: 800;
+  color: var(--text);
+  letter-spacing: -0.03em;
+  line-height: 1;
+}
+.pp-rating-label { font-size: 14px; color: var(--text3); margin-top: 2px; }
+.pp-rating-stars { font-size: 22px; color: #F5A623; margin-top: 6px; letter-spacing: 2px; }
+.pp-rating-count { font-size: 12px; color: var(--text3); margin-top: 4px; }
+
+/* FAQ */
+.pp-faq { margin-bottom: 32px; }
+.pp-faq-item {
+  border-bottom: 1px solid var(--border);
+}
+.pp-faq-q {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 0;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text);
+  cursor: pointer;
+  user-select: none;
+}
+.pp-faq-q span {
+  font-size: 20px;
+  color: var(--text3);
+  transition: transform 0.2s;
+}
+.pp-faq-item.open .pp-faq-q span { transform: rotate(45deg); }
+.pp-faq-a {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.3s ease, padding 0.3s ease;
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--text2);
+}
+.pp-faq-item.open .pp-faq-a {
+  max-height: 300px;
+  padding-bottom: 16px;
+}
+
+/* Footer */
+.pp-footer {
+  text-align: center;
+  padding: 24px 0 0;
+  border-top: 1px solid var(--border);
+}
+.pp-footer a {
+  color: var(--text3);
+  font-size: 12px;
+  text-decoration: none;
+  margin: 0 8px;
+}
+.pp-footer a:hover { color: var(--primary); }
+.pp-footer p {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 10px;
+  line-height: 1.5;
+}
+
+/* Outcomes */
+.pp-outcomes {
+  list-style: none;
+  margin-bottom: 28px;
+}
+.pp-outcomes li {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 8px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--text2);
+}
+.pp-outcomes li svg {
+  flex-shrink: 0;
+  margin-top: 3px;
+}
+
+/* Featured */
+.pp-featured {
+  text-align: center;
+  margin-bottom: 28px;
+}
+.pp-featured-title {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text3);
+  margin-bottom: 14px;
+}
+.pp-featured-logos {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 24px;
+  opacity: 0.5;
+}
+.pp-featured-logo svg { height: 22px; width: auto; }
+</style>
+</head>
+<body>
+
+<div class="container">
+
+  <!-- HERO -->
+  <div class="hero" style="opacity:0; animation: slideUp 0.5s ease forwards;">
+    <div class="hero-logo">Deen Buddy</div>
+    <div class="hero-badge">&#127769; Ramadan 2026</div>
+    <h1>Your AI-Powered Islamic Companion</h1>
+    <p>Join 1,000,000+ Muslims deepening their connection with Allah through AI-guided Quran study, prayer tracking, and daily spiritual growth.</p>
+  </div>
+
+  <!-- EMAIL CAPTURE -->
+  <div class="email-section">
+    <div class="email-label">Enter your email to get started</div>
+    <div class="email-row">
+      <input type="email" id="emailInput" placeholder="your@email.com" autocomplete="email" />
+      <button id="emailBtn" onclick="handleEmail()">Continue</button>
+    </div>
+    <div class="email-error" id="emailError">Please enter a valid email address.</div>
+  </div>
+
+  <!-- PRICING (hidden until email) -->
+  <div class="pricing-section" id="pricingSection">
+
+    <!-- Offer banner -->
+    <div class="discount-banner">
+      <div class="discount-banner-label">&#127769; Ramadan Limited Offer</div>
+      <div class="discount-banner-row">
+        <div class="discount-banner-event">Ramadan 2026</div>
+        <div class="discount-banner-badge">7 Days Free</div>
+      </div>
+      <div class="discount-banner-countdown">Offer reserved for: <span id="bannerTimer">09:59</span></div>
+    </div>
+
+    <!-- Choose your plan -->
+    <div class="pp-section-title">Choose your plan</div>
+
+    <div class="pp-tiers" id="pricingTiers">
+      <div class="pp-tier" onclick="selectPlan('monthly')" data-plan="monthly">
+        <div class="pp-tier-left">
+          <div class="pp-tier-radio"></div>
+          <div>
+            <div class="pp-tier-name">Monthly</div>
+            <div class="pp-tier-original">$179.88/yr &middot; 7-day free trial</div>
+          </div>
+        </div>
+        <div class="pp-tier-right">
+          <div class="pp-tier-price">$14.99</div>
+          <div class="pp-tier-unit">/month</div>
+        </div>
+      </div>
+      <div class="pp-tier selected" onclick="selectPlan('annual')" data-plan="annual">
+        <div class="pp-tier-badges">
+          <span class="pp-tier-badge best">Most Popular</span>
+          <span class="pp-tier-badge save">Save 61%</span>
+        </div>
+        <div class="pp-tier-left">
+          <div class="pp-tier-radio"></div>
+          <div>
+            <div class="pp-tier-name">Annual</div>
+            <div class="pp-tier-original">$5.83/mo &middot; 7-day free trial</div>
+          </div>
+        </div>
+        <div class="pp-tier-right">
+          <div class="pp-tier-price highlight">$69.99</div>
+          <div class="pp-tier-unit">/year</div>
+        </div>
+      </div>
+      <div class="pp-tier" onclick="selectPlan('lifetime')" data-plan="lifetime">
+        <div class="pp-tier-badges">
+          <span class="pp-tier-badge best" style="background:var(--gold);">Best Value</span>
+        </div>
+        <div class="pp-tier-left">
+          <div class="pp-tier-radio"></div>
+          <div>
+            <div class="pp-tier-name">Lifetime</div>
+            <div class="pp-tier-original">Less than 2 years &middot; Pay once</div>
+          </div>
+        </div>
+        <div class="pp-tier-right">
+          <div class="pp-tier-price">$149.99</div>
+          <div class="pp-tier-unit">one-time</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA + Checkout -->
+    <div id="checkoutArea">
+      <button class="pp-cta" id="ppCtaBtn" onclick="handleCheckout()">Start Your 7-Day Free Trial</button>
+      <div class="pp-cta-sub" id="ppCtaSub">Full access to every feature &mdash; free for 7 days. Cancel anytime.</div>
+      <div id="checkout-container" style="display:none;"></div>
+    </div>
+
+    <!-- Features -->
+    <div class="pp-section-title">Your plan includes</div>
+    <div class="pp-features-grid">
+      <div class="pp-feature-card">
+        <div class="pp-feature-card-icon">&#129302;</div>
+        <div class="pp-feature-card-name">AI Quran Chat</div>
+        <div class="pp-feature-card-desc">Ask anything about the Quran and get answers from authentic sources</div>
+      </div>
+      <div class="pp-feature-card">
+        <div class="pp-feature-card-icon">&#128214;</div>
+        <div class="pp-feature-card-name">Daily Verse</div>
+        <div class="pp-feature-card-desc">Personalized daily verse with interpretation and reflection</div>
+      </div>
+      <div class="pp-feature-card">
+        <div class="pp-feature-card-icon">&#128332;</div>
+        <div class="pp-feature-card-name">Prayer Times</div>
+        <div class="pp-feature-card-desc">Accurate prayer times with customizable Athan notifications</div>
+      </div>
+      <div class="pp-feature-card">
+        <div class="pp-feature-card-icon">&#129504;</div>
+        <div class="pp-feature-card-name">Daily Quiz</div>
+        <div class="pp-feature-card-desc">Test and grow your Islamic knowledge every day</div>
+      </div>
+      <div class="pp-feature-card">
+        <div class="pp-feature-card-icon">&#128218;</div>
+        <div class="pp-feature-card-name">Full Quran</div>
+        <div class="pp-feature-card-desc">Arabic + English with offline access and bookmarks</div>
+      </div>
+      <div class="pp-feature-card">
+        <div class="pp-feature-card-icon">&#128274;</div>
+        <div class="pp-feature-card-name">100% Ad-Free</div>
+        <div class="pp-feature-card-desc">Distraction-free experience. Your data stays yours.</div>
+      </div>
+    </div>
+
+    <!-- Outcomes -->
+    <div class="pp-section-title">With Deen Buddy, you will</div>
+    <ul class="pp-outcomes">
+      <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#51A780"/><path d="M5 9L8 12L13 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Recite Quran daily and understand what you're reading</li>
+      <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#51A780"/><path d="M5 9L8 12L13 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Pray Salah with presence, not just habit</li>
+      <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#51A780"/><path d="M5 9L8 12L13 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Get instant answers to any question about your deen</li>
+      <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#51A780"/><path d="M5 9L8 12L13 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Feel genuinely closer to Allah every single day</li>
+      <li><svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#51A780"/><path d="M5 9L8 12L13 6" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> Enter Ramadan with real momentum and preparation</li>
+    </ul>
+
+    <!-- Stats -->
+    <div class="pp-stats">
+      <div class="pp-stat">
+        <div class="pp-stat-value">1M+</div>
+        <div class="pp-stat-label">Downloads</div>
+      </div>
+      <div class="pp-stat">
+        <div class="pp-stat-value">4.9</div>
+        <div class="pp-stat-label">App Store &#9733;</div>
+      </div>
+      <div class="pp-stat">
+        <div class="pp-stat-value">130+</div>
+        <div class="pp-stat-label">Countries</div>
+      </div>
+    </div>
+
+    <!-- Featured -->
+    <div class="pp-featured">
+      <div class="pp-featured-title">As featured in</div>
+      <div class="pp-featured-logos">
+        <div class="pp-featured-logo">
+          <svg viewBox="0 0 100 26" fill="none"><text x="6" y="21" font-family="Georgia, serif" font-size="22" font-weight="400" fill="#1A1A1A" font-style="italic">Forbes</text></svg>
+        </div>
+        <div class="pp-featured-logo">
+          <svg viewBox="0 0 120 26" fill="none"><rect x="0" y="4" width="18" height="18" rx="2" fill="#0EAC51"/><text x="3" y="18" font-family="Arial, sans-serif" font-size="14" font-weight="900" fill="#fff">TC</text><text x="22" y="19" font-family="Arial, sans-serif" font-size="14" font-weight="700" fill="#1A1A1A" letter-spacing="-0.5">TechCrunch</text></svg>
+        </div>
+        <div class="pp-featured-logo">
+          <svg viewBox="0 0 70 26" fill="none"><text x="4" y="20" font-family="'Helvetica Neue', Arial, sans-serif" font-size="18" font-weight="900" fill="#CC0000" letter-spacing="1">CNN</text></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Second CTA -->
+    <button class="pp-cta" onclick="handleCheckout()" style="margin-bottom:32px;">Start Your 7-Day Free Trial</button>
+
+    <!-- Reviews -->
+    <div class="pp-section-title">Trusted by Muslims worldwide</div>
+    <div class="pp-reviews">
+      <div class="pp-review">
+        <div class="pp-review-header">
+          <div class="pp-review-avatar" style="background: #C58B6F;">S</div>
+          <div class="pp-review-header-info">
+            <div class="pp-review-author">Sarah M. <span class="pp-review-verified"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#51A780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Verified</span></div>
+            <div class="pp-review-meta">London, UK</div>
+          </div>
+          <div class="pp-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        </div>
+        <div class="pp-review-text">"I've been wanting to memorize Quran for years but never knew where to start. Deen Buddy gave me a plan and I've already memorized Surah Mulk in three weeks. This app is a blessing."</div>
+      </div>
+      <div class="pp-review">
+        <div class="pp-review-header">
+          <div class="pp-review-avatar" style="background: #5B8FA8;">A</div>
+          <div class="pp-review-header-info">
+            <div class="pp-review-author">Ahmed K. <span class="pp-review-verified"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#51A780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Verified</span></div>
+            <div class="pp-review-meta">Toronto, Canada</div>
+          </div>
+          <div class="pp-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        </div>
+        <div class="pp-review-text">"I hadn't prayed consistently in years. The daily verse notifications and AI chat helped me start small and build a real habit. Now I look forward to Fajr."</div>
+      </div>
+      <div class="pp-review">
+        <div class="pp-review-header">
+          <div class="pp-review-avatar" style="background: #A0785A;">F</div>
+          <div class="pp-review-header-info">
+            <div class="pp-review-author">Fatima B. <span class="pp-review-verified"><svg width="10" height="10" viewBox="0 0 10 10" fill="none"><path d="M2 5L4 7L8 3" stroke="#51A780" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg> Verified</span></div>
+            <div class="pp-review-meta">Dallas, USA</div>
+          </div>
+          <div class="pp-review-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</div>
+        </div>
+        <div class="pp-review-text">"As a mother of three I never had time for Islamic classes. Deen Buddy fits into my schedule — even 5 minutes a day has made me feel so much more connected."</div>
+      </div>
+    </div>
+
+    <!-- Rating -->
+    <div class="pp-rating">
+      <div class="pp-rating-number">4.9</div>
+      <div class="pp-rating-label">out of 5</div>
+      <div class="pp-rating-stars">&#9733; &#9733; &#9733; &#9733; &#9733;</div>
+      <div class="pp-rating-count">App Store &amp; Google Play &middot; 1,000,000+ downloads</div>
+    </div>
+
+    <!-- FAQ -->
+    <div class="pp-section-title">Common questions</div>
+    <div class="pp-faq">
+      <div class="pp-faq-item">
+        <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">What is Deen Buddy? <span>+</span></div>
+        <div class="pp-faq-a">Deen Buddy is an AI-powered Islamic companion app that helps you learn the Quran, maintain your prayers, and deepen your understanding of Islam &mdash; all in one place. It uses AI trained on classical tafsir and authentic hadith to answer your questions privately and accurately.</div>
+      </div>
+      <div class="pp-faq-item">
+        <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">How does the free trial work? <span>+</span></div>
+        <div class="pp-faq-a">Choose Monthly ($14.99/mo) or Annual ($69.99/yr) and get 7 days completely free. You won't be charged until your trial ends. Cancel anytime before that and pay nothing. The Lifetime plan ($149.99) is a one-time payment with no trial needed.</div>
+      </div>
+      <div class="pp-faq-item">
+        <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">Is Deen Buddy good for beginners? <span>+</span></div>
+        <div class="pp-faq-a">Absolutely. Deen Buddy was designed to meet you wherever you are &mdash; whether you're a new Muslim, returning to practice, or a lifelong learner. The AI adapts to your level and never makes you feel judged for asking any question.</div>
+      </div>
+      <div class="pp-faq-item">
+        <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">Is it really free? <span>+</span></div>
+        <div class="pp-faq-a">Yes &mdash; you get full access to every feature for 7 days completely free. After your trial, you can choose a plan that works for you, or cancel anytime.</div>
+      </div>
+      <div class="pp-faq-item">
+        <div class="pp-faq-q" onclick="toggleFaq(this.parentElement)">What if I don't like it? <span>+</span></div>
+        <div class="pp-faq-a">Simply cancel during your 7-day free trial and you won't be charged a thing. If you chose Lifetime, we offer a 30-day money-back guarantee &mdash; no questions asked.</div>
+      </div>
+    </div>
+
+    <!-- Final CTA -->
+    <button class="pp-cta" onclick="handleCheckout()">Start Your 7-Day Free Trial</button>
+    <div class="pp-cta-sub">Full access &middot; Cancel anytime</div>
+
+  </div><!-- /pricing-section -->
+
+  <!-- FOOTER -->
+  <div class="pp-footer" style="margin-top:32px;">
+    <a href="#">Privacy Policy</a>
+    <a href="#">Terms of Service</a>
+    <a href="#">Contact</a>
+    <p>&copy; 2026 Zamzam Technologies LLC. All rights reserved.<br>Deen Buddy is not a substitute for formal Islamic education.</p>
+  </div>
+
+</div>
+
+<script>
+// ---- SESSION ID ----
+var SESSION_ID = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+  var r = Math.random() * 16 | 0; return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
+});
+
+// ---- TRACKING ----
+function trackEvent(eventName, extraData) {
+  var webhooks = {
+    page_view: 'https://n8n.dtthomas.cloud/webhook/deenbuddy-pageview',
+    lead: 'https://n8n.dtthomas.cloud/webhook/deenbuddy-email',
+    checkout_initiated: 'https://n8n.dtthomas.cloud/webhook/deenbuddy-create-checkout',
+  };
+  var url = webhooks[eventName];
+  if (!url) return;
+  var tracker = window.UnifiedTracker ? window.UnifiedTracker.data : {};
+  var payload = Object.assign({}, tracker, {
+    event_name: eventName,
+    session_id: SESSION_ID,
+    event_time: Math.floor(Date.now() / 1000),
+    source_url: location.href,
+  }, extraData || {});
+  try { navigator.sendBeacon(url, JSON.stringify(payload)); } catch(e) {}
+}
+
+// Fire page view
+trackEvent('page_view', { page: 'pricing_direct' });
+
+// ---- EMAIL CAPTURE ----
+var capturedEmail = '';
+
+function handleEmail() {
+  var input = document.getElementById('emailInput');
+  var error = document.getElementById('emailError');
+  var btn = document.getElementById('emailBtn');
+  var email = (input.value || '').trim().toLowerCase();
+
+  if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+    error.style.display = 'block';
+    input.style.borderColor = 'var(--error)';
+    return;
+  }
+
+  error.style.display = 'none';
+  input.style.borderColor = 'var(--primary)';
+  capturedEmail = email;
+  btn.disabled = true;
+  btn.textContent = 'Loading...';
+
+  // Identify in PostHog
+  phIdentify(email, { source: 'pricing_direct' });
+  phCapture('lead_captured', { email: email, source: 'pricing_direct' });
+
+  // Fire lead event to n8n
+  trackEvent('lead', { email: email, first_name: '', source: 'pricing_direct' });
+
+  // Fire Meta Pixel Lead event
+  try { fbq('track', 'Lead', { content_name: 'pricing_direct' }); } catch(e) {}
+
+  // Reveal pricing section
+  setTimeout(function() {
+    var section = document.getElementById('pricingSection');
+    section.classList.add('visible');
+    startCountdown();
+    // Scroll to pricing
+    setTimeout(function() {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 100);
+  }, 300);
+}
+
+// Allow Enter key on email input
+document.getElementById('emailInput').addEventListener('keydown', function(e) {
+  if (e.key === 'Enter') handleEmail();
+});
+
+// ---- COUNTDOWN TIMER ----
+function startCountdown() {
+  var total = 10 * 60; // 10 minutes
+  var el = document.getElementById('bannerTimer');
+  function tick() {
+    if (total <= 0) { el.textContent = '00:00'; return; }
+    var m = Math.floor(total / 60);
+    var s = total % 60;
+    el.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
+    total--;
+  }
+  tick();
+  setInterval(tick, 1000);
+}
+
+// ---- STRIPE CONFIG ----
+var STRIPE_PK = 'pk_live_REPLACE_WITH_YOUR_KEY';
+var STRIPE_PRICES = {
+  monthly:  'price_REPLACE_MONTHLY',
+  annual:   'price_REPLACE_ANNUAL',
+  lifetime: 'price_REPLACE_LIFETIME',
+};
+var PLAN_VALUES = { monthly: 14.99, annual: 69.99, lifetime: 149.99 };
+var selectedPlan = 'annual';
+var stripeCheckout = null;
+
+function selectPlan(plan) {
+  selectedPlan = plan;
+  document.querySelectorAll('.pp-tier').forEach(function(t) {
+    t.classList.toggle('selected', t.dataset.plan === plan);
+  });
+  var btn = document.getElementById('ppCtaBtn');
+  var sub = document.getElementById('ppCtaSub');
+  if (plan === 'lifetime') {
+    btn.textContent = 'Get Lifetime Access — $149.99';
+    sub.textContent = 'One-time payment. Yours forever. 30-day money-back guarantee.';
+  } else if (plan === 'annual') {
+    btn.textContent = 'Start Your 7-Day Free Trial';
+    sub.textContent = 'Full access for 7 days free, then $69.99/yr. Cancel anytime.';
+  } else {
+    btn.textContent = 'Start Your 7-Day Free Trial';
+    sub.textContent = 'Full access for 7 days free, then $14.99/mo. Cancel anytime.';
+  }
+  if (stripeCheckout) {
+    stripeCheckout.destroy();
+    stripeCheckout = null;
+    document.getElementById('checkout-container').style.display = 'none';
+    document.getElementById('ppCtaBtn').style.display = 'block';
+  }
+}
+
+async function handleCheckout() {
+  var btn = document.getElementById('ppCtaBtn');
+  var container = document.getElementById('checkout-container');
+  var plan = selectedPlan;
+  var priceId = STRIPE_PRICES[plan];
+
+  btn.disabled = true;
+  btn.textContent = 'Loading checkout...';
+
+  phCapture('checkout_initiated', {
+    plan: plan,
+    email: capturedEmail,
+    value: PLAN_VALUES[plan],
+    source: 'pricing_direct',
+  });
+  trackEvent('checkout_initiated', {
+    email: capturedEmail,
+    first_name: '',
+    plan_selected: plan,
+    value: PLAN_VALUES[plan],
+    currency: 'USD',
+    source: 'pricing_direct',
+  });
+
+  try {
+    var tracker = window.UnifiedTracker ? window.UnifiedTracker.data : {};
+    var response = await fetch('https://n8n.dtthomas.cloud/webhook/deenbuddy-create-checkout', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        plan: plan,
+        price_id: priceId,
+        email: capturedEmail,
+        session_id: SESSION_ID,
+        avatar: null,
+        first_name: '',
+        event_time: Math.floor(Date.now() / 1000),
+        fbclid: tracker.fbclid || null,
+        fbc: tracker.fbc || null,
+        fbp: tracker.fbp || null,
+        browser_id: tracker.browser_id || null,
+        client_ip: tracker.client_ip || null,
+        user_agent: navigator.userAgent,
+        source: 'pricing_direct',
+      }),
+    });
+
+    var data = await response.json();
+    if (!data.client_secret) throw new Error('No client_secret returned');
+
+    btn.style.display = 'none';
+    container.style.display = 'block';
+    container.innerHTML = '<div class="checkout-spinner" style="margin:40px auto;"></div>';
+    container.classList.add('loading');
+
+    var stripe = Stripe(STRIPE_PK);
+    stripeCheckout = await stripe.initEmbeddedCheckout({
+      clientSecret: data.client_secret,
+    });
+    container.innerHTML = '';
+    container.classList.remove('loading');
+    stripeCheckout.mount('#checkout-container');
+
+  } catch (err) {
+    console.error('[Checkout] Error:', err);
+    btn.disabled = false;
+    btn.textContent = plan === 'lifetime' ? 'Get Lifetime Access — $149.99' : 'Start Your 7-Day Free Trial';
+    alert('Something went wrong loading checkout. Please try again.');
+  }
+}
+
+// ---- FAQ TOGGLE ----
+function toggleFaq(item) {
+  item.classList.toggle('open');
+}
+</script>
+</body>
+</html>
