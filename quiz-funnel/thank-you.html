@@ -316,23 +316,41 @@ body {
   justify-content: center;
   gap: 10px;
   width: 100%;
-  padding: 16px 24px;
-  background: var(--night);
-  color: #fff;
+  padding: 18px 24px;
+  background: linear-gradient(180deg, #F0D96C 0%, #D4B84E 40%, #C6A83E 100%);
+  color: var(--night);
   border: none;
   border-radius: 14px;
   font-family: var(--sans);
   font-size: 16px;
-  font-weight: 600;
+  font-weight: 700;
   cursor: pointer;
   text-decoration: none;
-  transition: all 0.2s ease;
+  transition: all 0.25s ease;
   margin-bottom: 16px;
   animation: slideUp 0.5s ease 0.65s both;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 4px 16px rgba(212,184,78,0.3), 0 1px 0 rgba(255,255,255,0.2) inset;
+}
+.app-store-btn::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.35) 50%, transparent 80%);
+  animation: shine 3.5s ease-in-out infinite;
+}
+@keyframes shine {
+  0% { left: -100%; }
+  40% { left: 120%; }
+  100% { left: 120%; }
 }
 .app-store-btn:hover {
-  background: var(--teal);
   transform: translateY(-1px);
+  box-shadow: 0 6px 28px rgba(212,184,78,0.4), 0 1px 0 rgba(255,255,255,0.25) inset;
 }
 .app-store-btn svg { width: 22px; height: 22px; }
 
@@ -425,7 +443,7 @@ body {
         <span class="step-number">2</span>
         <div class="step-content">
           <div class="step-title">Download Deen Buddy</div>
-          <div class="step-desc">Get the app from the App Store to start your personalized plan.</div>
+          <div class="step-desc">We'll send you a special link to download the app with your free trial already activated. Look for it in the same email.</div>
         </div>
       </li>
       <li class="step">
@@ -436,33 +454,6 @@ body {
         </div>
       </li>
     </ul>
-
-    <div class="geometric-divider">
-      <span class="line"></span>
-      <span class="diamond"></span>
-      <span class="line"></span>
-    </div>
-
-    <!-- ORDER SUMMARY -->
-    <div class="order-summary">
-      <div class="order-summary-title">Order Summary</div>
-      <div class="order-row plan">
-        <span class="label">Plan</span>
-        <span class="value" id="planValue">-</span>
-      </div>
-      <div class="order-row">
-        <span class="label">Session ID</span>
-        <span class="value" id="sidValue" style="font-size:12px;color:var(--text3);font-family:monospace;">-</span>
-      </div>
-    </div>
-
-    <!-- APP STORE BUTTON -->
-    <a class="app-store-btn" href="https://apps.apple.com/us/app/deen-buddy-quran-chat/id6740403566" target="_blank" rel="noopener">
-      <svg viewBox="0 0 22 22" fill="none">
-        <path d="M15.5 1.5C14.2 1.5 13 2.1 12.2 3.1L11 4.6L9.8 3.1C9 2.1 7.8 1.5 6.5 1.5C4 1.5 2 3.5 2 6C2 11 11 19.5 11 19.5C11 19.5 20 11 20 6C20 3.5 18 1.5 15.5 1.5Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-      </svg>
-      Download Deen Buddy from the App Store
-    </a>
 
     <!-- SUPPORT -->
     <div class="support">
@@ -484,10 +475,6 @@ body {
   var cs = params.get('cs') || '';
   var sid = params.get('sid') || '';
   var plan = params.get('plan') || '';
-
-  // Display order summary
-  document.getElementById('planValue').textContent = plan || 'Standard';
-  document.getElementById('sidValue').textContent = sid ? sid.substring(0, 16) + '...' : '-';
 
   // ---- FIRE PURCHASE_COMPLETE EVENT ----
   try {
