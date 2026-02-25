@@ -1046,6 +1046,116 @@ body {
   text-align: center;
   padding: 32px 24px 40px;
 }
+
+/* ---- FUTURE-PACE SCREEN ---- */
+.future-pace {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  text-align: center;
+  padding: 60px 24px;
+  background: linear-gradient(165deg, #0C1420 0%, #132218 50%, #0C1420 100%);
+  position: relative;
+  overflow: hidden;
+}
+.future-pace::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: radial-gradient(ellipse at 50% 30%, rgba(81,167,128,0.08) 0%, transparent 60%);
+  pointer-events: none;
+}
+.future-pace-icon {
+  font-size: 56px;
+  margin-bottom: 24px;
+  filter: drop-shadow(0 0 30px rgba(212,175,55,0.3));
+}
+.future-pace-label {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--primary);
+  margin-bottom: 20px;
+}
+.future-pace-headline {
+  font-family: var(--serif);
+  font-size: 32px;
+  font-weight: 500;
+  line-height: 1.2;
+  color: #fff;
+  margin-bottom: 8px;
+  max-width: 340px;
+}
+.future-pace-headline em {
+  color: #D4AF37;
+  font-style: italic;
+}
+.future-pace-date {
+  font-family: var(--serif);
+  font-size: 38px;
+  font-weight: 600;
+  color: #D4AF37;
+  margin-bottom: 24px;
+  letter-spacing: -0.02em;
+  text-shadow: 0 0 40px rgba(212,175,55,0.25);
+}
+.future-pace-sub {
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1.65;
+  color: rgba(255,255,255,0.6);
+  max-width: 320px;
+  margin-bottom: 16px;
+}
+.future-pace-stat {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 20px;
+  background: rgba(81,167,128,0.1);
+  border: 1px solid rgba(81,167,128,0.2);
+  border-radius: 100px;
+  font-size: 13px;
+  color: rgba(255,255,255,0.75);
+  margin-bottom: 40px;
+}
+.future-pace-stat strong {
+  color: #D4AF37;
+  font-weight: 600;
+}
+.future-pace-btn {
+  width: 100%;
+  max-width: 320px;
+  padding: 18px;
+  background: linear-gradient(135deg, #D4AF37 0%, #B8942E 100%);
+  color: #0C1420;
+  font-family: var(--sans);
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 14px;
+  cursor: pointer;
+  letter-spacing: 0.01em;
+  box-shadow: 0 4px 24px rgba(212,175,55,0.3);
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.future-pace-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 6px 32px rgba(212,175,55,0.4);
+}
+.future-pace-privacy {
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 16px;
+}
+
 .results-badge {
   display: inline-flex;
   align-items: center;
@@ -2613,14 +2723,14 @@ const steps = [
   // ===== PROCESSING =====
   { id: 'processing', type: 'processing' },
 
-  // ===== RESULTS =====
-  { id: 'results', type: 'results' },
+  // ===== FUTURE-PACE =====
+  { id: 'future-pace', type: 'future-pace' },
 
-  // ===== EMAIL GATE =====
+  // ===== EMAIL GATE (unlocks results) =====
   { id: 'email-gate', type: 'email-gate' },
 
-  // ===== PRICING =====
-  { id: 'pricing', type: 'pricing' },
+  // ===== RESULTS + OFFER (merged — one scroll, no drop-off) =====
+  { id: 'results-offer', type: 'results-offer' },
 ];
 
 
@@ -2770,9 +2880,9 @@ function render() {
     case 'interstitial': renderInterstitial(); break;
     case 'social-proof': renderSocialProof(); break;
     case 'processing': renderProcessing(); break;
-    case 'results': renderResults(); break;
+    case 'future-pace': renderFuturePace(); break;
     case 'email-gate': renderEmailGate(); break;
-    case 'pricing': renderPricing(); break;
+    case 'results-offer': renderResultsOffer(); break;
   }
 }
 
@@ -3081,7 +3191,57 @@ $popupNo.addEventListener('click', () => {
 });
 
 
-// ---- RESULTS ----
+// ---- FUTURE-PACE ----
+function renderFuturePace() {
+  $progressBar.style.display = 'none';
+  window.scrollTo(0, 0);
+
+  // Dynamic date ~30 days from now
+  var futureDate = new Date();
+  futureDate.setDate(futureDate.getDate() + 30);
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var dateStr = months[futureDate.getMonth()] + ' ' + futureDate.getDate();
+
+  // Avatar-specific headline + sub
+  var headline, sub, stat, icon;
+  if (state.avatar === 'seeker') {
+    icon = '🔦';
+    headline = 'Your understanding of Islam by';
+    sub = 'In 30 days, you could go from piecing together answers on Google to confidently understanding what you recite in every prayer. That\'s not a dream — it\'s what happens when you have the right companion.';
+    stat = '<strong>73%</strong> of seekers report deeper Quran understanding in 30 days';
+  } else if (state.avatar === 'believer') {
+    icon = '💚';
+    headline = 'Your connection with Allah by';
+    sub = 'In 30 days, you could go from inconsistent prayers and quiet guilt to a daily practice that fills you with peace. The faith never left you — it\'s waiting.';
+    stat = '<strong>68%</strong> improvement in prayer consistency within the first month';
+  } else if (state.avatar === 'guardian') {
+    icon = '🛡️';
+    headline = 'Your family\'s bond with Islam by';
+    sub = 'In 30 days, you could go from worrying about your children\'s faith to confidently guiding them with answers that come from authentic scholarship — not Google guesswork.';
+    stat = '<strong>89%</strong> of parents feel more confident answering their children\'s questions';
+  } else {
+    icon = '✨';
+    headline = 'Your relationship with Allah by';
+    sub = 'In 30 days, you could transform your understanding of the Quran and build a daily practice that brings real peace.';
+    stat = '<strong>73%</strong> of members report deeper understanding in 30 days';
+  }
+
+  $screen.innerHTML = `
+    <div class="future-pace">
+      <div class="future-pace-icon" style="animation: slideUp 0.6s ease forwards;">${icon}</div>
+      <div class="future-pace-label" style="opacity:0; animation: slideUp 0.5s ease 0.1s forwards;">Your personalized results are ready</div>
+      <div class="future-pace-headline" style="opacity:0; animation: slideUp 0.5s ease 0.2s forwards;">${headline}</div>
+      <div class="future-pace-date" style="opacity:0; animation: slideUp 0.5s ease 0.3s forwards;"><em>${dateStr}</em></div>
+      <div class="future-pace-sub" style="opacity:0; animation: slideUp 0.5s ease 0.4s forwards;">${sub}</div>
+      <div class="future-pace-stat" style="opacity:0; animation: slideUp 0.5s ease 0.5s forwards;">📊 ${stat}</div>
+      <button class="future-pace-btn" style="opacity:0; animation: slideUp 0.5s ease 0.6s forwards;" onclick="goNext()">See My Results</button>
+      <div class="future-pace-privacy" style="opacity:0; animation: slideUp 0.5s ease 0.7s forwards;">We just need your email to unlock your personalized plan</div>
+    </div>
+  `;
+}
+
+
+// ---- RESULTS (legacy — now part of results-offer) ----
 function renderResults() {
   $progressBar.style.display = 'none';
   const arch = getArchetype();
@@ -3205,24 +3365,31 @@ function renderEmailGate() {
   window.scrollTo(0, 0);
 
   const arch = getArchetype();
+
+  // Dynamic date for future-pacing continuity
+  var futureDate = new Date();
+  futureDate.setDate(futureDate.getDate() + 30);
+  var months = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var dateStr = months[futureDate.getMonth()] + ' ' + futureDate.getDate();
+
   let deliverables;
   if (state.avatar === 'seeker') {
     deliverables = [
-      'Your personalized learning plan based on your quiz answers',
-      'A curated "First Steps" Quran reading guide for new learners',
-      'Exclusive Ramadan preparation checklist',
+      'Your <strong>' + arch.name + '</strong> archetype breakdown — what it means for your journey',
+      'A personalized 30-day roadmap to understanding your deen by ' + dateStr,
+      'Your biggest blindspots and exactly how to fix them',
     ];
   } else if (state.avatar === 'believer') {
     deliverables = [
-      'Your personalized plan to rebuild daily consistency',
-      'A 7-day prayer rebuilding framework matched to your schedule',
-      'Exclusive Ramadan preparation checklist',
+      'Your <strong>' + arch.name + '</strong> archetype breakdown — why you\'re closer than you think',
+      'A personalized 30-day roadmap to rebuilding your practice by ' + dateStr,
+      'The #1 barrier holding you back — and how to break through it',
     ];
   } else {
     deliverables = [
-      'Your family faith-building plan based on your quiz answers',
-      'A guide to answering your children\'s toughest Islamic questions',
-      'Exclusive Ramadan preparation checklist for families',
+      'Your <strong>' + arch.name + '</strong> archetype breakdown — your family\'s faith profile',
+      'A personalized 30-day roadmap to confident Islamic parenting by ' + dateStr,
+      'How to answer your children\'s hardest questions — starting today',
     ];
   }
 
@@ -3236,9 +3403,9 @@ function renderEmailGate() {
 
   $screen.innerHTML = `
     <div class="email-gate">
-      <div class="email-gate-icon" style="animation: slideUp 0.5s ease forwards;">📩</div>
-      <div class="email-gate-title" style="opacity:0; animation: slideUp 0.5s ease 0.08s forwards;">Where should we send your<br><em style="color:var(--primary); font-style:italic;">${arch.name}</em> plan?</div>
-      <div class="email-gate-sub" style="opacity:0; animation: slideUp 0.5s ease 0.16s forwards;">Enter your email and we'll send your personalized results plus these free resources:</div>
+      <div class="email-gate-icon" style="animation: slideUp 0.5s ease forwards;">🔓</div>
+      <div class="email-gate-title" style="opacity:0; animation: slideUp 0.5s ease 0.08s forwards;">Enter your email to<br><em style="color:var(--primary); font-style:italic;">unlock your results</em></div>
+      <div class="email-gate-sub" style="opacity:0; animation: slideUp 0.5s ease 0.16s forwards;">Your personalized results are ready. Enter your email to see:</div>
       <div class="email-gate-items" style="opacity:0; animation: slideUp 0.5s ease 0.24s forwards;">
         ${itemsHtml}
       </div>
@@ -3246,7 +3413,7 @@ function renderEmailGate() {
         <input type="text" class="email-gate-input" id="firstNameInput" placeholder="First name" autocomplete="given-name" style="margin-bottom:10px;">
         <input type="email" class="email-gate-input" id="emailInput" placeholder="your@email.com" autocomplete="email" inputmode="email">
         <div class="email-gate-error" id="emailError">Please enter a valid email address</div>
-        <button class="email-gate-btn" id="emailSubmitBtn">Send My Personalized Plan</button>
+        <button class="email-gate-btn" id="emailSubmitBtn">Unlock My Results</button>
         <div class="email-gate-trust">
           <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.167L2.333 3.5v3.033c0 2.845 1.99 5.507 4.667 6.134 2.677-.627 4.667-3.289 4.667-6.134V3.5L7 1.167z" stroke="#888" stroke-width="1.2" stroke-linejoin="round"/><path d="M5 7l1.5 1.5L9.5 5" stroke="#888" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
           We respect your privacy. Unsubscribe anytime.
@@ -3304,7 +3471,380 @@ function renderEmailGate() {
 }
 
 
-// ---- PRICING ----
+// ---- RESULTS + OFFER (MERGED) ----
+function renderResultsOffer() {
+  $progressBar.style.display = 'none';
+  $header.style.display = 'none';
+  window.scrollTo(0, 0);
+  startSocialToasts();
+
+  const arch = getArchetype();
+  const features = getFeatures();
+  const paragraphHtml = arch.paragraph.replace(/\n\n/g, '</p><p style="margin-top:12px;">');
+
+  const featureHtml = features.map(f => `
+    <div class="results-feature">
+      <div class="results-feature-icon">${f.icon}</div>
+      <div class="results-feature-text">${f.title}<span>${f.sub}</span></div>
+    </div>
+  `).join('');
+
+  // Stat based on avatar
+  let statText = 'Members with a similar profile who use Deen Buddy daily report a <strong>73% increase</strong> in Quran engagement within 30 days.';
+  if (state.avatar === 'believer') statText = 'Members who started where you are saw their <strong>prayer consistency improve by 68%</strong> within the first month.';
+  if (state.avatar === 'guardian') statText = '<strong>89% of parents</strong> using Deen Buddy say they feel more confident answering their children\'s questions about Islam.';
+
+  // Personalized benefits for pricing section
+  let benefits;
+  if (state.avatar === 'seeker') {
+    benefits = [
+      'Build a consistent daily Quran habit with AI-guided sessions tailored to your level',
+      'Get instant, judgment-free answers to any Islamic question — from classical tafsir',
+      'Track real progress in your knowledge and confidence every single day',
+    ];
+  } else if (state.avatar === 'believer') {
+    benefits = [
+      'Rebuild your daily prayer routine with smart, gentle reminders synced to your schedule',
+      'Understand what you recite in Salah with personalized translations and tafsir',
+      'Track your consistency and watch your connection with Allah strengthen daily',
+    ];
+  } else {
+    benefits = [
+      'Answer your children\'s Islamic questions with confidence — instantly, from trusted sources',
+      'Build a family Quran habit with explanations even kids can understand',
+      'Give your children a love for Islam that lasts beyond your lifetime',
+    ];
+  }
+
+  const checkSvg = '<svg width="18" height="18" viewBox="0 0 18 18" fill="none"><circle cx="9" cy="9" r="9" fill="#EDF7F1"/><path d="M5.5 9L8 11.5L12.5 7" stroke="#51A780" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+  // Dynamic future date
+  var futureDate = new Date();
+  futureDate.setDate(futureDate.getDate() + 30);
+  var fMonths = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+  var dateStr = fMonths[futureDate.getMonth()] + ' ' + futureDate.getDate();
+
+  phCapture('results_viewed', { avatar: state.avatar, archetype: arch.name });
+  phCapture('pricing_viewed', { avatar: state.avatar, email: state.email });
+
+  $screen.innerHTML = `
+    <!-- STICKY COUNTDOWN BAR -->
+    <div class="sticky-bar" id="stickyBar">
+      <span class="sticky-bar-text">Ramadan offer reserved for</span>
+      <div class="sticky-bar-timer">
+        <span class="sticky-bar-digit" id="stickyMin">09</span>
+        <span>:</span>
+        <span class="sticky-bar-digit" id="stickySec">59</span>
+      </div>
+    </div>
+
+    <div class="results">
+      <!-- ===== SECTION 1: ARCHETYPE REVEAL ===== -->
+      <div class="results-badge" style="animation: slideUp 0.5s ease forwards;">
+        <div class="results-badge-dot"></div>
+        <div class="results-badge-text">Your Results Are In</div>
+      </div>
+      <div class="results-archetype-icon" style="opacity:0; animation: slideUp 0.5s ease 0.1s forwards;">${arch.icon}</div>
+      <div class="results-archetype" style="opacity:0; animation: slideUp 0.5s ease 0.18s forwards;">${arch.name}</div>
+      <div class="results-archetype-tagline" style="opacity:0; animation: slideUp 0.5s ease 0.24s forwards;">${arch.tagline}</div>
+      <p class="results-paragraph" style="opacity:0; animation: slideUp 0.5s ease 0.32s forwards;">${paragraphHtml}</p>
+
+      <!-- ===== SECTION 2: STAT + FEATURES ===== -->
+      <div class="results-stat-banner" style="opacity:0; animation: slideUp 0.5s ease 0.4s forwards;">
+        <div class="results-stat-banner-icon">📊</div>
+        <div class="results-stat-banner-text">${statText}</div>
+      </div>
+      <div style="width:100%; opacity:0; animation: slideUp 0.5s ease 0.48s forwards;">
+        <div class="results-features-title">Your Personalized Plan Includes</div>
+        ${featureHtml}
+      </div>
+
+      <!-- ===== SECTION 3: GROWTH CHART ===== -->
+      <div class="results-graph" style="opacity:0; animation: slideUp 0.5s ease 0.56s forwards;">
+        <div class="results-graph-headline">${
+          state.avatar === 'seeker' ? 'See your Quran knowledge grow by <em>' + dateStr + '</em>' :
+          state.avatar === 'believer' ? 'See your prayer consistency grow by <em>' + dateStr + '</em>' :
+          'See your teaching confidence grow by <em>' + dateStr + '</em>'
+        }</div>
+        <svg viewBox="0 0 300 130" fill="none">
+          <defs>
+            <linearGradient id="areaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line x1="30" y1="95" x2="290" y2="95" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+          <line x1="30" y1="70" x2="290" y2="70" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+          <line x1="30" y1="45" x2="290" y2="45" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+          <line x1="30" y1="20" x2="290" y2="20" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+          <path d="M35 92 C70 88, 100 75, 130 60 S195 30, 285 15" stroke="#D4AF37" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M35 92 C70 88, 100 75, 130 60 S195 30, 285 15 L285 95 L35 95 Z" fill="url(#areaGrad)"/>
+          <circle cx="35" cy="92" r="4" fill="#D4AF37"/>
+          <circle cx="35" cy="92" r="8" fill="#D4AF37" opacity="0.15"/>
+          <text x="35" y="8" font-family="Inter, sans-serif" font-size="9" fill="#D4AF37" font-weight="700" text-anchor="middle">Today</text>
+          <line x1="35" y1="12" x2="35" y2="84" stroke="#D4AF37" stroke-width="1" stroke-dasharray="3,3" opacity="0.45"/>
+          <text x="35" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 1</text>
+          <text x="107" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 2</text>
+          <text x="182" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 3</text>
+          <text x="253" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 4</text>
+          <text x="0" y="98" font-family="Inter, sans-serif" font-size="7" fill="rgba(255,255,255,0.2)">Low</text>
+          <text x="0" y="48" font-family="Inter, sans-serif" font-size="7" fill="rgba(255,255,255,0.2)">Med</text>
+          <text x="0" y="23" font-family="Inter, sans-serif" font-size="7" fill="rgba(255,255,255,0.2)">High</text>
+        </svg>
+        <div class="results-graph-disclaimer">*Based on average member engagement data</div>
+      </div>
+
+      <!-- ===== SECTION 4: RAMADAN URGENCY ===== -->
+      <div class="ramadan-banner" style="opacity:0; animation: slideUp 0.5s ease 0.64s forwards;">
+        <span class="ramadan-ornament ramadan-ornament-left">✦ ✦ ✦</span>
+        <span class="ramadan-ornament ramadan-ornament-right">✦ ✦ ✦</span>
+        <div class="ramadan-icon">🌙</div>
+        <div class="ramadan-title">Ramadan Begins In</div>
+        <div class="ramadan-sub">Start now and enter Ramadan with momentum, knowledge, and consistency already built.</div>
+        <div class="ramadan-countdown" id="ramadanCountdown">
+          <div class="ramadan-countdown-unit">
+            <div class="ramadan-countdown-value" id="ramDays">--</div>
+            <div class="ramadan-countdown-label">Days</div>
+          </div>
+          <div class="ramadan-countdown-sep">:</div>
+          <div class="ramadan-countdown-unit">
+            <div class="ramadan-countdown-value" id="ramHours">--</div>
+            <div class="ramadan-countdown-label">Hours</div>
+          </div>
+          <div class="ramadan-countdown-sep">:</div>
+          <div class="ramadan-countdown-unit">
+            <div class="ramadan-countdown-value" id="ramMins">--</div>
+            <div class="ramadan-countdown-label">Min</div>
+          </div>
+          <div class="ramadan-countdown-sep">:</div>
+          <div class="ramadan-countdown-unit">
+            <div class="ramadan-countdown-value" id="ramSecs">--</div>
+            <div class="ramadan-countdown-label">Sec</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ===== SECTION 5: TRANSITION TO OFFER ===== -->
+    <div class="pricing-page">
+      <div class="pp-hero">
+        <h1 class="pp-title">Start your transformation today</h1>
+        <ul class="pp-benefits">
+          ${benefits.map(b => `<li>${checkSvg} ${b}</li>`).join('')}
+        </ul>
+      </div>
+
+      <!-- RAMADAN OFFER BANNER -->
+      <div class="discount-banner">
+        <div class="discount-banner-label">🌙 Ramadan Limited Offer</div>
+        <div class="discount-banner-row">
+          <div class="discount-banner-event">Ramadan 2026</div>
+          <div class="discount-banner-badge">7 Days Free</div>
+        </div>
+        <div class="discount-banner-countdown">Offer reserved for: <span id="bannerTimer">09:59</span></div>
+      </div>
+
+      <!-- PRICING TIERS -->
+      <div class="pp-section-title">Choose your plan</div>
+      <div class="pp-tiers" id="pricingTiers">
+        <div class="pp-tier" onclick="selectPlan('monthly')" data-plan="monthly">
+          <div class="pp-tier-left">
+            <div class="pp-tier-radio"></div>
+            <div>
+              <div class="pp-tier-name">Monthly</div>
+              <div class="pp-tier-original">$179.88/yr · 7-day free trial</div>
+            </div>
+          </div>
+          <div class="pp-tier-right">
+            <div class="pp-tier-price">$14.99</div>
+            <div class="pp-tier-unit">/month</div>
+          </div>
+        </div>
+        <div class="pp-tier selected" onclick="selectPlan('annual')" data-plan="annual">
+          <div class="pp-tier-badges">
+            <span class="pp-tier-badge best">Most Popular</span>
+            <span class="pp-tier-badge save">Save 61%</span>
+          </div>
+          <div class="pp-tier-left">
+            <div class="pp-tier-radio"></div>
+            <div>
+              <div class="pp-tier-name">Annual</div>
+              <div class="pp-tier-original">$5.83/mo · 7-day free trial</div>
+            </div>
+          </div>
+          <div class="pp-tier-right">
+            <div class="pp-tier-price highlight">$69.99</div>
+            <div class="pp-tier-unit">/year</div>
+          </div>
+        </div>
+        <div class="pp-tier" onclick="selectPlan('lifetime')" data-plan="lifetime">
+          <div class="pp-tier-badges">
+            <span class="pp-tier-badge best" style="background:var(--gold);">Best Value</span>
+          </div>
+          <div class="pp-tier-left">
+            <div class="pp-tier-radio"></div>
+            <div>
+              <div class="pp-tier-name">Lifetime</div>
+              <div class="pp-tier-original">Less than 2 years · Pay once</div>
+            </div>
+          </div>
+          <div class="pp-tier-right">
+            <div class="pp-tier-price">$149.99</div>
+            <div class="pp-tier-unit">one-time</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CTA + CHECKOUT -->
+      <div id="checkoutArea">
+        <button class="pp-cta" id="ppCtaBtn" onclick="handleCheckout()">Start Your 7-Day Free Trial</button>
+        <div class="pp-cta-sub" id="ppCtaSub">Full access to every feature — free for 7 days. Cancel anytime.</div>
+        <div id="checkout-container" style="display:none;"></div>
+      </div>
+
+      <!-- YOUR PLAN INCLUDES -->
+      <div class="pp-section-title">Your plan includes</div>
+      <div class="pp-features-grid">
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">🤖</div>
+          <div class="pp-feature-card-name">AI Quran Chat</div>
+          <div class="pp-feature-card-desc">Ask anything about the Quran and get answers from authentic sources</div>
+        </div>
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">📖</div>
+          <div class="pp-feature-card-name">Daily Verse</div>
+          <div class="pp-feature-card-desc">Personalized daily verse with interpretation and reflection</div>
+        </div>
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">🕌</div>
+          <div class="pp-feature-card-name">Prayer Times</div>
+          <div class="pp-feature-card-desc">Accurate prayer times with customizable Athan notifications</div>
+        </div>
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">🧠</div>
+          <div class="pp-feature-card-name">Daily Quiz</div>
+          <div class="pp-feature-card-desc">Test and grow your Islamic knowledge every day</div>
+        </div>
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">📚</div>
+          <div class="pp-feature-card-name">Full Quran</div>
+          <div class="pp-feature-card-desc">Arabic + English with offline access and bookmarks</div>
+        </div>
+        <div class="pp-feature-card">
+          <div class="pp-feature-card-icon">🔒</div>
+          <div class="pp-feature-card-name">100% Ad-Free</div>
+          <div class="pp-feature-card-desc">Distraction-free experience. Your data stays yours.</div>
+        </div>
+      </div>
+
+      <!-- OUTCOMES -->
+      <div class="pp-section-title">With Deen Buddy, you will</div>
+      <ul class="pp-outcomes">
+        <li>${checkSvg} Recite Quran daily and understand what you're reading</li>
+        <li>${checkSvg} Pray Salah with presence, not just habit</li>
+        <li>${checkSvg} Get instant answers to any question about your deen</li>
+        <li>${checkSvg} Feel genuinely closer to Allah every single day</li>
+        <li>${checkSvg} Enter Ramadan with real momentum and preparation</li>
+      </ul>
+
+      <!-- SECOND CTA -->
+      <button class="pp-cta" onclick="handleCheckout()" style="margin-bottom:32px;">Start Your 7-Day Free Trial</button>
+
+      <!-- STATS -->
+      <div class="pp-stats">
+        <div class="pp-stat">
+          <div class="pp-stat-value">1M+</div>
+          <div class="pp-stat-label">Downloads</div>
+        </div>
+        <div class="pp-stat">
+          <div class="pp-stat-value">4.9</div>
+          <div class="pp-stat-label">App Store ★</div>
+        </div>
+        <div class="pp-stat">
+          <div class="pp-stat-value">12K+</div>
+          <div class="pp-stat-label">Reviews</div>
+        </div>
+      </div>
+
+      <!-- REVIEWS -->
+      <div class="pp-section-title">What Muslims are saying</div>
+      <div class="pp-reviews">
+        <div class="pp-review">
+          <div class="pp-review-header">
+            <div class="pp-review-avatar" style="background:#C5E5CD; color:#2D6B4A;">A</div>
+            <div>
+              <div class="pp-review-name">Ahmed S.</div>
+              <div class="pp-review-stars">★★★★★</div>
+            </div>
+          </div>
+          <div class="pp-review-text">"As a convert, I was lost. Deen Buddy gave me a safe space to ask the questions I was too embarrassed to ask anyone else. It changed my entire relationship with Islam."</div>
+        </div>
+        <div class="pp-review">
+          <div class="pp-review-header">
+            <div class="pp-review-avatar" style="background:#F5E6D3; color:#8B6914;">K</div>
+            <div>
+              <div class="pp-review-name">Khadijah R.</div>
+              <div class="pp-review-stars">★★★★★</div>
+            </div>
+          </div>
+          <div class="pp-review-text">"My kids now ask ME to open Deen Buddy at bedtime. It changed how our family connects with the Quran. Worth every penny."</div>
+        </div>
+        <div class="pp-review">
+          <div class="pp-review-header">
+            <div class="pp-review-avatar" style="background:#DDE8F0; color:#2C5282;">O</div>
+            <div>
+              <div class="pp-review-name">Omar K.</div>
+              <div class="pp-review-stars">★★★★★</div>
+            </div>
+          </div>
+          <div class="pp-review-text">"I went from barely praying Fajr to all five daily prayers in 3 weeks. The reminders and daily verse made all the difference."</div>
+        </div>
+      </div>
+
+      <!-- FAQ -->
+      <div class="pp-section-title">Common questions</div>
+      <div class="pp-faq">
+        <div class="pp-faq-item" onclick="this.classList.toggle('open')">
+          <div class="pp-faq-q">Is it really free for 7 days?<span class="pp-faq-arrow">›</span></div>
+          <div class="pp-faq-a">Yes — you get full, unlimited access to every feature for 7 days. If you decide it's not for you, cancel with one tap before the trial ends and you won't be charged anything. We'll even send you a reminder.</div>
+        </div>
+        <div class="pp-faq-item" onclick="this.classList.toggle('open')">
+          <div class="pp-faq-q">Is it halal to learn Islam from AI?<span class="pp-faq-arrow">›</span></div>
+          <div class="pp-faq-a">Deen Buddy's AI is trained on classical tafsir and authentic Islamic sources — not random internet content. It's a tool that delivers centuries of scholarship in a convenient format, much like a printed Quran or an Islamic encyclopedia. It supplements your learning, not replaces scholars.</div>
+        </div>
+        <div class="pp-faq-item" onclick="this.classList.toggle('open')">
+          <div class="pp-faq-q">Why does it cost money? Shouldn't Islamic knowledge be free?<span class="pp-faq-arrow">›</span></div>
+          <div class="pp-faq-a">The knowledge comes from Allah and always will. Your subscription supports the Muslim engineers, designers, and scholars who built this technology — without ads, without selling your data, and without distractions. You're funding ad-free Islamic technology for the ummah.</div>
+        </div>
+        <div class="pp-faq-item" onclick="this.classList.toggle('open')">
+          <div class="pp-faq-q">How is this different from Muslim Pro?<span class="pp-faq-arrow">›</span></div>
+          <div class="pp-faq-a">No ads — ever. No data selling. Deen Buddy is built around AI-powered Islamic guidance trained on classical tafsir, not bolted onto an ad platform. It's deeper, more private, and designed to help you actually understand your deen.</div>
+        </div>
+        <div class="pp-faq-item" onclick="this.classList.toggle('open')">
+          <div class="pp-faq-q">Can I cancel anytime?<span class="pp-faq-arrow">›</span></div>
+          <div class="pp-faq-a">Absolutely. Cancel with one tap from your account settings. No questions, no guilt, no hidden fees. If Deen Buddy isn't helping you, we don't want your money.</div>
+        </div>
+      </div>
+
+      <!-- FINAL CTA -->
+      <button class="pp-cta" onclick="handleCheckout()">Start Your 7-Day Free Trial</button>
+      <div class="pp-cta-sub" style="text-align:center; margin-bottom:40px;">Join 1,000,000+ Muslims strengthening their deen</div>
+
+      <!-- GUARANTEE -->
+      <div class="pp-guarantee">
+        <div class="pp-guarantee-icon">🔒</div>
+        <div class="pp-guarantee-text">100% ad-free. Your data stays private. Cancel anytime with one tap. Secure payment via Stripe.</div>
+      </div>
+    </div>
+  `;
+
+  // Start timers
+  setTimeout(startRamadanCountdown, 100);
+  startPricingCountdown();
+}
+
+
+// ---- PRICING (legacy — kept for standalone pricing.html reference) ----
 function renderPricing() {
   $progressBar.style.display = 'none';
   $header.style.display = 'none';
@@ -3877,7 +4417,7 @@ function goNext() {
   if (nextIdx >= steps.length) { state.transitioning = false; return; }
 
   // Transition out
-  const content = $screen.querySelector('.screen-content, .welcome, .social-proof, .processing, .results, .email-gate, .pricing-page, .interstitial');
+  const content = $screen.querySelector('.screen-content, .welcome, .social-proof, .processing, .results, .email-gate, .pricing-page, .interstitial, .future-pace');
   if (content) {
     content.style.transition = 'opacity 0.2s ease, transform 0.2s ease';
     content.style.opacity = '0';
