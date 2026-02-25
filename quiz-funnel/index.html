@@ -4508,8 +4508,8 @@ async function handleCheckout() {
   });
 
   try {
-    // Call n8n to create embedded checkout session
-    var response = await fetch('https://n8n.dtthomas.cloud/webhook/deenbuddy-create-checkout', {
+    // Call Vercel API route to create embedded checkout session
+    var response = await fetch('/api/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({

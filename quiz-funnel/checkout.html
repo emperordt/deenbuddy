@@ -1068,7 +1068,7 @@ async function handleCheckout() {
 
   try {
     var tracker = window.UnifiedTracker ? window.UnifiedTracker.data : {};
-    var response = await fetch('https://n8n.dtthomas.cloud/webhook/deenbuddy-create-checkout', {
+    var response = await fetch('/api/create-checkout', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
