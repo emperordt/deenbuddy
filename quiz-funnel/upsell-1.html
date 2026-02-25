@@ -542,7 +542,7 @@ body {
     btn.classList.add('loading');
     btn.disabled = true;
 
-    fetch('https://n8n.dtthomas.cloud/webhook/deenbuddy-process-upsell', {
+    fetch('/api/process-upsell', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
