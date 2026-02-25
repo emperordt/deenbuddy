@@ -1153,7 +1153,75 @@ body {
 .future-pace-privacy {
   font-size: 12px;
   color: rgba(255,255,255,0.3);
-  margin-top: 16px;
+  margin-top: 12px;
+}
+.future-pace-chart {
+  width: 100%;
+  max-width: 340px;
+  margin-bottom: 32px;
+}
+.future-pace-chart-title {
+  font-family: var(--serif);
+  font-size: 18px;
+  font-weight: 500;
+  color: rgba(255,255,255,0.85);
+  margin-bottom: 16px;
+  line-height: 1.3;
+}
+.future-pace-chart-title em {
+  color: #D4AF37;
+  font-style: italic;
+}
+.future-pace-chart-disclaimer {
+  font-size: 11px;
+  color: rgba(255,255,255,0.25);
+  font-style: italic;
+  margin-top: 8px;
+}
+.future-pace-form {
+  width: 100%;
+  max-width: 320px;
+  margin-bottom: 16px;
+}
+.future-pace-input {
+  width: 100%;
+  padding: 16px 18px;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 12px;
+  font-family: var(--sans);
+  font-size: 15px;
+  color: #fff;
+  outline: none;
+  transition: border-color 0.2s;
+  margin-bottom: 10px;
+}
+.future-pace-input::placeholder {
+  color: rgba(255,255,255,0.3);
+}
+.future-pace-input:focus {
+  border-color: rgba(212,175,55,0.5);
+}
+.future-pace-input.error {
+  border-color: #D94444;
+}
+.future-pace-error {
+  font-size: 13px;
+  color: #D94444;
+  margin-bottom: 8px;
+  display: none;
+}
+.future-pace-error.visible {
+  display: block;
+}
+.future-pace-trust {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  margin-top: 8px;
 }
 
 .results-badge {
@@ -2723,11 +2791,8 @@ const steps = [
   // ===== PROCESSING =====
   { id: 'processing', type: 'processing' },
 
-  // ===== FUTURE-PACE =====
+  // ===== FUTURE-PACE + EMAIL CAPTURE (combined — chart + email on same screen) =====
   { id: 'future-pace', type: 'future-pace' },
-
-  // ===== EMAIL GATE (unlocks results) =====
-  { id: 'email-gate', type: 'email-gate' },
 
   // ===== RESULTS + OFFER (merged — one scroll, no drop-off) =====
   { id: 'results-offer', type: 'results-offer' },
@@ -2881,7 +2946,6 @@ function render() {
     case 'social-proof': renderSocialProof(); break;
     case 'processing': renderProcessing(); break;
     case 'future-pace': renderFuturePace(); break;
-    case 'email-gate': renderEmailGate(); break;
     case 'results-offer': renderResultsOffer(); break;
   }
 }
@@ -3226,6 +3290,13 @@ function renderFuturePace() {
     stat = '<strong>73%</strong> of members report deeper understanding in 30 days';
   }
 
+  // Chart headline based on avatar
+  var chartTitle;
+  if (state.avatar === 'seeker') chartTitle = 'See your Quran knowledge grow by <em>' + dateStr + '</em>';
+  else if (state.avatar === 'believer') chartTitle = 'See your prayer consistency grow by <em>' + dateStr + '</em>';
+  else if (state.avatar === 'guardian') chartTitle = 'See your teaching confidence grow by <em>' + dateStr + '</em>';
+  else chartTitle = 'See your connection with Allah grow by <em>' + dateStr + '</em>';
+
   $screen.innerHTML = `
     <div class="future-pace">
       <div class="future-pace-icon" style="animation: slideUp 0.6s ease forwards;">${icon}</div>
@@ -3234,10 +3305,99 @@ function renderFuturePace() {
       <div class="future-pace-date" style="opacity:0; animation: slideUp 0.5s ease 0.3s forwards;"><em>${dateStr}</em></div>
       <div class="future-pace-sub" style="opacity:0; animation: slideUp 0.5s ease 0.4s forwards;">${sub}</div>
       <div class="future-pace-stat" style="opacity:0; animation: slideUp 0.5s ease 0.5s forwards;">📊 ${stat}</div>
-      <button class="future-pace-btn" style="opacity:0; animation: slideUp 0.5s ease 0.6s forwards;" onclick="goNext()">See My Results</button>
-      <div class="future-pace-privacy" style="opacity:0; animation: slideUp 0.5s ease 0.7s forwards;">We just need your email to unlock your personalized plan</div>
+
+      <!-- GROWTH CHART -->
+      <div class="future-pace-chart" style="opacity:0; animation: slideUp 0.5s ease 0.55s forwards;">
+        <div class="future-pace-chart-title">${chartTitle}</div>
+        <svg viewBox="0 0 300 130" fill="none">
+          <defs>
+            <linearGradient id="fpAreaGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#D4AF37" stop-opacity="0.25"/>
+              <stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/>
+            </linearGradient>
+          </defs>
+          <line x1="30" y1="95" x2="290" y2="95" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+          <line x1="30" y1="70" x2="290" y2="70" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+          <line x1="30" y1="45" x2="290" y2="45" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+          <line x1="30" y1="20" x2="290" y2="20" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+          <path d="M35 92 C70 88, 100 75, 130 60 S195 30, 285 15" stroke="#D4AF37" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+          <path d="M35 92 C70 88, 100 75, 130 60 S195 30, 285 15 L285 95 L35 95 Z" fill="url(#fpAreaGrad)"/>
+          <circle cx="35" cy="92" r="4" fill="#D4AF37"/>
+          <circle cx="35" cy="92" r="8" fill="#D4AF37" opacity="0.15"/>
+          <text x="35" y="8" font-family="Inter, sans-serif" font-size="9" fill="#D4AF37" font-weight="700" text-anchor="middle">Today</text>
+          <line x1="35" y1="12" x2="35" y2="84" stroke="#D4AF37" stroke-width="1" stroke-dasharray="3,3" opacity="0.45"/>
+          <text x="35" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 1</text>
+          <text x="107" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 2</text>
+          <text x="182" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 3</text>
+          <text x="253" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 4</text>
+          <text x="0" y="98" font-family="Inter, sans-serif" font-size="7" fill="rgba(255,255,255,0.2)">Low</text>
+          <text x="0" y="48" font-family="Inter, sans-serif" font-size="7" fill="rgba(255,255,255,0.2)">Med</text>
+          <text x="0" y="23" font-family="Inter, sans-serif" font-size="7" fill="rgba(255,255,255,0.2)">High</text>
+        </svg>
+        <div class="future-pace-chart-disclaimer">*This chart is for illustrative purposes only</div>
+      </div>
+
+      <!-- EMAIL CAPTURE -->
+      <div class="future-pace-form" style="opacity:0; animation: slideUp 0.5s ease 0.65s forwards;">
+        <input type="text" class="future-pace-input" id="fpFirstName" placeholder="First name" autocomplete="given-name">
+        <input type="email" class="future-pace-input" id="fpEmail" placeholder="your@email.com" autocomplete="email" inputmode="email">
+        <div class="future-pace-error" id="fpError">Please enter a valid email address</div>
+      </div>
+      <button class="future-pace-btn" id="fpSubmitBtn" style="opacity:0; animation: slideUp 0.5s ease 0.72s forwards;">See My Results</button>
+      <div class="future-pace-trust" style="opacity:0; animation: slideUp 0.5s ease 0.78s forwards;">
+        <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M7 1.167L2.333 3.5v3.033c0 2.845 1.99 5.507 4.667 6.134 2.677-.627 4.667-3.289 4.667-6.134V3.5L7 1.167z" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" stroke-linejoin="round"/><path d="M5 7l1.5 1.5L9.5 5" stroke="rgba(255,255,255,0.35)" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        We respect your privacy. Unsubscribe anytime.
+      </div>
     </div>
   `;
+
+  // Bind email capture logic
+  var $fpFirstName = document.getElementById('fpFirstName');
+  var $fpEmail = document.getElementById('fpEmail');
+  var $fpError = document.getElementById('fpError');
+  var $fpBtn = document.getElementById('fpSubmitBtn');
+
+  function fpSubmit() {
+    var email = $fpEmail.value.trim();
+    var firstName = $fpFirstName.value.trim();
+    var valid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    if (!valid) {
+      $fpEmail.classList.add('error');
+      $fpError.classList.add('visible');
+      $fpEmail.focus();
+      return;
+    }
+    $fpEmail.classList.remove('error');
+    $fpError.classList.remove('visible');
+    state.email = email;
+    state.firstName = firstName;
+
+    // PostHog
+    phIdentify(email, { email: email, first_name: firstName, avatar: state.avatar });
+    phCapture('email_captured', { avatar: state.avatar });
+
+    // n8n — Lead event
+    trackQuizEvent('email_captured', {
+      email: email,
+      first_name: firstName,
+      avatar: state.avatar,
+      answers_json: JSON.stringify(state.answers),
+    });
+
+    setTimeout(function() { goNext(); }, 500);
+  }
+
+  $fpBtn.addEventListener('click', fpSubmit);
+  $fpEmail.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter') fpSubmit();
+  });
+  $fpEmail.addEventListener('input', function() {
+    $fpEmail.classList.remove('error');
+    $fpError.classList.remove('visible');
+  });
+
+  // Auto-focus first name after animations
+  setTimeout(function() { $fpFirstName.focus(); }, 800);
 }
 
 
@@ -3771,7 +3931,7 @@ function renderResultsOffer() {
       <div class="pp-reviews">
         <div class="pp-review">
           <div class="pp-review-header">
-            <div class="pp-review-avatar" style="background:#C5E5CD; color:#2D6B4A;">A</div>
+            <img class="pp-review-avatar" src="https://i.pravatar.cc/80?img=33" alt="Ahmed S." loading="lazy">
             <div>
               <div class="pp-review-name">Ahmed S.</div>
               <div class="pp-review-stars">★★★★★</div>
@@ -3781,7 +3941,7 @@ function renderResultsOffer() {
         </div>
         <div class="pp-review">
           <div class="pp-review-header">
-            <div class="pp-review-avatar" style="background:#F5E6D3; color:#8B6914;">K</div>
+            <img class="pp-review-avatar" src="https://i.pravatar.cc/80?img=47" alt="Khadijah R." loading="lazy">
             <div>
               <div class="pp-review-name">Khadijah R.</div>
               <div class="pp-review-stars">★★★★★</div>
@@ -3791,7 +3951,7 @@ function renderResultsOffer() {
         </div>
         <div class="pp-review">
           <div class="pp-review-header">
-            <div class="pp-review-avatar" style="background:#DDE8F0; color:#2C5282;">O</div>
+            <img class="pp-review-avatar" src="https://i.pravatar.cc/80?img=59" alt="Omar K." loading="lazy">
             <div>
               <div class="pp-review-name">Omar K.</div>
               <div class="pp-review-stars">★★★★★</div>
