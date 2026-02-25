@@ -61,9 +61,16 @@ module.exports = async function handler(req, res) {
       ui_mode: 'embedded',
       mode: 'subscription',
       payment_method_types: ['card'],
+      payment_method_collection: 'always',
+      saved_payment_method_options: {
+        payment_method_save: 'disabled',
+      },
       customer_email: email || undefined,
       line_items: [{ price: price_id, quantity: 1 }],
       return_url: returnUrl,
+      phone_number_collection: { enabled: false },
+      billing_address_collection: 'auto',
+      custom_fields: [],
       subscription_data: {
         trial_period_days: 7,
         metadata: {
