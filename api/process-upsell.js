@@ -22,6 +22,10 @@ module.exports = async function handler(req, res) {
 
   const { checkout_session_id, session_id, upsell_name, amount, product } = req.body;
 
+  // Capture user's real IP + UA from the browser request
+  const realIp = req.headers['x-forwarded-for'] || '';
+  const realUa = req.headers['user-agent'] || '';
+
   if (!checkout_session_id) {
     return res.status(400).json({ success: false, message: 'checkout_session_id is required' });
   }
@@ -74,6 +78,8 @@ module.exports = async function handler(req, res) {
         upsell_name: upsell_name || '',
         product: product || '',
         checkout_session_id: checkout_session_id,
+        client_ip: realIp,
+        user_agent: (realUa || '').substring(0, 500),
       },
     };
 

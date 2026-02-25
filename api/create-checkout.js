@@ -34,7 +34,13 @@ module.exports = async function handler(req, res) {
     fbc,
     fbp,
     browser_id,
+    client_ip,
+    user_agent,
   } = req.body;
+
+  // Get user's real IP from request headers (fallback to body)
+  const realIp = client_ip || req.headers['x-forwarded-for'] || '';
+  const realUa = user_agent || req.headers['user-agent'] || '';
 
   if (!price_id) {
     return res.status(400).json({ error: 'price_id is required' });
@@ -76,6 +82,8 @@ module.exports = async function handler(req, res) {
         fbc: fbc || '',
         fbp: fbp || '',
         browser_id: browser_id || '',
+        client_ip: realIp,
+        user_agent: (realUa || '').substring(0, 500),
       },
     };
 
