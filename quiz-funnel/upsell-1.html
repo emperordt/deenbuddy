@@ -20,7 +20,7 @@ src="https://www.facebook.com/tr?id=786953823815077&ev=PageView&noscript=1"
 /></noscript>
 <!-- End Meta Pixel Code -->
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>Wait — Before You Download the App | Deen Buddy</title>
+<title>Customize Your Plan | Deen Buddy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -30,18 +30,25 @@ src="https://www.facebook.com/tr?id=786953823815077&ev=PageView&noscript=1"
   --primary-hover: #48A078;
   --primary-light: #7CB098;
   --primary-pale: #C5E5CD;
-  --primary-ghost: #EDF7F1;
+  --primary-muted: #70A890;
   --bg: #FFFFFF;
-  --surface: #F8F9F8;
-  --border: #E8E8E4;
-  --text: #1A1A1A;
+  --surface: #F5F5F5;
+  --border: #E0E0E0;
+  --text: #000000;
   --text2: #505050;
   --text3: #888888;
+  --text-muted: #B0B0B0;
   --night: #0C1420;
   --teal: #182830;
-  --gold: #887860;
+  --dark-forest: #203830;
+  --gold: #E8D47A;
+  --gold-dim: #887860;
+  --gold-pale: rgba(232,212,122,0.12);
   --error: #D94444;
-  --serif: 'Playfair Display', Georgia, serif;
+  --red-soft: #FFF5F3;
+  --red-soft-border: #F5DDD8;
+  --red-text: #C0392B;
+  --serif: 'Playfair Display', 'Lora', 'EB Garamond', Georgia, serif;
   --sans: 'Inter', -apple-system, 'Helvetica Neue', sans-serif;
 }
 
@@ -49,7 +56,7 @@ src="https://www.facebook.com/tr?id=786953823815077&ev=PageView&noscript=1"
 html { height: 100%; -webkit-text-size-adjust: 100%; }
 body {
   font-family: var(--sans);
-  background: #F5F5F3;
+  background: var(--surface);
   color: var(--text);
   min-height: 100%;
   display: flex;
@@ -68,261 +75,422 @@ body {
   overflow-x: hidden;
 }
 @media (min-width: 480px) {
-  #app {
-    min-height: 100vh;
-    box-shadow: 0 0 60px rgba(0,0,0,0.08);
-  }
+  #app { min-height: 100vh; box-shadow: 0 0 80px rgba(0,0,0,0.06); }
 }
 
-/* ---- STICKY TIMER BAR ---- */
-.timer-bar {
+/* ---- WARNING BAR ---- */
+.warning-bar {
   position: sticky;
   top: 0;
   z-index: 100;
-  background: var(--night);
-  color: #fff;
-  text-align: center;
-  padding: 10px 16px;
-  font-size: 14px;
-  font-weight: 600;
-  letter-spacing: 0.02em;
+  background: #FFF8E8;
+  border-bottom: 1px solid #EBD9A8;
+  color: #5C4A1E;
+  text-align: left;
+  padding: 12px 20px;
+  font-size: 13px;
+  font-weight: 500;
+  line-height: 1.5;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  align-items: flex-start;
+  gap: 10px;
 }
-.timer-bar .timer-icon {
-  font-size: 16px;
-}
-.timer-bar .timer-value {
-  font-variant-numeric: tabular-nums;
-  color: var(--primary-pale);
+.warning-bar .warn-icon {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+  margin-top: 1px;
 }
 
-/* ---- ISLAMIC GEOMETRIC DECORATION ---- */
-.geometric-divider {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 12px;
-  margin: 24px 0;
-  opacity: 0.5;
-}
-.geometric-divider .line {
-  flex: 1;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--border), transparent);
-}
-.geometric-divider .diamond {
-  width: 8px;
-  height: 8px;
-  background: var(--primary);
-  transform: rotate(45deg);
-  opacity: 0.6;
-}
-
-/* ---- CRESCENT DECORATION ---- */
-.crescent-decoration {
-  width: 40px;
-  height: 40px;
-  margin: 0 auto 16px;
+/* ---- PROGRESS SECTION (dark premium card) ---- */
+.progress-section {
+  background: linear-gradient(160deg, var(--night) 0%, var(--teal) 50%, var(--dark-forest) 100%);
+  padding: 28px 28px 32px;
   position: relative;
-  opacity: 0.15;
+  overflow: hidden;
 }
-.crescent-decoration::before {
+/* Subtle star decorations */
+.progress-section::before,
+.progress-section::after {
   content: '';
   position: absolute;
-  width: 40px;
-  height: 40px;
+  width: 4px;
+  height: 4px;
+  background: var(--gold);
   border-radius: 50%;
-  background: var(--primary);
+  opacity: 0.3;
 }
-.crescent-decoration::after {
-  content: '';
+.progress-section::before { top: 16px; right: 32px; box-shadow: -40px 8px 0 0 rgba(232,212,122,0.15), -80px -2px 0 0 rgba(232,212,122,0.1); }
+.progress-section::after { bottom: 20px; left: 24px; box-shadow: 60px -6px 0 0 rgba(232,212,122,0.15), 120px 4px 0 0 rgba(232,212,122,0.1); }
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  position: relative;
+}
+.progress-track {
   position: absolute;
+  top: 16px;
+  left: 16px;
+  right: 16px;
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  z-index: 0;
+}
+.progress-fill {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 33%;
+  height: 100%;
+  background: linear-gradient(90deg, var(--primary), var(--primary-light));
+  border-radius: 1px;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  z-index: 1;
+}
+.step-circle {
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: var(--bg);
-  top: -4px;
-  right: -4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+.step.completed .step-circle {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 0 0 3px rgba(81,167,128,0.2), 0 2px 12px rgba(81,167,128,0.3);
+}
+.step.current .step-circle {
+  background: rgba(232,212,122,0.08);
+  color: var(--gold);
+  border: 2px solid var(--gold);
+  box-shadow: 0 0 0 5px rgba(232,212,122,0.1), 0 0 24px rgba(232,212,122,0.35), 0 0 48px rgba(232,212,122,0.15);
+  animation: goldPulse 3s ease-in-out infinite;
+}
+@keyframes goldPulse {
+  0%, 100% { box-shadow: 0 0 0 5px rgba(232,212,122,0.1), 0 0 24px rgba(232,212,122,0.35), 0 0 48px rgba(232,212,122,0.15); }
+  50% { box-shadow: 0 0 0 6px rgba(232,212,122,0.15), 0 0 32px rgba(232,212,122,0.45), 0 0 60px rgba(232,212,122,0.2); }
+}
+.step.upcoming .step-circle {
+  background: transparent;
+  color: rgba(255,255,255,0.25);
+  border: 1.5px solid rgba(255,255,255,0.15);
+}
+.step-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.02em;
+  white-space: nowrap;
+}
+.step.completed .step-label { color: var(--primary-pale); }
+.step.current .step-label { color: var(--gold); font-weight: 600; }
+.step.upcoming .step-label { color: rgba(255,255,255,0.3); }
+
+@media (max-width: 360px) {
+  .step-label { font-size: 10px; }
+  .step-circle { width: 28px; height: 28px; font-size: 12px; }
+  .progress-section { padding: 24px 20px 28px; }
 }
 
 /* ---- CONTENT ---- */
 .content {
-  padding: 28px 24px 40px;
-  animation: fadeInUp 0.5s ease forwards;
+  padding: 36px 28px 48px;
 }
 
-@keyframes fadeInUp {
-  from { opacity: 0; transform: translateY(16px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-@keyframes slideUp {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.badge {
-  display: inline-block;
-  background: var(--primary-ghost);
-  color: var(--primary);
-  font-size: 12px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  padding: 6px 14px;
-  border-radius: 20px;
-  margin-bottom: 20px;
-}
-
-.headline {
-  font-family: var(--serif);
-  font-size: 28px;
-  font-weight: 600;
-  line-height: 1.25;
-  color: var(--text);
-  margin-bottom: 12px;
-  letter-spacing: -0.01em;
-}
-
-.subhead {
-  font-size: 15px;
-  line-height: 1.6;
-  color: var(--text2);
-  margin-bottom: 28px;
-}
-
-/* ---- PRICE BOX ---- */
-.price-box {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 16px;
-  padding: 24px;
-  text-align: center;
-  margin-bottom: 28px;
-  animation: slideUp 0.6s ease 0.1s both;
-}
-.price-original {
-  font-size: 18px;
-  color: var(--text3);
-  text-decoration: line-through;
-  margin-bottom: 4px;
-}
-.price-current {
-  font-family: var(--serif);
-  font-size: 48px;
-  font-weight: 700;
-  color: var(--primary);
-  line-height: 1.1;
-}
-.price-current sup {
-  font-size: 24px;
-  top: -14px;
-  position: relative;
-}
-.price-label {
-  font-size: 13px;
-  color: var(--text3);
-  margin-top: 4px;
-}
-.price-savings {
-  display: inline-block;
-  background: #FFF3E0;
-  color: #E65100;
-  font-size: 12px;
-  font-weight: 600;
-  padding: 4px 12px;
-  border-radius: 12px;
-  margin-top: 12px;
-}
-
-/* ---- BENEFITS ---- */
-.benefits {
-  list-style: none;
-  margin-bottom: 28px;
-  animation: slideUp 0.6s ease 0.2s both;
-}
-.benefits li {
-  display: flex;
-  align-items: flex-start;
-  gap: 12px;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--border);
-  font-size: 15px;
-  color: var(--text);
-  line-height: 1.5;
-}
-.benefits li:last-child { border-bottom: none; }
-.benefits .check {
-  width: 22px;
-  height: 22px;
-  min-width: 22px;
-  background: var(--primary-ghost);
+/* ---- SECTION 1: CONGRATS ---- */
+.congrats-check {
+  width: 40px;
+  height: 40px;
+  background: linear-gradient(135deg, rgba(81,167,128,0.1), rgba(81,167,128,0.05));
+  border: 1.5px solid var(--primary-pale);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 1px;
+  margin-bottom: 20px;
+  box-shadow: 0 0 16px rgba(81,167,128,0.12), 0 0 32px rgba(232,212,122,0.06);
 }
-.benefits .check svg {
-  width: 12px;
-  height: 12px;
+.congrats-check svg { width: 18px; height: 18px; }
+
+.congrats-headline {
+  font-family: var(--serif);
+  font-size: 28px;
+  font-weight: 600;
+  line-height: 1.2;
+  color: var(--text);
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
 }
 
-/* ---- URGENCY ---- */
-.urgency {
-  background: linear-gradient(135deg, var(--night), var(--teal));
-  color: #fff;
-  text-align: center;
-  padding: 16px 20px;
-  border-radius: 12px;
+.congrats-body {
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text2);
+  margin-bottom: 0;
+}
+
+/* ---- DIVIDER (gold-accented) ---- */
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--border) 20%, rgba(232,212,122,0.3) 50%, var(--border) 80%, transparent);
+  margin: 36px 0;
+  position: relative;
+}
+.divider::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(45deg);
+  width: 6px;
+  height: 6px;
+  background: rgba(232,212,122,0.35);
+}
+
+/* ---- SECTION 2: THE OFFER ---- */
+.offer-headline {
+  font-family: var(--serif);
+  font-size: 24px;
+  font-weight: 600;
+  line-height: 1.3;
+  color: var(--text);
+  margin-bottom: 16px;
+  letter-spacing: -0.01em;
+}
+.offer-body {
+  font-size: 15px;
+  line-height: 1.75;
+  color: var(--text2);
+  margin-bottom: 0;
+}
+.offer-body strong { color: var(--text); font-weight: 600; }
+
+/* ---- SECTION 3: COMPARISON ---- */
+.comparison {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 12px;
+  margin-bottom: 14px;
+  align-items: start;
+}
+.compare-card {
+  border-radius: 16px;
+  padding: 20px 14px;
+  position: relative;
+}
+.compare-card.lifetime {
+  padding: 28px 18px 22px;
+  margin-top: 6px;
+}
+.compare-card.lifetime .compare-row {
   font-size: 14px;
-  font-weight: 500;
-  margin-bottom: 24px;
-  line-height: 1.5;
-  animation: slideUp 0.6s ease 0.3s both;
+  padding: 5px 0;
+}
+.compare-card.lifetime .compare-row .year { font-size: 13px; }
+.compare-card.lifetime .compare-row .cost { font-size: 15px; }
+
+/* YEARLY — smaller, muted, soft red */
+.compare-card.yearly {
+  background: var(--red-soft);
+  border: 1px solid var(--red-soft-border);
+  padding: 16px 12px;
+  opacity: 0.85;
+}
+.compare-card.yearly .compare-card-label {
+  color: var(--red-text);
+  border-bottom-color: var(--red-soft-border);
+  font-size: 9px;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+}
+.compare-card.yearly .compare-row {
+  font-size: 12px;
+  padding: 3px 0;
+}
+.compare-card.yearly .compare-row .year { font-size: 11px; }
+.compare-card.yearly .compare-row .cost {
+  font-weight: 600;
+  color: var(--text2);
+  font-size: 12px;
+}
+.compare-card.yearly .compare-row:last-child .cost {
+  color: var(--red-text);
+  font-weight: 700;
 }
 
-/* ---- CTA BUTTON ---- */
+/* LIFETIME — premium dark with gold glow */
+.compare-card.lifetime {
+  background: linear-gradient(160deg, var(--night), var(--teal));
+  border: 1px solid rgba(232,212,122,0.2);
+  box-shadow: 0 4px 24px rgba(12,20,32,0.4), 0 0 20px rgba(232,212,122,0.06);
+}
+.compare-card.lifetime .compare-card-label {
+  color: var(--gold);
+  border-bottom-color: rgba(232,212,122,0.15);
+}
+.compare-card.lifetime .compare-row .year { color: rgba(255,255,255,0.45); }
+.compare-card.lifetime .compare-row .cost {
+  color: rgba(255,255,255,0.85);
+  font-weight: 600;
+}
+.compare-card.lifetime .compare-row:last-child .cost {
+  color: var(--gold);
+  font-weight: 700;
+}
+/* Best value tag */
+.compare-card.lifetime::before {
+  content: 'Best Value';
+  position: absolute;
+  top: -11px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: linear-gradient(135deg, var(--night), var(--teal));
+  color: var(--gold);
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  padding: 4px 14px;
+  border-radius: 10px;
+  border: 1px solid rgba(232,212,122,0.3);
+  box-shadow: 0 2px 8px rgba(12,20,32,0.3), 0 0 12px rgba(232,212,122,0.08);
+}
+
+.compare-card-label {
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid var(--border);
+}
+.compare-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 13px;
+  padding: 4px 0;
+}
+.compare-row .year {
+  color: var(--text3);
+  font-weight: 400;
+  font-size: 12px;
+}
+.compare-row .cost {
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text2);
+}
+
+/* breakeven removed */
+
+/* ---- SECTION 4: URGENCY ---- */
+.urgency {
+  font-size: 14px;
+  line-height: 1.7;
+  color: var(--text2);
+  margin-bottom: 0;
+}
+.urgency-alert {
+  color: var(--red-text);
+  font-weight: 700;
+  font-size: 15px;
+}
+.urgency-closing {
+  font-family: var(--serif);
+  font-style: italic;
+  font-weight: 700;
+  color: var(--text);
+  font-size: 16px;
+}
+
+/* ---- CTA (sticky) ---- */
+.cta-section {
+  padding-top: 4px;
+}
+.cta-sticky {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 440px;
+  background: var(--bg);
+  padding: 16px 28px 20px;
+  z-index: 90;
+  border-top: 1px solid var(--border);
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.06);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.25s ease;
+}
+.cta-sticky.visible {
+  opacity: 1;
+  pointer-events: all;
+}
+.cta-sticky .btn-yes { margin-bottom: 0; }
+.cta-sticky .guarantee { margin-top: 10px; }
 .btn-yes {
   width: 100%;
   padding: 18px 24px;
-  background: var(--primary);
-  color: #fff;
+  background: linear-gradient(180deg, #F0D96C 0%, #D4B84E 40%, #C6A83E 100%);
+  color: var(--night);
   border: none;
   border-radius: 14px;
   font-family: var(--sans);
-  font-size: 16px;
-  font-weight: 600;
+  font-size: 15px;
+  font-weight: 700;
   cursor: pointer;
   letter-spacing: 0.01em;
-  transition: all 0.2s ease;
-  box-shadow: 0 4px 16px rgba(81,167,128,0.25);
-  margin-bottom: 8px;
+  transition: all 0.25s ease;
+  margin-bottom: 0;
   position: relative;
   overflow: hidden;
-  animation: slideUp 0.6s ease 0.35s both;
+  box-shadow: 0 4px 16px rgba(212,184,78,0.3), 0 1px 0 rgba(255,255,255,0.2) inset;
+}
+/* Animated shine sweep */
+.btn-yes::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(105deg, transparent 20%, rgba(255,255,255,0.35) 50%, transparent 80%);
+  animation: shine 3.5s ease-in-out infinite;
+}
+@keyframes shine {
+  0% { left: -100%; }
+  40% { left: 120%; }
+  100% { left: 120%; }
 }
 .btn-yes:hover {
-  background: var(--primary-hover);
   transform: translateY(-1px);
-  box-shadow: 0 6px 24px rgba(81,167,128,0.3);
+  box-shadow: 0 6px 28px rgba(212,184,78,0.4), 0 1px 0 rgba(255,255,255,0.25) inset;
+  background: linear-gradient(180deg, #F4E078 0%, #D8BC52 40%, #CAAC42 100%);
 }
-.btn-yes:active { transform: translateY(0); }
-.btn-yes:disabled {
-  opacity: 0.7;
-  cursor: not-allowed;
-  transform: none;
-}
+.btn-yes:active { transform: translateY(0); box-shadow: 0 2px 8px rgba(212,184,78,0.25); }
+.btn-yes:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; animation: none; }
+.btn-yes:disabled::after { animation: none; }
 
 .btn-yes .spinner {
   display: none;
   width: 20px;
   height: 20px;
-  border: 2px solid rgba(255,255,255,0.3);
-  border-top-color: #fff;
+  border: 2px solid rgba(12,20,32,0.2);
+  border-top-color: var(--night);
   border-radius: 50%;
   animation: spin 0.6s linear infinite;
   margin: 0 auto;
@@ -330,34 +498,27 @@ body {
 .btn-yes.loading .btn-text { display: none; }
 .btn-yes.loading .spinner { display: block; }
 
-@keyframes spin {
-  to { transform: rotate(360deg); }
-}
+@keyframes spin { to { transform: rotate(360deg); } }
 
 /* ---- GUARANTEE ---- */
 .guarantee {
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  gap: 4px;
   font-size: 12px;
   color: var(--text3);
-  margin-bottom: 20px;
-  animation: slideUp 0.6s ease 0.4s both;
+  margin-top: 14px;
+  font-weight: 400;
 }
-.guarantee svg { width: 14px; height: 14px; }
-
-/* ---- SOCIAL PROOF ---- */
-.social-proof {
-  text-align: center;
-  font-size: 13px;
-  color: var(--text3);
-  margin-bottom: 24px;
-  animation: slideUp 0.6s ease 0.4s both;
+.guarantee .sep {
+  margin: 0 6px;
+  color: var(--border);
 }
-.social-proof strong {
-  color: var(--primary);
-  font-weight: 600;
+.guarantee svg {
+  width: 13px;
+  height: 13px;
+  margin-right: 3px;
 }
 
 /* ---- SKIP LINK ---- */
@@ -366,127 +527,153 @@ body {
   text-align: center;
   color: var(--text3);
   font-size: 13px;
-  text-decoration: none;
-  padding: 12px;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  padding: 20px 12px 100px;
   cursor: pointer;
   transition: color 0.2s;
-  animation: slideUp 0.6s ease 0.45s both;
 }
-.skip-link:hover { color: var(--text2); }
+.skip-link:hover { color: var(--text3); }
 
-/* ---- ERROR MESSAGE ---- */
+/* ---- ERROR ---- */
 .error-msg {
   display: none;
-  background: #FFF0F0;
+  background: #FFF5F5;
   color: var(--error);
   text-align: center;
   padding: 12px 16px;
-  border-radius: 10px;
+  border-radius: 8px;
   font-size: 14px;
   margin-bottom: 16px;
-  border: 1px solid #FFD4D4;
+  border: 1px solid #FDE8E8;
 }
 .error-msg.visible { display: block; }
-
-/* ---- ISLAMIC PATTERN BACKGROUND (top decoration) ---- */
-.pattern-top {
-  height: 4px;
-  background: repeating-linear-gradient(
-    90deg,
-    var(--primary) 0px,
-    var(--primary) 8px,
-    transparent 8px,
-    transparent 12px,
-    var(--gold) 12px,
-    var(--gold) 20px,
-    transparent 20px,
-    transparent 24px
-  );
-  opacity: 0.4;
-}
 </style>
 </head>
 <body>
 <div id="app">
-  <div class="pattern-top"></div>
 
-  <!-- STICKY TIMER -->
-  <div class="timer-bar">
-    <span class="timer-icon">&#9202;</span>
-    This offer expires in <span class="timer-value" id="timer">05:00</span>
+  <!-- WARNING BAR -->
+  <div class="warning-bar">
+    <svg class="warn-icon" viewBox="0 0 16 16" fill="none">
+      <path d="M8 1.5L1.5 13.5h13L8 1.5z" stroke="#E8D47A" stroke-width="1.2" fill="none"/>
+      <path d="M8 6.5v3" stroke="#E8D47A" stroke-width="1.2" stroke-linecap="round"/>
+      <circle cx="8" cy="11.5" r="0.6" fill="#E8D47A"/>
+    </svg>
+    Please don't close this page. Your account is being set up. Leaving may cause errors with your trial activation.
+  </div>
+
+  <!-- PROGRESS BAR (dark premium card) -->
+  <div class="progress-section">
+    <div class="progress-bar">
+      <div class="progress-track"><div class="progress-fill"></div></div>
+      <div class="step completed">
+        <span class="step-circle">
+          <svg width="14" height="14" viewBox="0 0 12 12" fill="none"><path d="M2.5 6l2.5 2.5 4.5-4.5" stroke="#fff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <span class="step-label">Trial Started</span>
+      </div>
+      <div class="step current">
+        <span class="step-circle">2</span>
+        <span class="step-label">Customize Plan</span>
+      </div>
+      <div class="step upcoming">
+        <span class="step-circle">3</span>
+        <span class="step-label">Access App</span>
+      </div>
+    </div>
   </div>
 
   <div class="content">
-    <!-- CRESCENT DECORATION -->
-    <div class="crescent-decoration"></div>
 
-    <div style="text-align:center;">
-      <span class="badge">One-Time Offer</span>
+    <!-- SECTION 1: CONGRATS -->
+    <div class="congrats-check">
+      <svg viewBox="0 0 16 16" fill="none"><path d="M3 8l4 4 6-6" stroke="#51A780" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h1 class="congrats-headline">You're in, <span id="firstName">friend</span>!</h1>
+    <p class="congrats-body">
+      You took the first step to improving your connection to your deen.<br>
+      But before you dive in &mdash; we have one question for you.
+    </p>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 2: THE OFFER -->
+    <h2 class="offer-headline">Do you want to never pay for Deen Buddy again?</h2>
+    <p class="offer-body">
+      Right now &mdash; <strong>only on this page</strong> &mdash; you can upgrade to lifetime access for a one-time payment of <strong>$59</strong>.<br><br>
+      No monthly fees. No yearly renewals. No surprise charges.<br>
+      Just one payment. And you'll have access to Deen Buddy forever with all future updates.
+    </p>
+
+    <div class="divider"></div>
+
+    <!-- SECTION 3: THE MATH -->
+    <div class="comparison">
+      <div class="compare-card yearly">
+        <div class="compare-card-label">Your current plan</div>
+        <div class="compare-row"><span class="year">Year 1</span><span class="cost">$39.99</span></div>
+        <div class="compare-row"><span class="year">Year 2</span><span class="cost">$79.98</span></div>
+        <div class="compare-row"><span class="year">Year 3</span><span class="cost">$119.97</span></div>
+        <div class="compare-row"><span class="year">Year 5</span><span class="cost">$199.95</span></div>
+        <div class="compare-row"><span class="year">Year 10</span><span class="cost">$399.90</span></div>
+      </div>
+      <div class="compare-card lifetime">
+        <div class="compare-card-label">Lifetime (this page only)</div>
+        <div class="compare-row"><span class="year">Year 1</span><span class="cost">$59</span></div>
+        <div class="compare-row"><span class="year">Year 2</span><span class="cost">$59</span></div>
+        <div class="compare-row"><span class="year">Year 3</span><span class="cost">$59</span></div>
+        <div class="compare-row"><span class="year">Year 5</span><span class="cost">$59</span></div>
+        <div class="compare-row"><span class="year">Year 10</span><span class="cost">still $59</span></div>
+      </div>
     </div>
 
-    <h1 class="headline" style="text-align:center;">Wait &mdash; Upgrade to Lifetime for Just $59 More</h1>
-    <p class="subhead" style="text-align:center;">Save Hundreds &mdash; One Payment, Yours Forever</p>
+    <div class="divider"></div>
 
-    <!-- PRICE -->
-    <div class="price-box">
-      <div class="price-original">$197</div>
-      <div class="price-current"><sup>$</sup>59</div>
-      <div class="price-label">One-time payment &mdash; forever</div>
-      <div class="price-savings">You save $138</div>
-    </div>
-
-    <!-- BENEFITS -->
-    <ul class="benefits">
-      <li>
-        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#51A780" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span><strong>Never pay again</strong> &mdash; one payment, lifetime access</span>
-      </li>
-      <li>
-        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#51A780" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span><strong>All future updates free</strong> &mdash; new features included forever</span>
-      </li>
-      <li>
-        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#51A780" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span><strong>Priority support</strong> &mdash; get help when you need it</span>
-      </li>
-      <li>
-        <span class="check"><svg viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-5" stroke="#51A780" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg></span>
-        <span><strong>Peace of mind</strong> &mdash; focus on your deen, not renewals</span>
-      </li>
-    </ul>
-
-    <div class="geometric-divider">
-      <span class="line"></span>
-      <span class="diamond"></span>
-      <span class="line"></span>
-    </div>
-
-    <!-- URGENCY -->
+    <!-- SECTION 4: URGENCY -->
     <div class="urgency">
-      This offer is only available right now. Once you leave this page, lifetime access goes to full price ($197).
-      
+      <span class="urgency-alert">This price is only available right now, on this page.</span><br><br>
+      Once you leave, you'll never get a chance to take advantage of this again. We won't email you this offer. We won't show it again.<br><br>
+      <span class="urgency-closing">This is a thank-you for joining today. That's it.</span>
     </div>
 
-    <!-- SOCIAL PROOF -->
-    <div class="social-proof">
-      <strong id="socialCount">147</strong> people upgraded to Lifetime today
-    </div>
-
-    <!-- ERROR MESSAGE -->
-    <div class="error-msg" id="errorMsg">Payment failed &mdash; please try again.</div>
+    <div class="divider"></div>
 
     <!-- CTA -->
-    <button class="btn-yes" id="btnYes" onclick="handleYes()">
-      <span class="btn-text">Yes &mdash; Upgrade Me to Lifetime ($59)</span>
-      <span class="spinner"></span>
-    </button>
+    <div class="cta-section">
+      <div class="error-msg" id="errorMsg">Payment failed &mdash; please try again.</div>
 
-    <div class="guarantee">
-      <svg viewBox="0 0 14 14" fill="none"><path d="M7 1l1.5 3.2L12 4.8 9.5 7.2l.6 3.6L7 9.2 3.9 10.8l.6-3.6L2 4.8l3.5-.6L7 1z" stroke="#888" stroke-width="1" fill="none"/></svg>
-      Secure checkout &bull; Instant access &bull; 7-day guarantee
+      <button class="btn-yes" id="btnYes" onclick="handleYes()">
+        <span class="btn-text">Yes &mdash; Upgrade Me to Lifetime for only $0.16/day</span>
+        <span class="spinner"></span>
+      </button>
+
+      <div class="guarantee">
+        <svg viewBox="0 0 13 13" fill="none"><rect x="1" y="5" width="11" height="7" rx="1.5" stroke="#888" stroke-width="1"/><path d="M3.5 5V3.5a3 3 0 016 0V5" stroke="#888" stroke-width="1" stroke-linecap="round"/></svg>
+        Secure checkout
+        <span class="sep">&middot;</span>
+        <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5l1.2 2.5h2.8l-2.2 1.8.8 2.7L6.5 7l-2.6 1.5.8-2.7L2.5 4h2.8z" stroke="#888" stroke-width="1" fill="none" stroke-linejoin="round"/></svg>
+        14-day money-back guarantee
+      </div>
+
+      <a class="skip-link" id="skipLink" href="#">No thanks, I'll keep my current plan</a>
     </div>
 
-    <a class="skip-link" id="skipLink" href="#">No thanks, I'll keep my current plan</a>
+  </div>
+
+  <!-- STICKY CTA (appears on scroll) -->
+  <div class="cta-sticky" id="ctaSticky">
+    <button class="btn-yes" id="btnYesSticky" onclick="handleYes()">
+      <span class="btn-text">Yes &mdash; Upgrade Me to Lifetime for only $0.16/day</span>
+      <span class="spinner"></span>
+    </button>
+    <div class="guarantee">
+      <svg viewBox="0 0 13 13" fill="none"><rect x="1" y="5" width="11" height="7" rx="1.5" stroke="#888" stroke-width="1"/><path d="M3.5 5V3.5a3 3 0 016 0V5" stroke="#888" stroke-width="1" stroke-linecap="round"/></svg>
+      Secure checkout
+      <span class="sep">&middot;</span>
+      <svg viewBox="0 0 13 13" fill="none"><path d="M6.5 1.5l1.2 2.5h2.8l-2.2 1.8.8 2.7L6.5 7l-2.6 1.5.8-2.7L2.5 4h2.8z" stroke="#888" stroke-width="1" fill="none" stroke-linejoin="round"/></svg>
+      14-day money-back guarantee
+    </div>
   </div>
 </div>
 
@@ -499,40 +686,28 @@ body {
   var cs = params.get('cs') || '';
   var sid = params.get('sid') || '';
   var plan = params.get('plan') || '';
+  var firstName = params.get('fn') || params.get('first_name') || '';
 
   // Carry params to next page
   var paramString = '?cs=' + encodeURIComponent(cs) + '&sid=' + encodeURIComponent(sid) + '&plan=' + encodeURIComponent(plan);
 
-  // Skip link -> downsell
+  // Personalize greeting
+  if (firstName) {
+    document.getElementById('firstName').textContent = firstName;
+  }
+
+  // Skip link -> OTO2 (no downsell for lifetime)
   document.getElementById('skipLink').href = 'upsell-2.html' + paramString;
 
-  // ---- COUNTDOWN TIMER ----
-  var totalSeconds = 300; // 5 minutes
-  var timerEl = document.getElementById('timer');
-
-  function updateTimer() {
-    var m = Math.floor(totalSeconds / 60);
-    var s = totalSeconds % 60;
-    timerEl.textContent = String(m).padStart(2, '0') + ':' + String(s).padStart(2, '0');
-    if (totalSeconds <= 0) {
-      // Auto-skip when expired
-      window.location.href = 'upsell-2.html' + paramString;
-      return;
-    }
-    totalSeconds--;
+  // Sticky CTA — show when inline CTA scrolls out of view
+  var inlineBtn = document.getElementById('btnYes');
+  var stickyBar = document.getElementById('ctaSticky');
+  if (inlineBtn && stickyBar) {
+    var observer = new IntersectionObserver(function(entries) {
+      stickyBar.classList.toggle('visible', !entries[0].isIntersecting);
+    }, { threshold: 0 });
+    observer.observe(inlineBtn);
   }
-  updateTimer();
-  setInterval(updateTimer, 1000);
-
-  // ---- SOCIAL PROOF COUNTER ----
-  var baseCount = 120 + Math.floor(Math.random() * 60);
-  document.getElementById('socialCount').textContent = baseCount;
-  setInterval(function() {
-    if (Math.random() < 0.3) {
-      baseCount += 1;
-      document.getElementById('socialCount').textContent = baseCount;
-    }
-  }, 8000);
 
   // ---- HANDLE YES CLICK ----
   window.handleYes = function() {
