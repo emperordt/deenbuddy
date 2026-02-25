@@ -54,6 +54,7 @@ module.exports = async function handler(req, res) {
     const sessionParams = {
       ui_mode: 'embedded',
       mode: 'subscription',
+      payment_method_types: ['card'],
       customer_email: email || undefined,
       line_items: [{ price: price_id, quantity: 1 }],
       return_url: returnUrl,
