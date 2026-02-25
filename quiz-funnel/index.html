@@ -3384,7 +3384,21 @@ function renderFuturePace() {
       answers_json: JSON.stringify(state.answers),
     });
 
-    setTimeout(function() { goNext(); }, 500);
+    // Save state to localStorage for results page
+    try {
+      localStorage.setItem('db_quiz_state', JSON.stringify({
+        avatar: state.avatar,
+        answers: state.answers,
+        email: state.email,
+        firstName: state.firstName,
+        sessionId: window.QUIZ_SESSION_ID,
+      }));
+    } catch(e) {}
+
+    // Redirect to standalone results page
+    setTimeout(function() {
+      window.location.href = '/quiz-funnel/results.html?avatar=' + encodeURIComponent(state.avatar) + '&sid=' + encodeURIComponent(window.QUIZ_SESSION_ID) + '&email=' + encodeURIComponent(state.email) + '&first_name=' + encodeURIComponent(state.firstName || '');
+    }, 500);
   }
 
   $fpBtn.addEventListener('click', fpSubmit);
