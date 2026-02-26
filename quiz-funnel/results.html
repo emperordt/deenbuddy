@@ -302,7 +302,15 @@ body {
   font-size: 15px;
   font-style: italic;
   color: var(--text3);
-  margin-bottom: 24px;
+  margin-bottom: 10px;
+}
+.hero-desc {
+  font-size: 14px;
+  color: var(--text2);
+  line-height: 1.6;
+  max-width: 380px;
+  margin: 0 auto 24px;
+  opacity: 0.85;
 }
 .hero-copy {
   text-align: left;
@@ -317,6 +325,30 @@ body {
 }
 .hero-copy strong {
   color: var(--text);
+}
+.icp-outcomes {
+  text-align: left;
+  max-width: 400px;
+  margin: 0 auto;
+}
+.icp-label {
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--text);
+  margin-bottom: 14px;
+}
+.icp-bullet {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  margin-bottom: 12px;
+  font-size: 15px;
+  color: var(--text2);
+  line-height: 1.5;
+}
+.icp-bullet svg {
+  flex-shrink: 0;
+  margin-top: 3px;
 }
 
 /* ---- S2: SOCIAL PROOF INTERRUPT ---- */
@@ -694,6 +726,95 @@ body {
 .discount-timer span {
   font-weight: 700;
   color: var(--text);
+}
+/* Compact guarantee variant */
+.guarantee.compact {
+  padding: 24px;
+  margin: 0 24px 16px;
+  border-radius: 14px;
+}
+.guarantee.compact .guarantee-text p { margin-bottom: 6px; }
+
+/* Testimonial carousel */
+.testi-carousel {
+  padding: 0 24px 32px;
+  overflow: hidden;
+  position: relative;
+}
+.testi-carousel-title {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text3);
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  margin-bottom: 14px;
+}
+.testi-track {
+  display: flex;
+  gap: 14px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  padding-bottom: 8px;
+  scrollbar-width: none;
+}
+.testi-track::-webkit-scrollbar { display: none; }
+.testi-card {
+  flex: 0 0 85%;
+  max-width: 320px;
+  scroll-snap-align: center;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+}
+.testi-card-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 10px;
+}
+.testi-card-avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--primary-pale);
+}
+.testi-card-name {
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--text);
+}
+.testi-card-stars {
+  color: #F5A623;
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+.testi-card-text {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.6;
+  font-style: italic;
+}
+.testi-dots {
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 12px;
+}
+.testi-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--border);
+  transition: background 0.3s, transform 0.3s;
+}
+.testi-dot.active {
+  background: var(--primary);
+  transform: scale(1.3);
 }
 
 /* Pricing tiers */
@@ -1473,8 +1594,9 @@ body {
 
 <!-- Sticky mobile CTA -->
 <div class="sticky-mobile-cta" id="stickyMobileCta">
-  <div class="sticky-mobile-price"><strong>$0.11/day</strong> — 7 days free</div>
+  <div class="sticky-mobile-price"><strong>7-day free trial</strong></div>
   <button class="sticky-mobile-btn" onclick="document.getElementById('pricingSection').scrollIntoView({behavior:'smooth'})">Start Free Trial</button>
+  <div style="font-size:11px;color:var(--text3);margin-top:2px;">$0 today. Cancel anytime.</div>
 </div>
 
 <!-- Timer expired popup -->
@@ -1523,12 +1645,12 @@ if (state.email) phIdentify(state.email, { email: state.email, first_name: state
 trackQuizEvent('page_view', { page: 'results' });
 
 
-// ---- ARCHETYPE (title/icon/tagline only — paragraph is universal now) ----
+// ---- ARCHETYPE (title/icon/tagline/desc) ----
 function getArchetype() {
-  if (state.avatar === 'seeker') return { name: 'The Seeker', icon: '🔦', tagline: 'Your heart is open. Let\'s fill it.' };
-  if (state.avatar === 'believer') return { name: 'The Returning Heart', icon: '💚', tagline: 'Your faith never left — it\'s been waiting.' };
-  if (state.avatar === 'guardian') return { name: 'The Guardian', icon: '🛡️', tagline: 'You\'re building a legacy that outlasts this world.' };
-  return { name: 'The Seeker', icon: '🔦', tagline: 'Your heart is open. Let\'s fill it.' };
+  if (state.avatar === 'seeker') return { name: 'The Seeker', icon: '🔦', tagline: 'Your heart is open. Let\'s fill it.', desc: 'You\'re curious about Islam and ready to learn at your own pace. You want real answers — not lectures — and a way to build daily habits that actually stick.' };
+  if (state.avatar === 'believer') return { name: 'The Returning Heart', icon: '💚', tagline: 'Your faith never left — it\'s been waiting.', desc: 'You grew up with Islam but life got in the way. You\'re ready to reconnect — with prayer, with Quran, with the peace you used to feel.' };
+  if (state.avatar === 'guardian') return { name: 'The Guardian', icon: '🛡️', tagline: 'You\'re building a legacy that outlasts this world.', desc: 'You\'re raising a Muslim family and want to lead with knowledge. You need a tool that helps you and your kids stay consistent — together.' };
+  return { name: 'The Seeker', icon: '🔦', tagline: 'Your heart is open. Let\'s fill it.', desc: 'You\'re curious about Islam and ready to learn at your own pace. You want real answers — not lectures — and a way to build daily habits that actually stick.' };
 }
 
 // ---- RENDER ----
@@ -1553,72 +1675,125 @@ function renderPage() {
       '</div>' +
     '</div>' +
 
-    // ===== S1: HERO =====
+    // ===== S1: HERO + ICP OUTCOMES =====
     '<div class="hero">' +
       '<div class="hero-saved anim">✅ Progress saved for ' + email + '</div>' +
       '<div class="hero-icon anim d1">' + arch.icon + '</div>' +
-      '<div class="hero-title anim d2">🌙 ' + arch.name + '</div>' +
+      '<div class="hero-title anim d2">Your personalized plan is ready, ' + firstName + '.</div>' +
       '<div class="hero-tagline anim d3">' + arch.tagline + '</div>' +
-      '<div class="hero-copy anim d4">' +
-        '<p>Based on what you shared, you\'re not starting from zero. You care about your deen — that\'s why you took this quiz in the first place.</p>' +
-        '<p>But caring isn\'t enough. You know that.</p>' +
-        '<p>Right now, there\'s a gap between where you are and where you want to be with Allah. And every day that gap stays open — every salah you pray without understanding, every Quran session you skip because you don\'t know where to start — that gap gets harder to close.</p>' +
-        '<p>Here\'s the good news: You don\'t need years of Islamic school. You don\'t need to learn Arabic first. You don\'t need a private tutor you can\'t afford.</p>' +
-        '<p><strong>You need one thing that meets you where you are and walks with you — every single day.</strong></p>' +
-        '<p>That\'s what Deen Buddy was built for.</p>' +
+      '<div class="hero-desc anim d3">' + arch.desc + '</div>' +
+      '<div class="icp-outcomes anim d4">' +
+        '<div class="icp-label">Based on your answers, your plan will help you:</div>' +
+        (function() {
+          var bullets = [];
+          if (state.avatar === 'seeker') {
+            bullets = [
+              'Learn the basics of salah, wudu, and daily worship — at your own pace',
+              'Ask any question about Islam without judgment, anytime',
+              'Build a consistent daily connection with Allah this Ramadan',
+              'Understand Quran verses with clear translations and context',
+              'Wake up to a daily ayah on your lock screen to start your morning right'
+            ];
+          } else if (state.avatar === 'believer') {
+            bullets = [
+              'Get back to praying all 5 salah consistently — starting today',
+              'Deepen your understanding of what you recite in prayer',
+              'Build a Ramadan routine that actually sticks past the first week',
+              'Get answers to questions you\'ve been meaning to ask for years',
+              'Wake up to a daily Quran verse on your lock screen as a reminder'
+            ];
+          } else if (state.avatar === 'guardian') {
+            bullets = [
+              'Teach your kids about Islam with confidence and accuracy',
+              'Answer their toughest questions with scholar-backed sources',
+              'Build a family Ramadan routine everyone looks forward to',
+              'Stay consistent with your own salah and Quran reading',
+              'Share daily Quran verses that spark real family conversations'
+            ];
+          } else {
+            bullets = [
+              'Build a consistent daily connection with Allah this Ramadan',
+              'Get answers to any Islamic question — with sources, no judgment',
+              'Never miss a prayer with smart, personalized reminders',
+              'Understand what you recite in salah and during Taraweeh',
+              'Wake up to a daily Quran verse on your lock screen'
+            ];
+          }
+          return bullets.map(function(b) { return '<div class="icp-bullet">' + checkSvg + '<span>' + b + '</span></div>'; }).join('');
+        })() +
       '</div>' +
     '</div>' +
 
-    // ===== S2: SOCIAL PROOF INTERRUPT =====
-    '<div class="sp-interrupt">' +
-      '<div class="section-title">Muslims who started here are now doing this:</div>' +
-      '<div class="sp-stats">' +
-        '<div class="sp-stats-faces">' +
-          '<img class="sp-stats-face" src="https://i.pravatar.cc/64?img=33" alt="" loading="lazy">' +
-          '<img class="sp-stats-face" src="https://i.pravatar.cc/64?img=47" alt="" loading="lazy">' +
-          '<img class="sp-stats-face" src="https://i.pravatar.cc/64?img=59" alt="" loading="lazy">' +
-          '<img class="sp-stats-face" src="https://i.pravatar.cc/64?img=26" alt="" loading="lazy">' +
-          '<img class="sp-stats-face" src="https://i.pravatar.cc/64?img=12" alt="" loading="lazy">' +
+    // ===== RAMADAN URGENCY BANNER (above pricing) =====
+    '<div class="ramadan-urgency">' +
+      '<div class="ramadan-urgency-tag">🌙 RAMADAN SPECIAL — 60% OFF</div>' +
+      '<div class="ramadan-urgency-headline">Make this your best Ramadan yet.</div>' +
+      '<div class="ramadan-urgency-sub">The best nights are still ahead — including Laylatul Qadr, worth more than 1,000 months of worship. Start now and feel the difference in your next salah.</div>' +
+      '<div class="eid-countdown" id="urgencyTimer">' +
+        '<div class="eid-countdown-unit"><div class="eid-countdown-value" id="urgencyM">06</div><div class="eid-countdown-label">Min</div></div>' +
+        '<div class="eid-countdown-sep">:</div>' +
+        '<div class="eid-countdown-unit"><div class="eid-countdown-value" id="urgencyS">47</div><div class="eid-countdown-label">Sec</div></div>' +
+      '</div>' +
+      '<a href="#pricingSection" class="gold-cta" style="margin-top:20px;" onclick="event.preventDefault(); document.getElementById(\'pricingSection\').scrollIntoView({behavior:\'smooth\'})">🌙 Claim Your 60% Discount →</a>' +
+    '</div>' +
+
+    // ===== S2: PRICING + CHECKOUT (above the fold) =====
+    '<div class="pricing-section" id="pricingSection">' +
+      '<div class="discount-box">' +
+        '<div class="discount-box-left"><span class="discount-code">RAMADAN2026</span><span class="discount-label">→ 60% OFF — Applied! ✅</span></div>' +
+        '<div class="discount-timer">Discount expires in: <span id="discountTimer">06:47</span></div>' +
+      '</div>' +
+      '<div class="pp-tiers" id="pricingTiers">' +
+        '<div class="pp-tier muted" onclick="selectPlan(\'weekly\')" data-plan="weekly">' +
+          '<div class="pp-tier-left"><div class="pp-tier-radio"></div><div><div class="pp-tier-name">Weekly</div><div class="pp-tier-detail">$7.99/week</div></div></div>' +
+          '<div class="pp-tier-right"><div class="pp-tier-price">$1.14</div><div class="pp-tier-unit">/day</div><div class="pp-tier-sub-price" style="color:var(--text3);">$7.99/week</div></div>' +
         '</div>' +
-        '<div class="sp-stats-info">' +
-          '<div class="sp-stats-rating">★★★★★ 4.9</div>' +
-          '<div class="sp-stats-count">12,000+ reviews</div>' +
+        '<div class="pp-tier yearly selected" onclick="selectPlan(\'yearly\')" data-plan="yearly">' +
+          '<div class="pp-tier-badges"><span class="pp-tier-badge best">Best Value</span><span class="pp-tier-badge popular">Most Popular</span><span class="pp-tier-badge save">Save 60%</span></div>' +
+          '<div class="pp-tier-left"><div class="pp-tier-radio"></div><div><div class="pp-tier-name">Yearly</div><div class="pp-tier-detail"><s>$99.99/yr</s></div></div></div>' +
+          '<div class="pp-tier-right"><div class="pp-tier-price gold">$0.11</div><div class="pp-tier-unit">/day</div><div class="pp-tier-sub-price">$39.99/year</div></div>' +
+        '</div>' +
+        '<div class="pp-tier" onclick="selectPlan(\'monthly\')" data-plan="monthly">' +
+          '<div class="pp-tier-left"><div class="pp-tier-radio"></div><div><div class="pp-tier-name">Monthly</div><div class="pp-tier-detail">$9.99/month</div></div></div>' +
+          '<div class="pp-tier-right"><div class="pp-tier-price">$0.33</div><div class="pp-tier-unit">/day</div><div class="pp-tier-sub-price" style="color:var(--text3);">$9.99/month</div></div>' +
         '</div>' +
       '</div>' +
-      '<div class="sp-cards">' +
-        '<div class="sp-card"><div class="sp-card-stars">★★★★★</div><div class="sp-card-text">"I used to just move my lips during salah. Now I actually understand what I\'m saying to Allah."</div><div class="sp-card-author"><img class="sp-card-avatar" src="https://i.pravatar.cc/56?img=33" alt="Ahmed S." loading="lazy">Ahmed S.</div></div>' +
-        '<div class="sp-card"><div class="sp-card-stars">★★★★★</div><div class="sp-card-text">"I converted 2 years ago and was too embarrassed to ask basic questions. Deen Buddy never made me feel stupid."</div><div class="sp-card-author"><img class="sp-card-avatar" src="https://i.pravatar.cc/56?img=47" alt="Maria R." loading="lazy">Maria R.</div></div>' +
-        '<div class="sp-card"><div class="sp-card-stars">★★★★★</div><div class="sp-card-text">"My kids and I use it together after Maghrib. It\'s become our family thing."</div><div class="sp-card-author"><img class="sp-card-avatar" src="https://i.pravatar.cc/56?img=26" alt="Khadijah B." loading="lazy">Khadijah B.</div></div>' +
+    '</div>' +
+    '<div class="inline-checkout" id="inlineCheckoutSection">' +
+      '<div class="inline-checkout-header">' +
+        '<div class="inline-checkout-plan" id="checkoutPlanLabel">🔒 7-Day Free Trial</div>' +
+        '<div class="inline-checkout-sub">$0 today. Cancel anytime.</div>' +
+      '</div>' +
+      '<div class="inline-checkout-divider"></div>' +
+      '<div id="checkout-container"><div class="checkout-spinner" style="margin:40px auto;"></div></div>' +
+      '<div class="inline-checkout-trust">' +
+        '<span>🔒 Encrypted</span>' +
+        '<span>💳 Visa / MC / Amex / Apple Pay</span>' +
+        '<span>🛡️ 14-day money-back</span>' +
       '</div>' +
     '</div>' +
 
-    // ===== S3: DARK GROWTH CHART =====
-    '<div class="growth-chart-section">' +
-      '<div class="growth-chart">' +
-        '<div class="growth-chart-headline">See your connection to Allah grow by <em>Ramadan\'s end</em> 🌙</div>' +
-        '<svg viewBox="0 0 300 130" fill="none">' +
-          '<defs><linearGradient id="fpAreaGrad" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#D4AF37" stop-opacity="0.25"/><stop offset="100%" stop-color="#D4AF37" stop-opacity="0"/></linearGradient></defs>' +
-          '<line x1="30" y1="95" x2="290" y2="95" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>' +
-          '<line x1="30" y1="70" x2="290" y2="70" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>' +
-          '<line x1="30" y1="45" x2="290" y2="45" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>' +
-          '<line x1="30" y1="20" x2="290" y2="20" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>' +
-          '<path d="M35 92 C70 88, 100 75, 130 60 S195 30, 285 15" stroke="#D4AF37" stroke-width="2.5" fill="none" stroke-linecap="round"/>' +
-          '<path d="M35 92 C70 88, 100 75, 130 60 S195 30, 285 15 L285 95 L35 95 Z" fill="url(#fpAreaGrad)"/>' +
-          '<circle cx="35" cy="92" r="4" fill="#D4AF37"/>' +
-          '<circle cx="35" cy="92" r="8" fill="#D4AF37" opacity="0.15"/>' +
-          '<text x="35" y="8" font-family="Inter, sans-serif" font-size="9" fill="#D4AF37" font-weight="700" text-anchor="middle">Today</text>' +
-          '<line x1="35" y1="12" x2="35" y2="84" stroke="#D4AF37" stroke-width="1" stroke-dasharray="3,3" opacity="0.45"/>' +
-          '<text x="35" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 1</text>' +
-          '<text x="107" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 2</text>' +
-          '<text x="182" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 3</text>' +
-          '<text x="253" y="112" font-family="Inter, sans-serif" font-size="9" fill="rgba(255,255,255,0.35)">Week 4</text>' +
-          '<text x="0" y="98" font-family="Inter, sans-serif" font-size="7" fill="rgba(255,255,255,0.2)">Low</text>' +
-          '<text x="0" y="48" font-family="Inter, sans-serif" font-size="7" fill="rgba(255,255,255,0.2)">Med</text>' +
-          '<text x="0" y="23" font-family="Inter, sans-serif" font-size="7" fill="rgba(255,255,255,0.2)">High</text>' +
-        '</svg>' +
-        '<div class="growth-chart-disclaimer">*Based on average member engagement data</div>' +
+    // ===== TESTIMONIAL CAROUSEL (below checkout) =====
+    '<div class="testi-carousel">' +
+      '<div class="testi-carousel-title">What Muslims are saying</div>' +
+      '<div class="testi-track" id="testiTrack">' +
+        '<div class="testi-card"><div class="testi-card-header"><img class="testi-card-avatar" src="https://i.pravatar.cc/80?img=33" alt="Ahmed S." loading="lazy"><div><div class="testi-card-name">Ahmed S.</div><div class="testi-card-stars">★★★★★</div></div></div><div class="testi-card-text">"I went from missing 2-3 prayers a day to hitting all 5. The reminders are smarter than any app I\'ve tried."</div></div>' +
+        '<div class="testi-card"><div class="testi-card-header"><img class="testi-card-avatar" src="https://i.pravatar.cc/80?img=47" alt="Khadijah B." loading="lazy"><div><div class="testi-card-name">Khadijah B.</div><div class="testi-card-stars">★★★★★</div></div></div><div class="testi-card-text">"I asked it to translate an ayah from Taraweeh — got the Arabic, translation, AND the context. I use it every night."</div></div>' +
+        '<div class="testi-card"><div class="testi-card-header"><img class="testi-card-avatar" src="https://i.pravatar.cc/80?img=59" alt="Omar K." loading="lazy"><div><div class="testi-card-name">Omar K.</div><div class="testi-card-stars">★★★★★</div></div></div><div class="testi-card-text">"The Quran verse on my lock screen every morning changed everything. I see it before I check anything else."</div></div>' +
+        '<div class="testi-card"><div class="testi-card-header"><img class="testi-card-avatar" src="https://i.pravatar.cc/80?img=26" alt="Amina T." loading="lazy"><div><div class="testi-card-name">Amina T.</div><div class="testi-card-stars">★★★★★</div></div></div><div class="testi-card-text">"I converted last year and was afraid to ask questions. Deen Buddy answers everything with patience and real sources. Like a scholar in your pocket."</div></div>' +
+        '<div class="testi-card"><div class="testi-card-header"><img class="testi-card-avatar" src="https://i.pravatar.cc/80?img=12" alt="Yusuf M." loading="lazy"><div><div class="testi-card-name">Yusuf M.</div><div class="testi-card-stars">★★★★★</div></div></div><div class="testi-card-text">"I work 60+ hrs a week. No time for classes. But 5 minutes on Deen Buddy teaches me more than an hour on YouTube."</div></div>' +
       '</div>' +
-      '<div class="growth-chart-stat"><strong>1,247</strong> Muslims started this exact journey in the last 7 days.</div>' +
+      '<div class="testi-dots" id="testiDots"></div>' +
+    '</div>' +
+
+    // ===== GUARANTEE (below checkout + testimonials) =====
+    '<div class="guarantee compact">' +
+      '<div class="guarantee-icon">🛡️</div>' +
+      '<div class="guarantee-title">The "Try It During Salah" Guarantee</div>' +
+      '<div class="guarantee-text">' +
+        '<p>Try Deen Buddy free for 7 days. If it doesn\'t help you feel closer to Allah — cancel with one tap. No charge. No guilt.</p>' +
+        '<p>Plus a <strong>14-day money-back guarantee</strong> after your trial. Zero risk.</p>' +
+      '</div>' +
     '</div>' +
 
     // ===== S4: WHAT'S INSIDE =====
@@ -1630,7 +1805,7 @@ function renderPage() {
         '<div class="feature-card"><div class="feature-card-icon">🕌</div><div class="feature-card-name">Prayer Times</div><div class="feature-card-desc">Accurate times for 12,000+ cities. Never miss a salah. Notifications you can count on.</div></div>' +
         '<div class="feature-card"><div class="feature-card-icon">✨</div><div class="feature-card-name">Daily Verse</div><div class="feature-card-desc">A new ayah every morning with explanation. Start your day connected — takes 30 seconds.</div></div>' +
         '<div class="feature-card"><div class="feature-card-icon">📝</div><div class="feature-card-name">Daily Quiz</div><div class="feature-card-desc">Test your knowledge. Track your growth. Watch yourself improve week over week.</div></div>' +
-        '<div class="feature-card dark"><div class="feature-card-icon">🔒</div><div class="feature-card-name">100% Ad-Free. 100% Private.</div><div class="feature-card-desc">No ads between you and your deen. No data sold. Ever. This is a promise, not a feature.</div></div>' +
+        '<div class="feature-card dark"><div class="feature-card-icon">🔒</div><div class="feature-card-name">100% Ad-Free. 100% Private.</div><div class="feature-card-desc">No ads between you and your deen. Ever. This is a promise, not a feature.</div></div>' +
       '</div>' +
       '<a href="#pricingSection" class="gold-cta" onclick="event.preventDefault(); document.getElementById(\'pricingSection\').scrollIntoView({behavior:\'smooth\'})">🌙 Start My Free 7-Day Trial →</a>' +
     '</div>' +
@@ -1660,44 +1835,6 @@ function renderPage() {
       '<a href="#pricingSection" class="gold-cta" onclick="event.preventDefault(); document.getElementById(\'pricingSection\').scrollIntoView({behavior:\'smooth\'})">🌙 Start My Free 7-Day Trial →</a>' +
     '</div>' +
 
-    // ===== S6: RAMADAN URGENCY BANNER =====
-    '<div class="ramadan-urgency">' +
-      '<div class="ramadan-urgency-tag">🌙 RAMADAN SPECIAL — 60% OFF</div>' +
-      '<div class="ramadan-urgency-headline">Ramadan is slipping away.</div>' +
-      '<div class="ramadan-urgency-sub">Every night that passes is gone forever. But the best nights — including Laylatul Qadr, worth 1,000 months — are still ahead.</div>' +
-      '<div class="eid-countdown" id="urgencyTimer">' +
-        '<div class="eid-countdown-unit"><div class="eid-countdown-value" id="urgencyM">06</div><div class="eid-countdown-label">Min</div></div>' +
-        '<div class="eid-countdown-sep">:</div>' +
-        '<div class="eid-countdown-unit"><div class="eid-countdown-value" id="urgencyS">47</div><div class="eid-countdown-label">Sec</div></div>' +
-      '</div>' +
-      '<a href="#pricingSection" class="gold-cta" style="margin-top:20px;" onclick="event.preventDefault(); document.getElementById(\'pricingSection\').scrollIntoView({behavior:\'smooth\'})">🌙 Claim Your 60% Discount →</a>' +
-    '</div>' +
-
-    // ===== S7: PRICING =====
-    '<div class="pricing-section" id="pricingSection">' +
-      '<div class="section-title">Your plan is ready, ' + firstName + '. Bismillah.</div>' +
-      '<div class="discount-box">' +
-        '<div class="discount-box-left"><span class="discount-code">RAMADAN2026</span><span class="discount-label">→ 60% OFF — Applied! ✅</span></div>' +
-        '<div class="discount-timer">Discount reserved for: <span id="discountTimer">06:47</span></div>' +
-      '</div>' +
-      '<div class="pp-tiers" id="pricingTiers">' +
-        '<div class="pp-tier muted" onclick="selectPlan(\'weekly\')" data-plan="weekly">' +
-          '<div class="pp-tier-left"><div class="pp-tier-radio"></div><div><div class="pp-tier-name">Weekly</div><div class="pp-tier-detail">$7.99/week</div></div></div>' +
-          '<div class="pp-tier-right"><div class="pp-tier-price">$415.48</div><div class="pp-tier-unit">/year</div><div class="pp-tier-sub-price" style="color:var(--text3);">$7.99/week</div></div>' +
-        '</div>' +
-        '<div class="pp-tier yearly selected" onclick="selectPlan(\'yearly\')" data-plan="yearly">' +
-          '<div class="pp-tier-badges"><span class="pp-tier-badge best">Best Value</span><span class="pp-tier-badge popular">Most Popular</span><span class="pp-tier-badge save">Save 60%</span></div>' +
-          '<div class="pp-tier-left"><div class="pp-tier-radio"></div><div><div class="pp-tier-name">Yearly</div><div class="pp-tier-detail"><s>$99.99/yr</s></div></div></div>' +
-          '<div class="pp-tier-right"><div class="pp-tier-price gold">$0.11</div><div class="pp-tier-unit">/day</div><div class="pp-tier-sub-price">$39.99/year</div></div>' +
-        '</div>' +
-        '<div class="pp-tier" onclick="selectPlan(\'monthly\')" data-plan="monthly">' +
-          '<div class="pp-tier-left"><div class="pp-tier-radio"></div><div><div class="pp-tier-name">Monthly</div><div class="pp-tier-detail">$9.99/month</div></div></div>' +
-          '<div class="pp-tier-right"><div class="pp-tier-price">$119.88</div><div class="pp-tier-unit">/year</div><div class="pp-tier-sub-price" style="color:var(--text3);">$9.99/month</div></div>' +
-        '</div>' +
-      '</div>' +
-      '<div class="yearly-sub">$0.11/day. Less than a date from the grocery store.<br><strong>Free 7-day trial → Cancel anytime.</strong></div>' +
-    '</div>' +
-
     // ===== S8: GUARANTEE =====
     '<div class="guarantee">' +
       '<div class="guarantee-icon">🛡️</div>' +
@@ -1711,30 +1848,15 @@ function renderPage() {
       '<div class="guarantee-highlight">You have zero risk.</div>' +
     '</div>' +
 
-    // ===== S9: INLINE CHECKOUT =====
-    '<div class="inline-checkout" id="inlineCheckoutSection">' +
-      '<div class="inline-checkout-header">' +
-        '<div class="inline-checkout-plan" id="checkoutPlanLabel">🔒 7-Day Free Trial → then <span class="gold" style="font-size:18px;font-weight:800;">$0.11/day</span> <span style="font-size:12px;color:var(--text3);font-weight:400;">($39.99/yr)</span></div>' +
-        '<div class="inline-checkout-sub">$0 today. Cancel anytime before your trial ends.</div>' +
-      '</div>' +
-      '<div class="inline-checkout-divider"></div>' +
-      '<div id="checkout-container"><div class="checkout-spinner" style="margin:40px auto;"></div></div>' +
-      '<div class="inline-checkout-trust">' +
-        '<span>🔒 Encrypted</span>' +
-        '<span>💳 Visa / MC / Amex / Apple Pay</span>' +
-        '<span>🛡️ 14-day money-back</span>' +
-      '</div>' +
-    '</div>' +
-
     // ===== S10: SOCIAL PROOF WALL =====
     '<div class="sp-wall">' +
       '<div class="section-title">What Muslims are saying</div>' +
       '<div class="sp-wall-reviews">' +
-        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=33" alt="Ahmed S." loading="lazy"><div><div class="sp-review-name">Ahmed S.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"Not gonna lie, I was skeptical. Another Islamic app? But Deen Buddy is different. I asked it about a hadith I\'d been confused about for years and it gave me the clearest explanation I\'ve ever seen. With sources. This isn\'t ChatGPT pretending to know Islam."</div></div>' +
-        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=47" alt="Khadijah B." loading="lazy"><div><div class="sp-review-name">Khadijah B.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"My kids now ask ME questions about the Quran after using this app together. Last week my 9-year-old explained Surah Al-Asr to her little brother. I cried. This is what I was afraid technology would never do — bring my family closer to deen."</div></div>' +
-        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=59" alt="Omar K." loading="lazy"><div><div class="sp-review-name">Omar K.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"I went from barely praying Fajr to a consistent 5-prayer routine in 3 weeks. The daily verse feature is my anchor. It takes 30 seconds in the morning and it sets the tone for my entire day."</div></div>' +
-        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=26" alt="Amina T." loading="lazy"><div><div class="sp-review-name">Amina T.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"I converted last year and was drowning. YouTube gave me 50 different opinions. The mosque felt intimidating. Deen Buddy lets me ask \'stupid\' questions at 2am without anyone judging me. It literally saved my faith."</div></div>' +
-        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=12" alt="Yusuf M." loading="lazy"><div><div class="sp-review-name">Yusuf M.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"I\'m a software engineer working 60+ hours a week. I don\'t have time for classes. I don\'t have time for hour-long lectures. But I have 5 minutes. And 5 minutes with Deen Buddy teaches me more than an hour on YouTube. No ads. No distractions. Just deen."</div></div>' +
+        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=33" alt="Ahmed S." loading="lazy"><div><div class="sp-review-name">Ahmed S.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"The prayer reminders are smarter than any app I\'ve tried. It knows my location, adjusts for the time, and I went from missing 2-3 prayers a day to hitting all 5 consistently. My wife noticed before I even told her."</div></div>' +
+        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=47" alt="Khadijah B." loading="lazy"><div><div class="sp-review-name">Khadijah B.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"I asked it to translate an ayah I heard in Taraweeh and it gave me the Arabic, translation, AND the context behind it. I\'ve been using it every night this Ramadan to actually understand what the Imam is reciting."</div></div>' +
+        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=59" alt="Omar K." loading="lazy"><div><div class="sp-review-name">Omar K.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"The Quran verse on my lock screen every morning is everything. I see it before I check Instagram, before I check email. It takes 10 seconds and it completely reframes my mindset. I\'ve memorized ayahs without even trying."</div></div>' +
+        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=26" alt="Amina T." loading="lazy"><div><div class="sp-review-name">Amina T.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"I converted last year and had so many questions I was afraid to ask. Is my wudu valid? What do I say in sujood? Deen Buddy answers everything with patience and real sources. No judgment. It\'s like having a scholar in your pocket at 2am."</div></div>' +
+        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=12" alt="Yusuf M." loading="lazy"><div><div class="sp-review-name">Yusuf M.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"I work 60+ hours a week. No time for classes or lectures. But I have 5 minutes. I ask Deen Buddy one question a day — about a verse, a hadith, something I heard at Jummah. Five minutes and I learn more than an hour on YouTube."</div></div>' +
       '</div>' +
 
       '<div class="section-title">The numbers speak.</div>' +
@@ -1744,8 +1866,6 @@ function renderPage() {
         '<div class="stat-item"><div class="stat-value">12K+</div><div class="stat-label">5-Star Reviews</div></div>' +
       '</div>' +
 
-      '<div class="section-title">You\'re not alone.</div>' +
-      '<div class="live-activity" id="liveTicker"><div class="live-activity-inner" id="liveTickerInner"></div></div>' +
       '<a href="#pricingSection" class="gold-cta" onclick="event.preventDefault(); document.getElementById(\'pricingSection\').scrollIntoView({behavior:\'smooth\'})">🌙 Start My Free 7-Day Trial →</a>' +
     '</div>' +
 
@@ -1809,6 +1929,15 @@ function renderPage() {
   initLiveTicker();
   initStickyMobileCta();
   initExitIntent();
+  // Track all CTA button clicks → n8n download_click webhook
+  document.addEventListener('click', function(e) {
+    var btn = e.target.closest('.gold-cta, .cta-btn, .sticky-mobile-btn, .exit-btn');
+    if (btn) {
+      window.trackQuizEvent('checkout_initiated', { button_text: btn.textContent.trim().substring(0, 60) });
+    }
+  });
+  // Init testimonial carousel dots
+  initTestiCarousel();
   // Auto-load Stripe checkout inline
   loadInlineCheckout();
 }
@@ -1831,8 +1960,8 @@ function selectPlan(plan) {
   // Update checkout header label
   var labels = {
     yearly: '🔒 7-Day Free Trial → then <span class="gold" style="font-size:18px;font-weight:800;">$0.11/day</span> <span style="font-size:12px;color:var(--text3);font-weight:400;">($39.99/yr)</span>',
-    monthly: '🔒 7-Day Free Trial → then <span class="gold" style="font-size:18px;font-weight:800;">$9.99/mo</span> <span style="font-size:12px;color:var(--text3);font-weight:400;">($119.88/yr)</span>',
-    weekly: '🔒 7-Day Free Trial → then <span class="gold" style="font-size:18px;font-weight:800;">$7.99/wk</span> <span style="font-size:12px;color:var(--text3);font-weight:400;">($415.48/yr)</span>'
+    monthly: '🔒 7-Day Free Trial → then <span class="gold" style="font-size:18px;font-weight:800;">$0.33/day</span> <span style="font-size:12px;color:var(--text3);font-weight:400;">($9.99/mo)</span>',
+    weekly: '🔒 7-Day Free Trial → then <span class="gold" style="font-size:18px;font-weight:800;">$1.14/day</span> <span style="font-size:12px;color:var(--text3);font-weight:400;">($7.99/wk)</span>'
   };
   var label = document.getElementById('checkoutPlanLabel');
   if (label) label.innerHTML = labels[plan] || labels.yearly;
@@ -1887,9 +2016,11 @@ function startStickyTimer() {
     var s = (total % 60).toString().padStart(2, '0');
     var sh = document.getElementById('stickyH'); var sm = document.getElementById('stickyM'); var ss = document.getElementById('stickyS');
     if (sh) sh.textContent = h; if (sm) sm.textContent = m; if (ss) ss.textContent = s;
-    // Sync urgency banner timer
+    // Sync urgency banner timers
     var um = document.getElementById('urgencyM'); var us = document.getElementById('urgencyS');
     if (um) um.textContent = m; if (us) us.textContent = s;
+    var um2 = document.getElementById('urgencyM2'); var us2 = document.getElementById('urgencyS2');
+    if (um2) um2.textContent = m; if (us2) us2.textContent = s;
     // Sync discount timer
     var dt = document.getElementById('discountTimer');
     if (dt) dt.innerHTML = '<span>' + m + ':' + s + '</span>';
@@ -1987,6 +2118,38 @@ function initLiveTicker() {
 function startSocialToasts() {
   setTimeout(showSocialToast, 6000);
   setInterval(function() { showSocialToast(); }, 12000);
+}
+
+// ---- TESTIMONIAL CAROUSEL ----
+function initTestiCarousel() {
+  var track = document.getElementById('testiTrack');
+  var dotsContainer = document.getElementById('testiDots');
+  if (!track || !dotsContainer) return;
+  var cards = track.querySelectorAll('.testi-card');
+  var count = cards.length;
+  // Create dots
+  for (var i = 0; i < count; i++) {
+    var dot = document.createElement('div');
+    dot.className = 'testi-dot' + (i === 0 ? ' active' : '');
+    dotsContainer.appendChild(dot);
+  }
+  var dots = dotsContainer.querySelectorAll('.testi-dot');
+  // Update dots on scroll
+  track.addEventListener('scroll', function() {
+    var scrollLeft = track.scrollLeft;
+    var cardWidth = cards[0].offsetWidth + 14; // gap
+    var idx = Math.round(scrollLeft / cardWidth);
+    dots.forEach(function(d, j) {
+      d.classList.toggle('active', j === idx);
+    });
+  });
+  // Auto-swipe every 4s
+  var autoIdx = 0;
+  setInterval(function() {
+    autoIdx = (autoIdx + 1) % count;
+    var cardWidth = cards[0].offsetWidth + 14;
+    track.scrollTo({ left: autoIdx * cardWidth, behavior: 'smooth' });
+  }, 4000);
 }
 
 // ---- STICKY MOBILE CTA ----
