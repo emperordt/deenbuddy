@@ -1622,7 +1622,7 @@ function renderPage() {
     '</div>' +
 
     // ===== S4: WHAT'S INSIDE =====
-    '<div class="features-section">' +
+    '<div class="features-section" id="featuresSection">' +
       '<div class="section-title">Everything you need. Nothing you don\'t.</div>' +
       '<div class="features-grid">' +
         '<div class="feature-card"><div class="feature-card-icon">🤖</div><div class="feature-card-name">AI Quran Chat</div><div class="feature-card-desc">Ask anything about Islam. Get answers from real Islamic sources. No judgment. No wrong questions. Available 24/7 — like a scholar in your pocket.</div></div>' +
@@ -1993,20 +1993,21 @@ function startSocialToasts() {
 function initStickyMobileCta() {
   var cta = document.getElementById('stickyMobileCta');
   var pricing = document.getElementById('pricingSection');
+  var features = document.getElementById('featuresSection');
   if (!pricing || !cta) return;
-  // Show immediately
-  cta.classList.add('visible');
-  // Hide only after user scrolls completely past the pricing section bottom
+  // Start hidden — only show after scrolling past features section
   var ticking = false;
   window.addEventListener('scroll', function() {
     if (!ticking) {
       window.requestAnimationFrame(function() {
-        var rect = pricing.getBoundingClientRect();
-        // Hide if the entire pricing section is above the viewport (user scrolled past)
-        if (rect.bottom < 0) {
-          cta.classList.remove('visible');
-        } else {
+        var pricingRect = pricing.getBoundingClientRect();
+        var featuresRect = features ? features.getBoundingClientRect() : null;
+        var pastFeatures = featuresRect ? featuresRect.bottom < 0 : true;
+        // Show only after features section, hide after pricing section
+        if (pastFeatures && pricingRect.bottom >= 0) {
           cta.classList.add('visible');
+        } else {
+          cta.classList.remove('visible');
         }
         ticking = false;
       });
