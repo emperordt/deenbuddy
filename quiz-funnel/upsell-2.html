@@ -269,7 +269,7 @@ p strong { color: var(--text); font-weight: 600; }
 .peek-grid .peek-item {
   aspect-ratio: 3/4;
   border-radius: 10px;
-  border: 2px dashed var(--border);
+  border: 1px solid var(--border);
   background: var(--surface);
   display: flex;
   align-items: center;
@@ -437,7 +437,7 @@ p strong { color: var(--text); font-weight: 600; }
   width: 100%;
   aspect-ratio: 16/9;
   border-radius: 10px;
-  border: 2px dashed var(--border);
+  border: 1px solid var(--border);
   background: var(--surface);
   display: flex;
   align-items: center;
@@ -446,7 +446,7 @@ p strong { color: var(--text); font-weight: 600; }
 }
 .feature-preview img {
   width: 100%;
-  height: 100%;
+  height: auto;
   object-fit: cover;
   border-radius: 8px;
 }
@@ -900,9 +900,8 @@ p strong { color: var(--text); font-weight: 600; }
     <p>The question is: are you going to walk into them with a plan? Or are you going to do what most of us do &mdash; wing it and hope for the best?</p>
 
     <!-- IMAGE: Product mockup hero -->
-    <div class="img-placeholder hero-mockup placeholder-empty">
-      <div class="ph-label">Product Mockup</div>
-      <div class="ph-desc">Guide book / tablet / phone mockup showing the cover</div>
+    <div class="img-placeholder hero-mockup">
+      <img src="img/oto2-hero-mockup.jpg" alt="Your 30 Nights of Ramadan — The Complete Guide" style="width:100%;border-radius:12px;">
     </div>
 
     <div class="divider"></div>
@@ -918,9 +917,8 @@ p strong { color: var(--text); font-weight: 600; }
     <p id="bismillahLine"><strong style="font-family:var(--serif);font-style:italic;font-size:17px;">Until now. Bismillah.</strong></p>
 
     <!-- IMAGE: The Ramadan struggle visual -->
-    <div class="img-placeholder placeholder-empty" style="margin-top:24px;">
-      <div class="ph-label">Ramadan Timeline</div>
-      <div class="ph-desc">Infographic: motivation curve through Ramadan showing the dip most people feel</div>
+    <div class="img-placeholder" style="margin-top:24px;">
+      <img src="img/oto2-ramadan-timeline.jpg" alt="The Ramadan motivation curve" style="width:100%;border-radius:12px;">
     </div>
 
     <div class="divider"></div>
@@ -938,10 +936,10 @@ p strong { color: var(--text); font-weight: 600; }
 
     <!-- IMAGE: Peek inside the guide -->
     <div class="peek-grid">
-      <div class="peek-item"><div class="ph-label">Page Preview 1</div></div>
-      <div class="peek-item"><div class="ph-label">Page Preview 2</div></div>
-      <div class="peek-item"><div class="ph-label">Page Preview 3</div></div>
-      <div class="peek-item"><div class="ph-label">Page Preview 4</div></div>
+      <div class="peek-item"><img src="img/oto2-peek-1.jpg" alt="Night 1 planner page" style="width:100%;height:100%;object-fit:cover;border-radius:8px;"></div>
+      <div class="peek-item"><img src="img/oto2-peek-2.jpg" alt="Laylatul Qadr checklist" style="width:100%;height:100%;object-fit:cover;border-radius:8px;"></div>
+      <div class="peek-item"><img src="img/oto2-peek-3.jpg" alt="Dua collection spread" style="width:100%;height:100%;object-fit:cover;border-radius:8px;"></div>
+      <div class="peek-item"><img src="img/oto2-peek-4.jpg" alt="Last 10 Nights schedule" style="width:100%;height:100%;object-fit:cover;border-radius:8px;"></div>
     </div>
     <div class="peek-caption">A peek inside your night-by-night guide</div>
 
@@ -953,32 +951,32 @@ p strong { color: var(--text); font-weight: 600; }
     <div class="feature-item">
       <div class="feature-title">Night-by-Night Planner (All 30 Nights)</div>
       <div class="feature-desc">Exactly what to recite, what to reflect on, and what dua to make each night. No guessing. Open the page, follow the plan, close the book. Done. Whether you're on Night 3 or Night 27, your plan is there waiting for you.</div>
-      <div class="feature-preview"><span class="ph-label">Preview: Planner page</span></div>
+      <div class="feature-preview"><img src="img/oto2-feature-planner.jpg" alt="Night-by-night planner cards" style="width:100%;border-radius:10px;"></div>
     </div>
     <div class="feature-item">
       <div class="feature-title">The Complete Laylatul Qadr Preparation Kit</div>
       <div class="feature-desc">Which nights to prioritize. Exactly what to say. How to structure your ibadah so you don't burn out early and have nothing left when it matters most. This kit paces you so you peak on the right nights, bi'ithnillah.</div>
-      <div class="feature-preview"><span class="ph-label">Preview: Laylatul Qadr kit</span></div>
+      <div class="feature-preview"><img src="img/oto2-feature-laylatul-qadr.jpg" alt="Laylatul Qadr preparation kit" style="width:100%;border-radius:10px;"></div>
     </div>
     <div class="feature-item">
       <div class="feature-title">30 Powerful Ramadan Duas (With Meaning)</div>
       <div class="feature-desc">Not just the Arabic &mdash; the meaning behind each one. When you know what you're asking Allah Subhanahu Wa Ta'ala for, your dua hits different. You'll feel it in your chest instead of just moving your lips.</div>
-      <div class="feature-preview"><span class="ph-label">Preview: Dua spread</span></div>
+      <div class="feature-preview"><img src="img/oto2-feature-duas.jpg" alt="Dua cards with Arabic and English" style="width:100%;border-radius:10px;"></div>
     </div>
     <div class="feature-item">
       <div class="feature-title">30 Deen Buddy AI Prompts for Ramadan</div>
       <div class="feature-desc">Copy-paste these into the app during your trial. Each prompt unlocks a deep Quran reflection you can do in 5 minutes. One per night. This alone is worth the price.</div>
-      <div class="feature-preview"><span class="ph-label">Preview: AI prompts</span></div>
+      <div class="feature-preview"><img src="img/oto2-feature-ai.jpg" alt="DeenBuddy AI reflection on phone" style="width:100%;border-radius:10px;"></div>
     </div>
     <div class="feature-item">
       <div class="feature-title">The Taraweeh Companion</div>
       <div class="feature-desc">A breakdown of what the Imam is likely reciting so you can actually UNDERSTAND what you're hearing in salah. Stop standing there for an hour not knowing what's being said. SubhanAllah, imagine actually feeling Taraweeh instead of enduring it.</div>
-      <div class="feature-preview"><span class="ph-label">Preview: Taraweeh breakdown</span></div>
+      <div class="feature-preview"><img src="img/oto2-feature-quran.jpg" alt="Open Quran with translation" style="width:100%;border-radius:10px;"></div>
     </div>
     <div class="feature-item">
       <div class="feature-title">The Last 10 Nights Intensive</div>
       <div class="feature-desc">A detailed hour-by-hour schedule for the final stretch. When to pray. When to make dua. When to read Quran. When to rest (yes, rest &mdash; burnout is real and it's not from Allah). This section alone could change your entire Ramadan.</div>
-      <div class="feature-preview"><span class="ph-label">Preview: Last 10 nights schedule</span></div>
+      <div class="feature-preview"><img src="img/oto2-feature-last10.jpg" alt="Last 10 Nights hour-by-hour schedule" style="width:100%;border-radius:10px;"></div>
     </div>
 
     <div class="divider"></div>
@@ -1000,9 +998,8 @@ p strong { color: var(--text); font-weight: 600; }
     </div>
 
     <!-- IMAGE: Before/After visual -->
-    <div class="img-placeholder placeholder-empty" style="aspect-ratio:16/9;margin-top:0;">
-      <div class="ph-label">Before / After</div>
-      <div class="ph-desc">Split image: chaotic Ramadan nights vs. peaceful guided nights with the plan</div>
+    <div class="img-placeholder" style="margin-top:0;">
+      <img src="img/oto2-before-after.jpg" alt="Before: scrolling through Ramadan vs After: in sujood with purpose" style="width:100%;border-radius:12px;">
     </div>
 
     <div class="divider"></div>
@@ -1151,7 +1148,8 @@ p strong { color: var(--text); font-weight: 600; }
 
   // ---- COUNTDOWN TO EID ----
   // Eid al-Fitr 2026 ~ March 30 2026 (adjust as needed)
-  var eidDate = new Date('2026-03-30T18:00:00');
+  // Eid al-Fitr 2026 ~ March 20 (depending on moon sighting)
+  var eidDate = new Date('2026-03-20T18:00:00');
   function updateCountdown() {
     var now = new Date();
     var diff = eidDate - now;

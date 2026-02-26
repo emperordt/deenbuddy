@@ -262,6 +262,52 @@ p strong { color: var(--text); font-weight: 600; }
   background: rgba(232,212,122,0.35);
 }
 
+/* ---- IMAGE PLACEHOLDERS ---- */
+.img-placeholder {
+  width: 100%;
+  border-radius: 14px;
+  overflow: hidden;
+  margin: 24px 0;
+  position: relative;
+}
+.img-placeholder img {
+  width: 100%;
+  height: auto;
+  display: block;
+  border-radius: 14px;
+}
+.img-placeholder.placeholder-empty {
+  aspect-ratio: 4/3;
+  border: 2px dashed var(--border);
+  background: var(--surface);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 6px;
+}
+.img-placeholder.placeholder-empty .ph-label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+.img-placeholder.placeholder-empty .ph-desc {
+  font-size: 11px;
+  color: var(--text-muted);
+  max-width: 200px;
+  text-align: center;
+  line-height: 1.4;
+}
+.img-placeholder.hero-mockup {
+  aspect-ratio: 3/2;
+  background: linear-gradient(160deg, var(--night), var(--teal));
+  border: 1px solid rgba(232,212,122,0.15);
+}
+.img-placeholder.hero-mockup .ph-label { color: var(--gold); }
+.img-placeholder.hero-mockup .ph-desc { color: rgba(255,255,255,0.4); }
+
 /* ---- PRODUCT CARD ---- */
 .product-card {
   background: linear-gradient(160deg, var(--night), var(--teal));
@@ -837,6 +883,11 @@ p strong { color: var(--text); font-weight: 600; }
     <p>You make dua from a list, reading transliterations, saying sounds that mean nothing to you. Your tongue is moving but your heart isn't in it. Because how can your heart be in words it doesn't understand?</p>
     <p id="bismillahLine"><strong style="font-family:var(--serif);font-style:italic;font-size:17px;">What if you actually understood every word? Bismillah.</strong></p>
 
+    <!-- IMAGE: Product hero mockup -->
+    <div class="img-placeholder">
+      <img src="img/oto3-hero-mockup.jpg" alt="Understand What You Recite — 3 PDF library covers" loading="lazy">
+    </div>
+
     <div class="divider"></div>
 
     <!-- SECTION 2: PRODUCT CARD -->
@@ -848,6 +899,11 @@ p strong { color: var(--text); font-weight: 600; }
 
     <p style="margin-top:20px;">This isn't a textbook. This isn't an Arabic course. This is the shortcut &mdash; a <strong>complete library of meanings</strong> for everything you say in salah, every surah you hear in Taraweeh, and every dua you make during Ramadan.</p>
     <p>You open the PDF. You look up the surah being recited tonight. And suddenly you're not just standing there &mdash; you're <em>present</em>. You understand. You feel it. SubhanAllah.</p>
+
+    <!-- IMAGE: Peek inside the PDFs -->
+    <div class="img-placeholder">
+      <img src="img/oto3-inside-preview.jpg" alt="Inside preview — Al-Fatiha Arabic and English breakdown" loading="lazy">
+    </div>
 
     <div class="divider"></div>
 
@@ -889,6 +945,11 @@ p strong { color: var(--text); font-weight: 600; }
       <div class="feature-number">Bonus 3</div>
       <div class="feature-title">Salah Transformation Journal</div>
       <div class="feature-desc">Track your understanding journey. After each salah, record what you understood, what moved you, and what you want to learn next. Watch yourself go from confused to connected in days, not years.</div>
+    </div>
+
+    <!-- IMAGE: Al-Fatiha breakdown sample -->
+    <div class="img-placeholder" style="margin-top:24px;">
+      <img src="img/oto3-fatiha-breakdown.jpg" alt="Every Word of Al-Fatiha — Understood" loading="lazy">
     </div>
 
     <div class="divider"></div>
@@ -978,6 +1039,12 @@ p strong { color: var(--text); font-weight: 600; }
 
     <!-- SECTION 8: EMOTIONAL PUSH — DREAM OUTCOME -->
     <h2 class="section-headline">Picture your next salah.</h2>
+
+    <!-- IMAGE: Dream outcome / future pace -->
+    <div class="img-placeholder" style="margin-bottom:20px;">
+      <img src="img/oto3-dream-outcome.jpg" alt="A man in sujood, golden hour light — this is what salah was meant to be" loading="lazy">
+    </div>
+
     <div class="version-card good">
       <h4>Tonight could be different.</h4>
       <p>You stand in salah. When you say "Iyyaka na'budu wa iyyaka nasta'een" &mdash; you KNOW you're saying "You alone we worship, and You alone we ask for help." Your eyes fill with tears because the words hit your heart, not just your tongue.</p>
@@ -1061,7 +1128,8 @@ p strong { color: var(--text); font-weight: 600; }
   setInterval(updateOfferTimer, 1000);
 
   // ---- COUNTDOWN TO EID ----
-  var eidDate = new Date('2026-03-30T18:00:00');
+  // Eid al-Fitr 2026 ~ March 20 (depending on moon sighting)
+  var eidDate = new Date('2026-03-20T18:00:00');
   function updateCountdown() {
     var now = new Date();
     var diff = eidDate - now;
