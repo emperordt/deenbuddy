@@ -1724,6 +1724,13 @@ function renderPage() {
       '</div>' +
     '</div>' +
 
+    // ===== APP STORE PROOF BAR =====
+    '<div class="stats-bar" style="margin:0 24px 8px; border-radius:12px; padding:16px 0; border:1px solid var(--border); background:var(--surface);">' +
+      '<div class="stat-item"><div class="stat-value">1M+</div><div class="stat-label">Downloads</div></div>' +
+      '<div class="stat-item"><div class="stat-value">4.9</div><div class="stat-label">App Store ★</div></div>' +
+      '<div class="stat-item"><div class="stat-value">12K+</div><div class="stat-label">5-Star Reviews</div></div>' +
+    '</div>' +
+
     // ===== RAMADAN URGENCY BANNER (above pricing) =====
     '<div class="ramadan-urgency">' +
       '<div class="ramadan-urgency-tag">🌙 RAMADAN SPECIAL — 60% OFF</div>' +
@@ -1734,7 +1741,6 @@ function renderPage() {
         '<div class="eid-countdown-sep">:</div>' +
         '<div class="eid-countdown-unit"><div class="eid-countdown-value" id="urgencyS">47</div><div class="eid-countdown-label">Sec</div></div>' +
       '</div>' +
-      '<a href="#pricingSection" class="gold-cta" style="margin-top:20px;" onclick="event.preventDefault(); document.getElementById(\'pricingSection\').scrollIntoView({behavior:\'smooth\'})">🌙 Claim Your 60% Discount →</a>' +
     '</div>' +
 
     // ===== S2: PRICING + CHECKOUT (above the fold) =====
@@ -1761,7 +1767,7 @@ function renderPage() {
     '</div>' +
     '<div class="inline-checkout" id="inlineCheckoutSection">' +
       '<div class="inline-checkout-header">' +
-        '<div class="inline-checkout-plan" id="checkoutPlanLabel">🔒 7-Day Free Trial</div>' +
+        '<div class="inline-checkout-plan" id="checkoutPlanLabel">🔒 7-Day Free Trial → then <span class="gold" style="font-size:18px;font-weight:800;">$0.11/day</span> <span style="font-size:12px;color:var(--text3);font-weight:400;">($39.99/yr)</span></div>' +
         '<div class="inline-checkout-sub">$0 today. Cancel anytime.</div>' +
       '</div>' +
       '<div class="inline-checkout-divider"></div>' +
@@ -1848,27 +1854,6 @@ function renderPage() {
       '<div class="guarantee-highlight">You have zero risk.</div>' +
     '</div>' +
 
-    // ===== S10: SOCIAL PROOF WALL =====
-    '<div class="sp-wall">' +
-      '<div class="section-title">What Muslims are saying</div>' +
-      '<div class="sp-wall-reviews">' +
-        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=33" alt="Ahmed S." loading="lazy"><div><div class="sp-review-name">Ahmed S.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"The prayer reminders are smarter than any app I\'ve tried. It knows my location, adjusts for the time, and I went from missing 2-3 prayers a day to hitting all 5 consistently. My wife noticed before I even told her."</div></div>' +
-        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=47" alt="Khadijah B." loading="lazy"><div><div class="sp-review-name">Khadijah B.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"I asked it to translate an ayah I heard in Taraweeh and it gave me the Arabic, translation, AND the context behind it. I\'ve been using it every night this Ramadan to actually understand what the Imam is reciting."</div></div>' +
-        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=59" alt="Omar K." loading="lazy"><div><div class="sp-review-name">Omar K.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"The Quran verse on my lock screen every morning is everything. I see it before I check Instagram, before I check email. It takes 10 seconds and it completely reframes my mindset. I\'ve memorized ayahs without even trying."</div></div>' +
-        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=26" alt="Amina T." loading="lazy"><div><div class="sp-review-name">Amina T.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"I converted last year and had so many questions I was afraid to ask. Is my wudu valid? What do I say in sujood? Deen Buddy answers everything with patience and real sources. No judgment. It\'s like having a scholar in your pocket at 2am."</div></div>' +
-        '<div class="sp-review"><div class="sp-review-header"><img class="sp-review-avatar" src="https://i.pravatar.cc/80?img=12" alt="Yusuf M." loading="lazy"><div><div class="sp-review-name">Yusuf M.</div><div class="sp-review-stars">★★★★★</div></div></div><div class="sp-review-text">"I work 60+ hours a week. No time for classes or lectures. But I have 5 minutes. I ask Deen Buddy one question a day — about a verse, a hadith, something I heard at Jummah. Five minutes and I learn more than an hour on YouTube."</div></div>' +
-      '</div>' +
-
-      '<div class="section-title">The numbers speak.</div>' +
-      '<div class="stats-bar">' +
-        '<div class="stat-item"><div class="stat-value">1M+</div><div class="stat-label">Downloads</div></div>' +
-        '<div class="stat-item"><div class="stat-value">4.9</div><div class="stat-label">App Store ★</div></div>' +
-        '<div class="stat-item"><div class="stat-value">12K+</div><div class="stat-label">5-Star Reviews</div></div>' +
-      '</div>' +
-
-      '<a href="#pricingSection" class="gold-cta" onclick="event.preventDefault(); document.getElementById(\'pricingSection\').scrollIntoView({behavior:\'smooth\'})">🌙 Start My Free 7-Day Trial →</a>' +
-    '</div>' +
-
     // ===== S11: MYSTERY GIFT =====
     '<div class="mystery-gift">' +
       '<div class="mystery-gift-icon">🎁</div>' +
@@ -1888,6 +1873,7 @@ function renderPage() {
         '<div class="faq-item" onclick="this.classList.toggle(\'open\')"><div class="faq-q">Is this just ChatGPT with an Islamic skin?<span>+</span></div><div class="faq-a">No. Deen Buddy\'s AI is trained on verified Islamic scholarship — classical tafsir, authenticated hadith collections, and established fiqh sources. Every answer cites its sources. This isn\'t a generic chatbot guessing about Islam.</div></div>' +
         '<div class="faq-item" onclick="this.classList.toggle(\'open\')"><div class="faq-q">Why does it cost money? Shouldn\'t Islamic knowledge be free?<span>+</span></div><div class="faq-a">Great question. Free apps make money from your data and your attention (ads). We chose a different path: you pay a small amount so we never have to sell your data or interrupt your deen with ads. $0.11/day funds a team of Muslims building this full-time. No investors pushing haram monetization. Just Muslims building for Muslims.</div></div>' +
         '<div class="faq-item" onclick="this.classList.toggle(\'open\')"><div class="faq-q">I already have Muslim Pro / another app.<span>+</span></div><div class="faq-a">We love that you\'re using something. But ask yourself: does it have ads? Did they sell user data? Can you ask it a question about Islam and get a sourced answer? Deen Buddy is the only Islamic app that combines AI Quran chat, full Quran, prayer times, daily verse, and quizzes — all ad-free, all private. Try it free and see the difference yourself.</div></div>' +
+        '<div class="faq-item" onclick="this.classList.toggle(\'open\')"><div class="faq-q">Should I really be spending money during Ramadan?<span>+</span></div><div class="faq-a">This isn\'t spending — it\'s investing in your deen during the most rewarded month of the year. The Prophet ﷺ was the most generous during Ramadan. $0.11/day to understand what you recite in salah, learn Quran daily, and never miss a prayer — that\'s not an expense, that\'s sadaqah to your own soul. And the trial is free — you pay nothing for 7 days.</div></div>' +
         '<div class="faq-item" onclick="this.classList.toggle(\'open\')"><div class="faq-q">Can I use this with my kids?<span>+</span></div><div class="faq-a">Absolutely. Families use Deen Buddy together after Maghrib, during car rides, and before bed. The AI explains concepts at whatever level you need — from a 7-year-old\'s "why do we fast?" to an adult\'s deep tafsir question.</div></div>' +
         '<div class="faq-item" onclick="this.classList.toggle(\'open\')"><div class="faq-q">Can I cancel anytime?<span>+</span></div><div class="faq-a">One tap. In the app or by email. No phone calls. No guilt. No retention tricks. If Deen Buddy doesn\'t help you, we don\'t deserve your money.</div></div>' +
         '<div class="faq-item" onclick="this.classList.toggle(\'open\')"><div class="faq-q">What if I\'m a complete beginner?<span>+</span></div><div class="faq-a">That\'s exactly who this is for. Whether you converted yesterday or you\'ve been Muslim your whole life but never studied — Deen Buddy meets you where you are. No judgment. No prerequisites. Just start.</div></div>' +
